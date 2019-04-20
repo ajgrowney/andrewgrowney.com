@@ -1,0 +1,11 @@
+.chapterContainer{
+    margin-left: 3%;
+    margin-right: 3%;
+    margin-bottom: 1%;
+    padding: 2%;
+    height: fit-content;
+}
+.chapterTitle{
+    padding-top: 2%;
+    color: #706d6e;
+}

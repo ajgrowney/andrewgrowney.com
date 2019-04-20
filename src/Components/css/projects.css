@@ -1,0 +1,41 @@
+
+.projectCardContainer{
+    min-height: 30vh;
+    height: 100%;
+    width: 30vh;
+    padding: 1%;
+    display: flex;
+    flex-direction: column;
+}
+
+.projectCardContainer:hover{
+    background-color: #f1f1f1;
+}
+
+.projectCardHeader{
+    display: grid;
+    grid-template-columns: 88% 10%;
+    padding-left: 5%;
+    max-height: 20vh;
+}
+.projectCardLinkContainer{
+    height: 100%;
+    width: 100%;
+    color: #0063FF;
+}
+.projectCardLinkContainer:hover{
+    cursor: pointer;
+}
+.projectSubtitle{
+    color: #686868;
+}
+.viewProjectButton{
+    background-color: transparent;
+    color: #0063FF;
+}
+
+@media (max-width: 700px){
+    .projectCardContainer{
+        width: 100%;
+    }
+}

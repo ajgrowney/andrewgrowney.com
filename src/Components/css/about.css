@@ -1,0 +1,19 @@
+.aboutContainer{
+    display: grid;
+    height: fit-content;
+    grid-template-rows: auto auto;
+}
+
+.aboutTextContainer{
+    margin: 2%;
+}
+
+.skillsCardsContainer{
+}
+.skillsCard{
+    margin-bottom: 1%;
+}
+
+.skillsIcon{
+    color: "#1A191A";
+}
