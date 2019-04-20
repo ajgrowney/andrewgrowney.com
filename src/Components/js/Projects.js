@@ -10,7 +10,7 @@ import Button from 'react-bootstrap/Button';
 
 class Projects extends Component{
 
-    
+
     render(){
 
         const col_size = 3;
@@ -23,7 +23,7 @@ class Projects extends Component{
             <div>
                 {project_cols.map((c) =>
                     <CardColumns className="projectCardColumn">
-                        {c.map((p) => 
+                        {c.map((p) =>
                             <Card className="projectCardContainer">
                                 <div className="projectCardHeader">
                                     <div>
@@ -35,7 +35,7 @@ class Projects extends Component{
                                 <Card.Body className="projectCardDescriptionContainer">
                                     {p.description}
                                     <br /><br />
-                                    <Button className="viewProjectButton">View Project Details</Button>
+                                    <Button className="viewProjectButton" onClick={() => window.location.href = window.location.href+'projects'}>View Project Details</Button>
                                     <hr />
                                     {p.languages.join(', ')}
 

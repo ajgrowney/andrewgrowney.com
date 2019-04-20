@@ -18,7 +18,7 @@ class Home extends Component {
     render(){
         return(
             <div id="app_container">
-                <MyNav />
+                <MyNav page="Home"/>
                 <Intro />
                 <Chapters />
             </div>

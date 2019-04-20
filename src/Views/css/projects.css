@@ -1,3 +1,69 @@
+.root{
+  width: 100%;
+  height: 100%;
+}
 .featuredProjectContainer{
-    height: 40vh;
+  margin: auto;
+  padding: 3%;
+  border: 1px solid gray;
+  height: 50vh;
+  width: 94%;
+  display: grid;
+  grid-template-rows: 65% 35%;
+  grid-template-columns: 34% 33% 33%;
+  object-fit: contain;
+}
+.featuredProjectHeader{
+  grid-row: 1;
+  grid-column: 1/3;
+  z-index: 3;
+}
+.featuredProjectDescription{
+  grid-row: 2;
+  grid-column: 1/4;
+  z-index: 2;
+}
+.featuredProjectImages{
+  border: 1px solid lightgray;
+  grid-row: 1/3;
+  grid-column: 2/4;
+  z-index: 1;
+  height: 100%;
+  width: 100%;
+}
+.carousel-inner{
+  height: 100%;
+  width: 100%;
+}
+.projectImage{
+  height: 100%;
+  width: 100%;
+}
+.projectNavbar{
+  float: right;
+}
+.projectContainer{
+  height: 15vh;
+  width: 94%;
+  margin: auto;
+  margin-top: 1rem;
+  border: 1px solid red;
+}
+@media (max-width: 1000px){
+  .featuredProjectContainer{
+    grid-template-rows: 20% 60% 20%;
+    grid-template-columns: 100%;
+  }
+  .featuredProjectHeader{
+    grid-row: 1;
+    grid-column: 1;
+  }
+  .featuredProjectImages{
+    grid-row: 2;
+    grid-column: 1;
+  }
+  .featuredProjectDescription{
+    grid-row: 3;
+    grid-column: 1;
+  }
 }

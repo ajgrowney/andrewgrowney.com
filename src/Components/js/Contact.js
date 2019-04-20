@@ -16,7 +16,7 @@ class Contact extends Component{
         return(
             <div className="contactContainer">
                 <Button id="emailButton" onClick={() => sendEmail()}>
-                    Email Me!
+                    Email Me
                 </Button>
                 <br />
                 If you want to keep up-to-date with what is going on, make sure to check in regularly!
