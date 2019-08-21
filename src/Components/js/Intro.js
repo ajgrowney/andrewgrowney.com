@@ -14,7 +14,7 @@ class Intro extends Component{
                     <h1>Andrew Growney</h1>
                 </div>
                 <div className="intro_subtitle">
-                    I am a software engineer graduating in May 2019 from the University of Kansas. Currently pursuing Software Engineering roles in the Denver/Boulder, CO area.
+                    I am a Software Engineer and recent graduate from the University of Kansas. Relocating to the Denver/Boulder, CO area in September of 2019.
                     <br />
                     With a passion for faith, music, coffee, college basketball, and people in general, feel free to reach out about anything or everything! 
                 </div>

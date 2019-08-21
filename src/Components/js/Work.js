@@ -6,6 +6,16 @@ import 'bootstrap/dist/css/bootstrap.css'
 
 const all_jobs = [
     {
+        tab_title: "SWE",
+        position: "Software Engineer",
+        company: "Atonix Digital",
+        location: "Denver, CO",
+        about: "Assisted platform development for IIOT SaaS Company",
+        start_date: "August 2019",
+        end_date: "Current",
+        id: 0
+    },
+    {
         tab_title: "SWE Intern",
         position: "Software Engineering Intern",
         company: "Cerner Corporation",
@@ -13,7 +23,7 @@ const all_jobs = [
         about: "Developed 3 successful application components for Cerner Millennium Powerchart used by nurses and physicians in thousands of facilities worldwide as measured by approvals from full time associates and managers by using NodeJs, React based framework, and object oriented Javascript ES6 within an agile team using JIRA, Kanban, and Git",
         start_date: "May 2018",
         end_date: "August 2018",
-        id: 0
+        id: 1
     },
     {
         tab_title: "Blue Team Staff",
@@ -23,7 +33,7 @@ const all_jobs = [
         about: "Managed, scheduled, and mentored staff of 80 college students with over 2000 camp participants. Responsibilities included developing curriculum, training of staff, and other duties as directed by the camp directors",
         start_date: "Summer 2015",
         end_date: "Summer 2017",
-        id: 1
+        id: 2
     },
     {
         tab_title: "Business Owner",
@@ -33,7 +43,7 @@ const all_jobs = [
         about: "Financed first car purchase and 100% of college costs by creating and operating an independent full-service lawn care venture for 9 clients throughout Middle School and High School years",
         start_date: "April 2010",
         end_date: "May 2015",
-        id: 2
+        id: 3
     }
 ]
 
