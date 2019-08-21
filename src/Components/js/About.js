@@ -5,7 +5,7 @@ import {FaCode, FaCog, FaDatabase} from 'react-icons/fa'
 import '../css/about.css'
 import 'bootstrap/dist/css/bootstrap.css'
 
-let aboutText = "Although I am a software engineer, I very much prefer to consider myself a critical thinker. I work on projects to help out friends, push my skills and abilities, expand my horizons, and have a lot of fun. My main software passion is creating technology for music artists and producers. As I have encountered different problems, I have had to pick up new languages, learn new technologies, and study everything from data structures to algorithms to quantum mechanics. My experience has given me skills in, but not limited to these."
+let aboutText = "I consider the personal title critical thinker vastly more important than title of Software Engineer. I work on projects to help out friends, push my skills and abilities, expand my horizons, and have a lot of fun. My main software passion is creating technology for music artists and producers. As I have encountered different problems, I have had to pick up new languages, learn new technologies, and study everything from data structures to algorithms to quantum mechanics. My experience has given me skills in, but not limited to these."
 let skillsCards = [
     {
         header: "Backend Skills",
@@ -17,6 +17,8 @@ let skillsCards = [
             "AWS Lambda",
             "AWS Route 53",
             "AWS S3",
+            "Azure DevOps",
+            "Azure Pipelines",
             "Google Firebase",
             "Haskell",
             "C",
