@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-import Home from './Views/Home';
+import HomepageView from './Views/Homepage';
 import InThePen from './Views/inThePen';
 import ProjectHome from './Views/projects'
 import * as serviceWorker from './serviceWorker';
@@ -10,7 +10,7 @@ import * as serviceWorker from './serviceWorker';
 ReactDOM.render(
     <Router>
         <Switch>
-            <Route exact path="/" component={Home} />
+            <Route exact path="/" component={HomepageView} />
             <Route path="/inThePen" component={InThePen} />
             <Route path="/projects" component={ProjectHome} />
 

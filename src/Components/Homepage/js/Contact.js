@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import Button from 'react-bootstrap/Button'
-import githubPhoto from '../../Images/github.png'
-import linkedinPhoto from '../../Images/linkedin.png'
-import hackerrankPhoto from '../../Images/hackerrank-logo.png'
+import githubPhoto from '../../../Images/github.png'
+import linkedinPhoto from '../../../Images/linkedin.png'
+import hackerrankPhoto from '../../../Images/hackerrank-logo.png'
 
 import '../css/contact.css'
 import 'bootstrap/dist/css/bootstrap.css'

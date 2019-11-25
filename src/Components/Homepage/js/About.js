@@ -12,18 +12,31 @@ let skillsCards = [
         icon: <FaCog className="skillsIcon" size= "4em" />,
         list: [
             "C++",
-            "Python",
-            "SQL",
+            "C#",
+            ".NET Core",
             "AWS Lambda",
-            "AWS Route 53",
+            "AWS API Gateway",
             "AWS S3",
+            "AWS Route 53",
+            "SQL",
             "Azure DevOps",
             "Azure Pipelines",
             "Google Firebase",
             "Haskell",
             "C",
-            "Node.js",
             "Linux"
+        ]
+    },
+    {
+        header: "Data Science",
+        icon: <FaDatabase className="skillsIcon" size="4em" />,
+        list: [
+            "Python",
+            "Pandas",
+            "Numpy",
+            "Scikit Learn",
+            "Computer Vision",
+            "OpenCV"
         ]
     },
     {
@@ -31,21 +44,11 @@ let skillsCards = [
         icon: <FaCode className="skillsIcon" size="4em" />,
         list:[
             "Javascript (ECMAScript 6)",
+            "Node.js",
             "React.js",
             "Bootstrap",
             "HTML5 & CSS3",
             "Electron.js"
-        ]
-    },
-    {
-        header: "Data Science",
-        icon: <FaDatabase className="skillsIcon" size="4em" />,
-        list: [
-            "Pandas",
-            "Numpy",
-            "Scikit Learn",
-            "Computer Vision",
-            "OpenCV"
         ]
     }
 ]

@@ -30,8 +30,12 @@
     color: #686868;
 }
 .viewProjectButton{
-    background-color: transparent;
-    color: #0063FF;
+    color: white;
+    background-color: rgb(61, 136, 255);
+}
+.viewProjectButton:hover{
+    color: white;
+    background-color: rgb(0, 113, 251);
 }
 
 @media (max-width: 700px){

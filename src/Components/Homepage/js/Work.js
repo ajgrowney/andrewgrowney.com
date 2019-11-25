@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
-import all_jobs from '../../Data/jobsData'
+import all_jobs from '../../../Data/Homepage/jobsData'
 import '../css/work.css'
 import 'bootstrap/dist/css/bootstrap.css'
 

@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import ReactGA from 'react-ga';
-import MyNav from '../Components/js/Nav'
-import Intro from '../Components/js/Intro'
-import Chapters from '../Components/js/Chapters'
+import MyNav from '../Components/js/Nav';
+import { Intro , Sections } from '../Components/Homepage/js/'
 
-import './css/home.css';
+import './css/homepage.css';
 
 function initializeReactGA() {
     ReactGA.pageview('/homepage');
@@ -20,7 +19,7 @@ class Home extends Component {
             <div id="app_container">
                 <MyNav page="Home"/>
                 <Intro />
-                <Chapters />
+                <Sections />
             </div>
         )
     }

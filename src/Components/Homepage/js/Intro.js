@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Jumbotron from 'react-bootstrap/Jumbotron'
 import Image from 'react-bootstrap/Image'
-import pro_pic from '../../Images/pro_pic.jpg'
+import pro_pic from '../../../Images/pro_pic.jpg'
 import '../css/Intro.css'
 import 'bootstrap/dist/css/bootstrap.css'
 
@@ -14,7 +14,7 @@ class Intro extends Component{
                     <h1>Andrew Growney</h1>
                 </div>
                 <div className="intro_subtitle">
-                    I am a Software Engineer and recent graduate from the University of Kansas. Relocating to the Denver/Boulder, CO area in September of 2019.
+                    I am a Software Engineer for Atonix Digital in Denver, CO and recent graduate from the University of Kansas.
                     <br />
                     With a passion for faith, music, coffee, college basketball, and people in general, feel free to reach out about anything or everything! 
                 </div>

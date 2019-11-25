@@ -1,6 +1,6 @@
-import pro_pic from '../Images/pro_pic.jpg'
-import ss_login from '../Images/SELFSkillDemo-Login.gif'
-import ss_createIdea from '../Images/SELFSkillDemo-CreateIdea.gif'
+import pro_pic from '../../Images/pro_pic.jpg'
+import ss_login from '../../Images/SELFSkillDemo-Login.gif'
+import ss_createIdea from '../../Images/SELFSkillDemo-CreateIdea.gif'
 
 
 const data = [
@@ -51,4 +51,4 @@ const data = [
     }
 ]
 
-export default data
+export default data;

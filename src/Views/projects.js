@@ -5,7 +5,7 @@ import Carousel from 'react-bootstrap/Carousel'
 import Form from 'react-bootstrap/Form'
 
 import Nav from '../Components/js/Nav'
-import project_data from '../Data/projectData.js'
+import project_data from '../Data/Homepage/projectData'
 import './css/projects.css'
 const featured_index = 4
 

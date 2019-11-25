@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { MdFolderOpen } from 'react-icons/md'
 import Card from 'react-bootstrap/Card'
 import CardColumns from 'react-bootstrap/CardColumns'
-import all_projects from '../../Data/projectData'
+import all_projects from '../../../Data/Homepage/projectData'
 import '../css/projects.css'
 import 'bootstrap/dist/css/bootstrap.css'
 import Button from 'react-bootstrap/Button';
