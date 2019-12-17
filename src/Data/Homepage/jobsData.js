@@ -4,7 +4,7 @@ const all_jobs = [
         position: "Software Engineer",
         company: "Atonix Digital",
         location: "Denver, CO",
-        about: "Assisted platform development for IIOT SaaS Company. Developed a template for utilizing Azure DevOps, Repos, and Pipelines for a CI/CD pipeline when developing AWS Lambda Functions.",
+        about: "Assisted platform development for IIOT SaaS Company. Developed a template for utilizing Azure DevOps, Repos, and Pipelines for a CI/CD pipeline when developing AWS Lambda Functions. Developed multiple APIs behind AWS API Gateway using AWS Lambda Proxy's and wrote .NET Standard SDKs for client side programs to utilize the services.",
         start_date: "August 2019",
         end_date: "Current",
         id: 0
