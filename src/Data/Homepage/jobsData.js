@@ -4,7 +4,7 @@ const all_jobs = [
         position: "Software Engineer",
         company: "Atonix Digital",
         location: "Denver, CO",
-        about: "Assisted platform development for IIOT SaaS Company. Developed a template for utilizing Azure DevOps, Repos, and Pipelines for a CI/CD pipeline when developing AWS Lambda Functions. Developed multiple APIs behind AWS API Gateway using AWS Lambda Proxy's and wrote .NET Standard SDKs for client side programs to utilize the services.",
+        about: "Platform Team Engineer for Asset Performance Management SaaS Company. Principle designer of company's .NET Core AWS Lambda project template utilized by three teams and nine active deployed functions. Developed multiple APIs behind AWS API Gateway using AWS Lambda Proxy Integrations and wrote .NET Standard SDKs for client side programs to utilize the services. Assisted developers in migrating from monolithic TFVC repository to Azure Repos git repositories. Designed continuous integration and deployment pipelines for repositories holding angular applications, angular components, .NET libraries, AWS Lambda projects, and abstracted them to templates utilized in Azure Pipelines. Migrated in house build agent to AWS EC2 instance and reduced repository build time by 34%. Built an internal automated Nuget and NPM package documentation system using the Azure Devops REST API and AWS Lambda.",
         start_date: "August 2019",
         end_date: "Current",
         id: 0

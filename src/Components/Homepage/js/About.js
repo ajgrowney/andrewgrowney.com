@@ -11,11 +11,12 @@ let skillsCards = [
         header: "Backend Skills",
         icon: <FaCog className="skillsIcon" size= "4em" />,
         list: [
+            "AWS Lambda",
             "C++",
             "C#",
             ".NET Core",
-            "AWS Lambda",
             "AWS API Gateway",
+            "REST API Design",
             "AWS S3",
             "AWS Route 53",
             "SQL",

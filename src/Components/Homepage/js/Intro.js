@@ -14,9 +14,9 @@ class Intro extends Component{
                     <h1>Andrew Growney</h1>
                 </div>
                 <div className="intro_subtitle">
-                    I am a Software Engineer for Atonix Digital in Denver, CO and recent graduate from the University of Kansas.
+                    I am a Software Engineer on the Platform Team for Atonix Digital in Denver, CO and recent graduate from the University of Kansas.
                     <br />
-                    With a passion for faith, music, coffee, college basketball, and people in general, feel free to reach out about anything or everything! 
+                    With a passion for people, faith, music, coffee, college basketball, and software design, feel free to reach out about anything or everything! 
                 </div>
                 <div className="intro_image">
                     <Image className="intro_imageObject" src={pro_pic} alt="profile picture" roundedCircle />
