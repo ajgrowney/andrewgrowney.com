@@ -10,9 +10,7 @@ import './css/projects.css'
 const featured_index = 4
 
 class FeaturedProject extends Component{
-    constructor(props){
-        super(props)
-    }
+    
     render = () =>
         <div className="featuredProjectContainer">
             <div className="featuredProjectHeader">
@@ -23,7 +21,7 @@ class FeaturedProject extends Component{
                 {this.props.project.description}
             </div>
             <Carousel className="featuredProjectImages">
-              {this.props.project.images.map((im) => <div className='carousel-inner'><img className="projectImage" src={im} /></div>)}
+              {this.props.project.images.map((im) => <div className='carousel-inner'><img className="projectImage" src={im} alt="Project" /></div>)}
             </Carousel>
         </div>
 }

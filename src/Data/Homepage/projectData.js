@@ -1,20 +1,37 @@
-import pro_pic from '../../Images/pro_pic.jpg'
 import ss_login from '../../Images/SELFSkillDemo-Login.gif'
 import ss_createIdea from '../../Images/SELFSkillDemo-CreateIdea.gif'
 
 
 const data = [
     {
+        "id": 0,
+        "title": "Ray: Raspberry Pi Assistant",
+        "description": "Inspired by J.A.R.V.I.S. ",
+        "time": "February 2020 - Present",
+        "images": [],
+        "url": "https://github.com/ajgrowney/ray",
+        "languages": ["Python", "Natural Language Processing", "Service Oriented Architecture"]
+    },
+    {
         "id": 1,
+        "title": "Hip Hop Genius",
+        "description": "A music platform focused on lyrical analysis of Hip Hop artists. Currently working on display of meaningful results while utilizing AWS Lambda for daily API testing.",
+        "time": "Oct 2018 - Present",
+        "url": "https://github.com/ajgrowney/lyrical-analysis",
+        "images": [],
+        "languages": ["Python", "AWS Lambda", "Web Scraping"]
+    },
+    {
+        "id": 2,
         "title": "DITI Early Detection of Breast Cancer",
         "description": "Our senior capstone project was a continuation of a physics research project. Working with PhD students and medical researchers in Europe to use thermal imaging to detect breast cancer.",
-        "time": "Jan 2018 - Present",
+        "time": "Jan 2018 - May 2019",
         "images": [],
         "url": "https://github.com/ajgrowney/py-diti",
         "languages": ["Python", "Computer Vision (OpenCV)", "Statistics", "Digital Image Processing"]
     },
     {
-        "id": 2,
+        "id": 3,
         "title": "DITI Image Metadata Classifier",
         "description": "Using only image processing data from our DITI Early Detection of Breast Cancer project, we worked on implementing a few different classifiers to check predictions",
         "time": "Jan 2019 - Mar 2019",
@@ -23,19 +40,10 @@ const data = [
         "languages": ["Python", "Scikit Learn", "Machine Learning", "Data Science", "Pandas"]
     },
     {
-        "id": 3,
-        "title": "Hip Hop Genius",
-        "description": "A musical creation platform focused on lyrical analysis of Hip Hop artists. Currently working on display of meaningful results while utilizing AWS Lambda for daily API testing.",
-        "time": "Oct 2018 - Present",
-        "url": "https://github.com/ajgrowney/lyrical-analysis",
-        "images": [],
-        "languages": ["Python", "AWS Lambda", "Web Scraping"]
-    },
-    {
         "id": 4,
         "title": "SELF Skill Sessions",
         "description": "Created a reddit system for the SELF Program to use for creating group sessions",
-        "time": "Jan 2019 - Present",
+        "time": "Jan 2019 - May 2019",
         "url": "#",
         "images": [ss_login,ss_createIdea],
         "languages": ["Google Firestore", "Javascript", "React.js", "Bootstrap", "CSS"]
