@@ -43,11 +43,10 @@
   float: right;
 }
 .projectContainer{
-  height: 25vh;
+  height: fit-content;
   width: 94%;
   margin: auto;
   margin-top: 1rem;
-  border: 1px solid red;
 }
 @media (max-width: 1000px){
   .featuredProjectContainer{

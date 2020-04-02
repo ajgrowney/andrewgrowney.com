@@ -1,4 +1,8 @@
-import Intro from './Intro'
+import Header from './Header'
 import Sections from './Sections'
+import About from './About'
+import Work from './Work'
+import Contact from './Contact'
+import Projects from './Projects'
 
-export { Intro, Sections };
+export { About, Contact, Header, Projects, Sections, Work };
