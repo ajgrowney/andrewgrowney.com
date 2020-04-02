@@ -20,7 +20,7 @@ class Projects extends Component{
         }
 
         return(
-            <div>
+            <div className="projectColumnContainer">
                 {project_cols.map((c) =>
                     <CardColumns className="projectCardColumn">
                         {c.map((p) =>

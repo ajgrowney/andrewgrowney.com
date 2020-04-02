@@ -1,7 +1,16 @@
+.projectColumnContainer{
+    display: flex;
+    flex-direction: row;
+}
 
+.projectCardColumn{
+    flex-direction: column;
+    margin: 1%;
+    display: flex;
+}
 .projectCardContainer{
     min-height: 30vh;
-    height: 100%;
+    height: fit-content;
     width: 30vh;
     padding: 1%;
     display: flex;
@@ -39,6 +48,9 @@
 }
 
 @media (max-width: 700px){
+    .projectColumnContainer{
+        flex-direction: column;
+    }
     .projectCardContainer{
         width: 100%;
     }
