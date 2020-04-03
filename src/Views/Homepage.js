@@ -2,8 +2,14 @@ import React, { Component } from 'react';
 import ReactGA from 'react-ga';
 import MyNav from '../Components/js/Nav';
 import { About, Contact, Header, Projects, Sections, Work } from '../Components/Homepage/js/'
+import { ProjectData, JobData, SkillData, SocialLinksData } from '../Data/Homepage'
 import pro_pic from '../Images/pro_pic.jpg'
 import './css/homepage.css';
+
+const aboutText = "Working towards the title critical thinker before Software Engineer. I work on projects to help out friends, push my skills and abilities, expand my horizons, and have a lot of fun. " +
+    "After starting my career as a Software Engineer, I try to work with quality design and documentation at the forefront of each project I work on. " +
+    "My main software passion is creating technology for music artists and producers. As I have encountered different problems, I have had to pick up new languages, learn new technologies, and study everything from data structures to algorithms to quantum mechanics. My experience has given me skills in, but not limited to these."
+
 
 function initializeReactGA() {
     ReactGA.pageview('/homepage');
@@ -36,10 +42,10 @@ class Home extends Component {
             imageContent: [pro_pic]
         }
         let sectionsList = [
-            { title: "About", content: <About />, id: "about_id" },
-            { title: "Work", content: <Work />, id: "work_id" },
-            { title: "Projects", content: <Projects />, id: "project_id" },
-            { title: "Let's Chat", content: <Contact />, id: "contact_id" }
+            { title: "About", content: <About aboutText={aboutText} skills={SkillData} />, id: "about_id" },
+            { title: "Work", content: <Work jobs={JobData} />, id: "work_id" },
+            { title: "Projects", content: <Projects projects={ProjectData} projectPerColumn={2} />, id: "project_id" },
+            { title: "Let's Chat", content: <Contact email={"ajgrowney@gmail.com"} socialData={SocialLinksData} />, id: "contact_id" }
         ]
         return (
             <div id="app_container">
