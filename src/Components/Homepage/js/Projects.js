@@ -17,7 +17,6 @@ class ProjectCard extends Component{
                         <Card.Title className="projectTitle">{card_project.title}</Card.Title>
                         <Card.Subtitle className="projectSubtitle">{card_project.time}</Card.Subtitle>
                     </div>
-                    <MdFolderOpen className="projectCardLinkContainer"  onClick={() => window.location.href=card_project.url} />
                 </div>
                 <Card.Body className="projectCardSummaryContainer">
                     {card_project.summary}
