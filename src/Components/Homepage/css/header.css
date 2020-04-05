@@ -6,6 +6,8 @@
     grid-template-rows: auto auto;
     height: fit-content;
     min-height: 40vh;
+    padding-left: 5%;
+    padding-right: 5%;
 }
 
 .header_image{

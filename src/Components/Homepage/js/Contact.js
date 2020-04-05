@@ -1,41 +1,34 @@
-import React, { Component } from 'react'
+import React from 'react'
 import Button from 'react-bootstrap/Button'
-import '../css/contact.css'
 import 'bootstrap/dist/css/bootstrap.css'
+import '../css/contact.css'
 
 let sendEmail = (email) => {
     window.location = "mailto:"+email+"?subject=How's It Going?!"
 }
 
 
-class Contact extends Component {
-    constructor(props)
-    {
-        super(props);
-        this.email = props.email
-        this.emailButtonText = props.emailButtonText || "Email Me"
-        this.socialData = props.socialData
-    }
-    render() {
-        return (
-            <div className="contactContainer">
-                <Button id="emailButton" onClick={() => sendEmail(this.email)}>
-                    { this.emailButtonText }
-                </Button>
-                <br />
-                If you want to keep up-to-date with what is going on, make sure to check in regularly!
-                <br />
-                <br />
-                <div className="socialMedia">
-                    {this.socialData.map((social) =>
-                        <a href={social.href}>
-                            <img src={social.src} alt={social.alt} />
-                        </a>
-                    )}
-                </div>
+function Contact(props){
+    
+    const { email } = props
+    const emailButtonText = props.emailButtonText || "Email Me"
+    const socialData = props.socialData
+    const socialLinks = socialData.map((social) => <a href={social.href}> <img src={social.src} alt={social.alt} /> </a>)
+
+    return (
+        <div className="contactContainer">
+            <Button id="emailButton" onClick={() => sendEmail(email)}>
+                { emailButtonText }
+            </Button>
+            <br />
+            If you want to keep up-to-date with what is going on, make sure to check in regularly!
+            <br />
+            <br />
+            <div className="socialMedia">
+                {socialLinks}
             </div>
-        )
-    }
+        </div>
+    )
 }
 
 export default Contact;

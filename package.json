@@ -19,7 +19,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "deploy": "aws s3 cp build s3://andrewgrowney.com --recursive",
+    "deploy": "aws --profile personal s3 sync build s3://andrewgrowney.com",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
