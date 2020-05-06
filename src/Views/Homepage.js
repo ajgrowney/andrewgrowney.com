@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import ReactGA from 'react-ga';
 import MyNav from '../Components/js/Nav';
 import { About, Contact, Header, Projects, Section, Work } from '../Components/Homepage/js/'
@@ -8,7 +8,7 @@ import './css/homepage.css';
 
 const aboutText = "Working towards the title critical thinker before Software Engineer. I work on projects to help out friends, push my skills and abilities, expand my horizons, and have a lot of fun. " +
     "After starting my career as a Software Engineer, I try to work with quality design and documentation at the forefront of each project I work on. " +
-    "My main software passion is creating technology for music artists and producers. As I have encountered different problems, I have had to pick up new languages, learn new technologies, and study everything from data structures to algorithms to quantum mechanics. My experience has given me skills in, but not limited to these."
+    "As I have encountered different problems, I have had to pick up new languages, learn new technologies, and study everything from data structures to algorithms to quantum mechanics. My experience has given me skills in, but not limited to these."
 
 
 function initializeReactGA() {
@@ -33,7 +33,8 @@ function Home(){
             <br />,
             "With a passion for people, faith, music, coffee, college basketball, and software design, feel free to reach out about anything or everything!"
         ],
-        imageContent: [pro_pic]
+        imageContent: [pro_pic],
+        imageRounded: true
     }
     let sectionsList = [
         { title: "About", content: <About aboutText={aboutText} skills={SkillData} />, id: "about_id" },

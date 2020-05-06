@@ -1,41 +1,31 @@
-import React, { Component } from 'react'
+import React from 'react'
 import Jumbotron from 'react-bootstrap/Jumbotron'
 import Image from 'react-bootstrap/Image'
 import Carousel from 'react-bootstrap/Carousel'
-import '../css/header.css'
 import 'bootstrap/dist/css/bootstrap.css'
-
-
-function HomeImage(props){
-    let { image } = props;
-    return (
-        <div className="header_image">
-            <Image className="header_imageObject"
-                src={image} alt="Profile Picture"
-                roundedCircle
-            />
-        </div>
-    )
-}
+import '../css/header.css'
 
 function ImageCarousel(props){
     let { images } = props;
-    return (
-        <Carousel className="header_image">
-            {images.map((im) =>
-                <div className='carousel-inner'>
-                    <img className="header_imageObject" src={im} alt="Project" />
-                </div>
-            )}
-        </Carousel>
+    let carouselElements
+    carouselElements = images.map((im) => 
+        <div className='carousel-inner'>
+            <Image className="header_imageObject" src={im} alt="Profile Picture" roundedCircle={props.round} />
+        </div>
     )
+
+    if(images.length > 1)
+    {
+        return (<Carousel className="header_image">{carouselElements}</Carousel>)
+    }else {
+        return(<div className="header_image">{carouselElements}</div>)
+    }
 }
 
 // Prop: content { Object } with keys: titleContent, subtitleContent, image
 function Header(props){
-    let { titleContent, subtitleContent, imageContent } = props.content;
-    let HeaderImage = imageContent.length < 2 ? 
-        <HomeImage image={imageContent[0]} /> : <ImageCarousel images={imageContent} />;
+    let { titleContent, subtitleContent, imageContent, imageRounded } = props.content;
+    let HeaderImage = <ImageCarousel images={imageContent} round={imageRounded} />;
     
     return (
         <Jumbotron bg="dark" id="intro_id" className="jumboHeader">

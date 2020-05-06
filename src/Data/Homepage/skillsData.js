@@ -6,17 +6,16 @@ const skills = [
         header: "Backend",
         icon: <FaCog className="skillsIcon" size="4em" />,
         list: [
-            "AWS Lambda",
-            "AWS API Gateway",
+            "AWS (API Gateway, Lambda, ECS, Route 53)",
+            "Azure DevOps",
             "REST API Design",
             "Linux",
             "C++",
             "C#",
-            ".NET Core",
-            "AWS S3",
-            "AWS Route 53",
+            ".NET",
+            "Bash",
+            "Django",
             "SQL",
-            "Azure DevOps",
             "Azure Pipelines",
             "Google Firebase",
             "Haskell",
@@ -32,7 +31,10 @@ const skills = [
             "Numpy",
             "Scikit Learn",
             "Computer Vision",
-            "OpenCV"
+            "OpenCV",
+            "Tensorflow",
+            "Keras",
+            "ML Ops"
         ]
     },
     {
