@@ -6,7 +6,9 @@ const skills = [
         header: "Backend",
         icon: <FaCog className="skillsIcon" size="4em" />,
         list: [
-            "AWS (API Gateway, Lambda, ECS, Route 53)",
+            "Kubernetes",
+            "AWS (API Gateway,EKS, Lambda, ECS, Route 53)",
+            "Flask",
             "Azure DevOps",
             "REST API Design",
             "Linux",
@@ -14,7 +16,6 @@ const skills = [
             "C#",
             ".NET",
             "Bash",
-            "Django",
             "SQL",
             "Azure Pipelines",
             "Google Firebase",
