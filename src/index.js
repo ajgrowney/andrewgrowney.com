@@ -2,17 +2,17 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-import HomepageView from './Views/Homepage';
-import InThePen from './Views/inThePen';
-import ProjectHome from './Views/ProjectPage';
+import HomepageView from './Views/HomepageView';
+// import InThePen from './Views/inThePen';
+import ProjectHomeView from './Views/ProjectPageView';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
     <Router>
         <Switch>
             <Route exact path="/" component={HomepageView} />
-            <Route path="/inThePen" component={InThePen} />
-            <Route path="/projects" component={ProjectHome} />
+            {/* <Route path="/inThePen" component={InThePen} /> */}
+            <Route path="/projects" component={ProjectHomeView} />
         </Switch>
     </Router>
     , document.getElementById('root')

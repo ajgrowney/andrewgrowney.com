@@ -1,32 +1,55 @@
-import React, { Component } from 'react'
+import React from 'react'
 import Navbar from 'react-bootstrap/Navbar'
+import NavDropdown from 'react-bootstrap/NavDropdown'
 import Nav from 'react-bootstrap/Nav'
 import 'bootstrap/dist/css/bootstrap.css'
 import '../css/nav.css'
 
-class MyNav extends Component {
-  constructor(props) {
-    super(props);
-    this.page = props.page
-    this.anchorLinks = props.pageLinks
-    this.navbarBrand = "AG"
-  }
-  render() {
-      return (
-        <Navbar bg="dark" variant="dark">
-          <Navbar.Brand href="/">{this.navbarBrand}</Navbar.Brand>
-          <Nav className="justify-content-end" >
-            {this.anchorLinks.map((link) =>
-              <Nav.Item key={link.text}>
-                <Nav.Link key={link.text} className="navLink" onClick={() => document.getElementById(link.element).scrollIntoView({ behavior: "smooth" })} >
-                  {link.text}
-                </Nav.Link>
-              </Nav.Item>
-            )}
-          </Nav>
-        </Navbar>
+function GetNavsToDisplay(nav_sets)
+{
+  return nav_sets.map(navSet => {
+    if(navSet.type === "Dropdown")
+    {
+      return(
+        <NavDropdown title={navSet.title} className={(navSet.active)? "active": ""}>{
+          navSet.links.map((link) =>
+              <NavDropdown.Item key={link.text}
+                className={"navLink"}
+                onClick={() => document.getElementById(link.element).scrollIntoView({ behavior: "smooth" })}
+              >
+                {link.text}
+              </NavDropdown.Item>
+          )}
+        </NavDropdown>
       )
-  }
+    } else if (navSet.type === "SingleLink") {
+      return(
+        <Nav.Item key={navSet.title} className={(navSet.active) ? "active": ""}>
+          <Nav.Link key={navSet.title} className="navLink" href={navSet.pageRef}>
+            {navSet.title}
+          </Nav.Link>
+        </Nav.Item>
+      )
+    } else {
+      return(<Nav.Item />)
+    }
+  });
+}
+
+function MyNav(props){
+
+    let navContent = props.navContent
+    let navbarBrand = "AG"
+    let displayNavs = GetNavsToDisplay(navContent);
+    return (
+      <Navbar bg="dark" variant="dark">
+        <Navbar.Brand href="/">{navbarBrand}</Navbar.Brand>
+        <Nav className="justify-content-end" >
+          {displayNavs}
+        </Nav>
+      </Navbar>
+    )
+  
 }
 
 export default MyNav;

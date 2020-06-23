@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactGA from 'react-ga';
 import MyNav from '../Components/js/Nav';
-import { About, Contact, Header, Projects, Section, Work } from '../Components/Homepage/js/'
+import { About, Contact, Header, Projects, Section, Work } from '../Components/Homepage/js'
 import { ProjectData, JobData, SkillData, SocialLinksData } from '../Data/Homepage'
 import pro_pic from '../Images/pro_pic.jpg'
 import './css/homepage.css';
@@ -18,10 +18,22 @@ function initializeReactGA() {
 
 function Home(){
     let pageLinks = [
-        { text: "About", element: "about_id" },
-        { text: "Work", element: "work_id" },
-        { text: "Projects", element: "project_id" },
-        { text: "Contact", element: "contact_id" }
+        {
+            type: "Dropdown",
+            title: "Home",
+            active: true,
+            links: [
+                { text: "About", element: "about_id" },
+                { text: "Work", element: "work_id" },
+                { text: "Projects", element: "project_id" },
+                { text: "Contact", element: "contact_id" }
+            ]
+        },
+        {
+            type: "SingleLink",
+            title: "Projects",
+            pageRef: "/projects"
+        }
     ]
     let headerContent = {
         titleContent: [
@@ -46,7 +58,7 @@ function Home(){
     initializeReactGA()
     return (
         <div id="app_container">
-            <MyNav page="Home" pageLinks={pageLinks} />
+            <MyNav page="Home" navContent={pageLinks} />
             <Header content={headerContent} />
             {sectionComponents}
         </div>

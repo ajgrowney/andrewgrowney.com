@@ -45,8 +45,20 @@ function ProjectHome(props) {
   const featuredProject = project_data.find((proj) => proj.id === featuredIndex)
 
   const pageLinks = [
-    { text: "Current Projects", element: "currentproj_id" },
-    { text: "Previous Projects", element: "previousproj_id" }
+    { 
+      type: "SingleLink",
+      title: "Home",
+      pageRef: "/"
+    },
+    {
+      type: "Dropdown",
+      title: "Projects",
+      active: true,
+      links: [
+        { text: "Current Projects", element: "currentproj_id" },
+        { text: "Previous Projects", element: "previousproj_id" }
+      ]
+    }
   ]
   const headerContent = {
     titleContent: [
@@ -75,7 +87,7 @@ function ProjectHome(props) {
   let sectionComponents = sections.map((section) => <Section section={section} />)
   return (
     <div className="root">
-      <Nav page="projectHome" pageLinks={pageLinks} />
+      <Nav page="projectHome" navContent={pageLinks} />
       <Header content={headerContent} />
       {/* <ProjectSearchBar /> */}
       {sectionComponents}
