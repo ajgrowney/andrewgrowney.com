@@ -47,7 +47,8 @@ const data = [
     {
         "id": 4,
         "title": "SELF Skill Sessions",
-        "summary": "Created a reddit system for the SELF Program to use for creating group sessions",
+        "summary": "Created a reddit system for the KU SELF Program to use for creating group sessions",
+        "description": "Reddit style brainstorming site. Designed to make people's favorite ideas more visible, the skill sessions website allowed for real time voting, idea posting/commenting, and event creation.",
         "time": "Jan 2019 - May 2019",
         "url": "#",
         "images": [ss_login,ss_createIdea],

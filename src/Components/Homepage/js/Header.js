@@ -9,7 +9,7 @@ function ImageCarousel(props){
     let { images } = props;
     let carouselElements
     carouselElements = images.map((im) => 
-        <div className='carousel-inner'>
+        <div key={im} className='carousel-inner'>
             <Image className="header_imageObject" src={im} alt="Profile Picture" roundedCircle={props.round} />
         </div>
     )
