@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import Nav from '../Components/js/Nav'
 import { Header, Section } from '../Components/Homepage/js'
-import project_data from '../Data/Homepage/projectData'
+import project_data from '../Data/projectData'
 import './css/projectPage.css'
 
 function initializeReactGA() {
@@ -20,6 +20,7 @@ function NormalProject(props) {
     <div id={"project_" + project.id.toString()} className="projectContainer">
       <h3>{project.title}</h3>
       <h6>{project.time}</h6>
+      <p>{(project.description) ? (project.description) : (project.summary) } </p>
       <hr />
       {project.languages.join(', ')}
     </div>
@@ -39,6 +40,7 @@ function ProjectSearchBar() {
 }
 
 function ProjectHome(props) {
+  console.log(props)
   initializeReactGA()
   const allProjects = project_data
   const featuredIndex = props.featuredIndex || 4

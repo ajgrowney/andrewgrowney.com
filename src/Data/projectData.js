@@ -1,5 +1,5 @@
-import ss_login from '../../Images/SELFSkillDemo-Login.gif'
-import ss_createIdea from '../../Images/SELFSkillDemo-CreateIdea.gif'
+import ss_login from '../Images/SELFSkillDemo-Login.gif'
+import ss_createIdea from '../Images/SELFSkillDemo-CreateIdea.gif'
 
 
 const data = [
@@ -7,19 +7,22 @@ const data = [
         "id": 0,
         "title": "Ray: Raspberry Pi Assistant",
         "summary": "Digital Personal Assistant, inspired by J.A.R.V.I.S., that uses speech recognition and an API hosted on local network to manage basic tasks and scheduling.",
+        "description": "Designed around the specifications of Tony Stark's great assistant JARVIS, this project started out as a simple request and response system. Using speech recognition, text-to-speech, and the level triggered design pattern that drives Kubernetes, Ray can integrate with services and interfaces that fulfill the required protocols.",
         "time": "February 2020 - Present",
         "images": [],
         "url": "https://github.com/ajgrowney/ray",
-        "languages": ["Python", "Houndify API", "Tensorflow", "Natural Language Processing", "Django API"]
+        "languages": ["Python", "Rasa NLU", "IPC", "Houndify API", "Tensorflow", "CLI", "Flask", "Django API"],
+        "visibility": "private"
     },
     {
         "id": 1,
         "title": "Hip Hop Genius",
         "summary": "A music platform focused on lyrical analysis of Hip Hop artists. Currently working on display of meaningful results while utilizing AWS Lambda for daily API testing.",
-        "time": "Oct 2018 - Present",
+        "time": "Oct 2018 - Dec 2019",
         "url": "https://github.com/ajgrowney/lyrical-analysis",
         "images": [],
-        "languages": ["Python", "AWS Lambda", "Web Scraping"]
+        "languages": ["Python", "AWS Lambda", "Web Scraping"],
+        "visibility": "public"
     },
     {
         "id": 2,
@@ -28,7 +31,8 @@ const data = [
         "time": "Jan 2018 - May 2019",
         "images": [],
         "url": "https://github.com/ajgrowney/py-diti",
-        "languages": ["Python", "Computer Vision (OpenCV)", "Statistics", "Digital Image Processing"]
+        "languages": ["Python", "Computer Vision (OpenCV)", "Statistics", "Digital Image Processing"],
+        "visibility": "public"
     },
     {
         "id": 3,
@@ -37,7 +41,8 @@ const data = [
         "time": "Jan 2019 - Mar 2019",
         "images": [],
         "url": "https://github.com/ajgrowney/pyditi_metadataclassifier",
-        "languages": ["Python", "Scikit Learn", "Machine Learning", "Data Science", "Pandas"]
+        "languages": ["Python", "Scikit Learn", "Machine Learning", "Data Science", "Pandas"],
+        "visibility": "public"
     },
     {
         "id": 4,
@@ -46,7 +51,8 @@ const data = [
         "time": "Jan 2019 - May 2019",
         "url": "#",
         "images": [ss_login,ss_createIdea],
-        "languages": ["Google Firestore", "Javascript", "React.js", "Bootstrap", "CSS"]
+        "languages": ["Google Firestore", "Javascript", "React.js", "Bootstrap", "CSS"],
+        "visibility": "public"
     },
     {
         "id": 5,
@@ -55,7 +61,8 @@ const data = [
         "time": "March 1, 2019",
         "url": "#",
         "images": [],
-        "languages": ["Javascript", "React.js", "AWS Route 53", "AWS S3", "React-Bootsrap", "CSS"]
+        "languages": ["Javascript", "React.js", "AWS Route 53", "AWS S3", "React-Bootsrap", "CSS"],
+        "visibility": "public"
     }
 ]
 

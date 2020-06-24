@@ -12,7 +12,7 @@ ReactDOM.render(
         <Switch>
             <Route exact path="/" component={HomepageView} />
             {/* <Route path="/inThePen" component={InThePen} /> */}
-            <Route path="/projects" component={ProjectHomeView} />
+            <Route path="/projects/:projectId?" component={ProjectHomeView} />
         </Switch>
     </Router>
     , document.getElementById('root')

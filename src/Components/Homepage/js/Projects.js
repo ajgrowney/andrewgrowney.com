@@ -16,7 +16,21 @@ function ProjectCard(props){
             <Card.Body className="projectCardSummaryContainer">
                 {project.summary}
                 <br /><br />
-                <Button className="viewProjectButton" onClick={() => window.location.href = project.url}>View Project Details</Button>
+                {(project.visibility === "public") ?
+                    <Button className={"viewProjectButton"}
+                        onClick={() => window.location.href = project.url}
+                    >
+                    View Project Details
+                    </Button>
+                    :
+                    <Button className={"viewProjectButton"}
+                        onClick={() => window.location = "mailto:ajgrowney@gmail.com?subject=Access request for project "+project.title}
+                    >
+                        Request Project Details
+                    </Button>
+
+                }
+                
                 <hr />
                 {project.languages.join(', ')}
             </Card.Body>

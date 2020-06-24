@@ -2,7 +2,7 @@ import React from 'react';
 import ReactGA from 'react-ga';
 import MyNav from '../Components/js/Nav';
 import { About, Contact, Header, Projects, Section, Work } from '../Components/Homepage/js'
-import { ProjectData, JobData, SkillData, SocialLinksData } from '../Data/Homepage'
+import { ProjectData, JobData, SkillData, SocialLinksData } from '../Data/'
 import pro_pic from '../Images/pro_pic.jpg'
 import './css/homepage.css';
 

@@ -1,6 +1,6 @@
-import githubPhoto from '../../Images/github.png'
-import linkedinPhoto from '../../Images/linkedin.png'
-import hackerrankPhoto from '../../Images/hackerrank-logo.png'
+import githubPhoto from '../Images/github.png'
+import linkedinPhoto from '../Images/linkedin.png'
+import hackerrankPhoto from '../Images/hackerrank-logo.png'
 
 const data = [
     { "alt": "Github Logo", "src": githubPhoto, "href": "https://github.com/ajgrowney" },
