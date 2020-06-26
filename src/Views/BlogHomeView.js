@@ -1,6 +1,5 @@
 import React from 'react'
-import { Section } from '../Components/Homepage/js'
-import Summary from '../Components/js/SummaryView'
+import { BaseSection, SummaryView } from '../Components/js'
 import './css/projectPage.css'
 
 function BlogHome(props){
@@ -25,10 +24,10 @@ function BlogHome(props){
     const sections = [
         { id: "blog_0", title: "Blog 0", content: <div>Blog 0 Preview</div> }
     ]
-    const sectionComps = sections.map(s => <Section key={s.id} section={s} />)
+    const sectionComps = sections.map(s => <BaseSection key={s.id} section={s} />)
     return(
         <div className="app_container">
-            <Summary resourceType={"Blogs"} nav={navContent} header={headerContent} sections={sectionComps} />
+            <SummaryView resourceType={"Blogs"} nav={navContent} header={headerContent} sections={sectionComps} />
         </div>
     )
 }

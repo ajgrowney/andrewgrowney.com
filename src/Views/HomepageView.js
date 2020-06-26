@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactGA from 'react-ga';
-import { About, Contact, Projects, Section, Work } from '../Components/Homepage/js'
+import { BaseSection, SummaryView } from '../Components/js'
+import { About, Contact, Projects, Work } from '../Components/Homepage/js'
 import { ProjectData, JobData, SkillData, SocialLinksData } from '../Data/'
 import pro_pic from '../Images/pro_pic.jpg'
 import './css/homepage.css';
-import Summary from '../Components/js/SummaryView';
 
 const aboutText = "Working towards the title critical thinker before Software Engineer. I work on projects to help out friends, push my skills and abilities, expand my horizons, and have a lot of fun. " +
     "After starting my career as a Software Engineer, I try to work with quality design and documentation at the forefront of each project I work on. " +
@@ -54,11 +54,11 @@ function Home(){
         { title: "Projects", content: <Projects projects={ProjectData} projectPerColumn={2} />, id: "project_id" },
         { title: "Let's Chat", content: <Contact email={"ajgrowney@gmail.com"} socialData={SocialLinksData} />, id: "contact_id" }
     ]
-    let sectionComponents = sectionsList.map((section) => <Section section={section} />);
+    let sectionComponents = sectionsList.map((section) => <BaseSection section={section} />);
     initializeReactGA()
     return (
         <div id="app_container">
-            <Summary resourceType={"personal"} nav={pageLinks} header={headerContent} sections={sectionComponents} />
+            <SummaryView resourceType={"personal"} nav={pageLinks} header={headerContent} sections={sectionComponents} />
         </div>
     )
 
