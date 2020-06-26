@@ -1,0 +1,17 @@
+import React from 'react'
+import Nav from './Nav'
+import { Header } from '../Homepage/js';
+
+function Summary(props){
+    let { resourceType, nav, header, sections } = props
+    return(
+        <div>
+            <Nav page={resourceType} navContent={nav} />
+            <Header content={header} />
+            {sections}
+        </div>
+    )
+
+}
+
+export default Summary;

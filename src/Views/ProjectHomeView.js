@@ -3,8 +3,8 @@ import ReactGA from 'react-ga';
 import Navbar from 'react-bootstrap/Navbar'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
-import Nav from '../Components/js/Nav'
-import { Header, Section } from '../Components/Homepage/js'
+import { Section } from '../Components/Homepage/js'
+import Summary from '../Components/js/SummaryView'
 import project_data from '../Data/projectData'
 import './css/projectPage.css'
 
@@ -81,12 +81,8 @@ function ProjectHome(props) {
 
   let sectionComponents = sections.map((section) => <Section key={section.id} section={section} />)
   return (
-    <div className="root">
-      <Nav page="projectHome" navContent={pageLinks} />
-      <Header content={headerContent} />
-      {/* <ProjectSearchBar /> */}
-      {sectionComponents}
-      <hr />
+    <div className="app_container">
+      <Summary resourceType="projects" nav={pageLinks} header={headerContent} sections={sectionComponents} />
     </div>
   )
 

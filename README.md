@@ -15,3 +15,7 @@ Get a broad overview of me, what I am about, why I do what I do, how I do it, an
 #### Current Status: In Progress
 ### Blog Entry Page (url: /blogs/{blog_id})
 #### Current Status: TODO
+
+
+## License
+[MIT](https://choosealicense.com/licenses/mit/)

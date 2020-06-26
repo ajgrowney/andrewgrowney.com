@@ -1,10 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-
-import HomepageView from './Views/HomepageView';
-import BlogHomeView from './Views/BlogHomeView';
-import ProjectHomeView from './Views/ProjectHomeView';
+import { ProjectPageView, ProjectHomeView, HomepageView, BlogHomeView, BlogPageView } from './Views'
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
@@ -12,8 +9,10 @@ ReactDOM.render(
         <Switch>
             <Route exact path="/" component={HomepageView} />
             {/* <Route path="/inThePen" component={InThePen} /> */}
-            <Route path="/projects/:projectId?" component={ProjectHomeView} />
-            <Route path="/blogs/:blogId?" component={BlogHomeView} />
+            <Route path="/projects" component={ProjectHomeView} />
+            <Route exact path="/blogs" component={BlogHomeView} />
+            <Route path="/projects/:projectId" component={ProjectPageView} />
+            <Route path="/blogs/:blogId" component={BlogPageView} />
         </Switch>
     </Router>
     , document.getElementById('root')

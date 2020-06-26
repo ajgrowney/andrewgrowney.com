@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactGA from 'react-ga';
-import MyNav from '../Components/js/Nav';
-import { About, Contact, Header, Projects, Section, Work } from '../Components/Homepage/js'
+import { About, Contact, Projects, Section, Work } from '../Components/Homepage/js'
 import { ProjectData, JobData, SkillData, SocialLinksData } from '../Data/'
 import pro_pic from '../Images/pro_pic.jpg'
 import './css/homepage.css';
+import Summary from '../Components/js/SummaryView';
 
 const aboutText = "Working towards the title critical thinker before Software Engineer. I work on projects to help out friends, push my skills and abilities, expand my horizons, and have a lot of fun. " +
     "After starting my career as a Software Engineer, I try to work with quality design and documentation at the forefront of each project I work on. " +
@@ -58,9 +58,7 @@ function Home(){
     initializeReactGA()
     return (
         <div id="app_container">
-            <MyNav page="Home" navContent={pageLinks} />
-            <Header content={headerContent} />
-            {sectionComponents}
+            <Summary resourceType={"personal"} nav={pageLinks} header={headerContent} sections={sectionComponents} />
         </div>
     )
 

@@ -1,6 +1,6 @@
 import React from 'react'
-import Nav from '../Components/js/Nav'
-import { Header, Section } from '../Components/Homepage/js'
+import { Section } from '../Components/Homepage/js'
+import Summary from '../Components/js/SummaryView'
 import './css/projectPage.css'
 
 function BlogHome(props){
@@ -27,11 +27,8 @@ function BlogHome(props){
     ]
     const sectionComps = sections.map(s => <Section key={s.id} section={s} />)
     return(
-        <div className="root">
-            <Nav page="projectHome" navContent={navContent} />
-            <Header content={headerContent} />
-            {sectionComps}
-
+        <div className="app_container">
+            <Summary resourceType={"Blogs"} nav={navContent} header={headerContent} sections={sectionComps} />
         </div>
     )
 }
