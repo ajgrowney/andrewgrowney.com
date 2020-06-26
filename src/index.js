@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import HomepageView from './Views/HomepageView';
 import BlogHomeView from './Views/BlogHomeView';
-import ProjectHomeView from './Views/ProjectPageView';
+import ProjectHomeView from './Views/ProjectHomeView';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(

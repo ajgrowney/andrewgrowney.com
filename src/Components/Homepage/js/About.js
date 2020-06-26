@@ -8,7 +8,7 @@ function SkillsCard(props){
     const { skill } = props;
     return (
         <Card className="skillsCard" style={{ "text-align": "center" }}>
-            <Card.Header> {skill.icon}<br />{skill.header}</Card.Header>
+            <Card.Header> {skill.icon}<br />{skill.domain}</Card.Header>
             <Card.Body> {skill.list.join(', ')} </Card.Body>
         </Card>
     )

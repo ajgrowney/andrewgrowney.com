@@ -3,7 +3,7 @@ import { FaCode, FaCog, FaDatabase } from 'react-icons/fa'
 
 const skills = [
     {
-        header: "Backend",
+        domain: "Backend",
         icon: <FaCog className="skillsIcon" size="4em" />,
         list: [
             "Kubernetes",
@@ -24,7 +24,7 @@ const skills = [
         ]
     },
     {
-        header: "Data Science",
+        domain: "Data Science",
         icon: <FaDatabase className="skillsIcon" size="4em" />,
         list: [
             "Python",
@@ -39,7 +39,7 @@ const skills = [
         ]
     },
     {
-        header: "Frontend",
+        domain: "Frontend",
         icon: <FaCode className="skillsIcon" size="4em" />,
         list: [
             "Javascript (ECMAScript 6)",
