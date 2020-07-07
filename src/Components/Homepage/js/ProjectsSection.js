@@ -50,7 +50,7 @@ function ProjectColumn(props){
     )
 }
 
-function Projects(props){
+function ProjectsSection(props){
     let projects_per_column = props.projectPerColumn || 3
     let projects = props.projects || []
     const project_cols = [];
@@ -69,4 +69,4 @@ function Projects(props){
     
 }
 
-export default Projects;
+export default ProjectsSection;

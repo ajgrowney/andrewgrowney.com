@@ -33,7 +33,9 @@ function Home(){
             type: "SingleLink",
             title: "Projects",
             pageRef: "/projects"
-        }
+        },
+        { type: "SingleLink", title: "Blogs", pageRef: "/blogs"}
+
     ]
     let headerContent = {
         titleContent: [

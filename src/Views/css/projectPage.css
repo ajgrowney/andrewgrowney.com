@@ -46,7 +46,9 @@
   height: fit-content;
   width: 94%;
   margin: auto;
-  margin-top: 1rem;
+}
+.projectCardContainer{
+  margin: 2rem;
 }
 @media (max-width: 1000px){
   .featuredProjectContainer{

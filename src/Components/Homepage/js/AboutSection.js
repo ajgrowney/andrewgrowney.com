@@ -14,7 +14,7 @@ function SkillsCard(props){
     )
 }
 
-function About(props){
+function AboutSection(props){
     const aboutText = props.aboutText || ""
     const skills = props.skills || []
     const skillsCardComponents = skills.map((skill) => <SkillsCard skill={skill} />)
@@ -28,4 +28,4 @@ function About(props){
     )
 }
 
-export default About;
+export default AboutSection;

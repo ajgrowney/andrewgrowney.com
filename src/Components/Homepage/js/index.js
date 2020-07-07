@@ -1,7 +1,6 @@
-import Header from './Header'
-import About from './About'
-import Work from './Work'
-import Contact from './Contact'
-import Projects from './Projects'
+import About from './AboutSection'
+import Work from './WorkSection'
+import Contact from './ContactSection'
+import Projects from './ProjectsSection'
 
-export { About, Contact, Header, Projects, Work };
+export { About, Contact, Projects, Work };

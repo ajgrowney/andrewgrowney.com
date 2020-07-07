@@ -8,7 +8,7 @@ let sendEmail = (email) => {
 }
 
 
-function Contact(props){
+function ContactSection(props){
     
     const { email } = props
     const emailButtonText = props.emailButtonText || "Email Me"
@@ -31,4 +31,4 @@ function Contact(props){
     )
 }
 
-export default Contact;
+export default ContactSection;

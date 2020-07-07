@@ -4,7 +4,7 @@ import Tab from 'react-bootstrap/Tab'
 import 'bootstrap/dist/css/bootstrap.css'
 import '../css/work.css'
 
-function Work(props) {
+function WorkSection(props) {
     let { jobs } = props || [];
 
     let jobTabComponents = jobs.map((job) =>
@@ -22,4 +22,4 @@ function Work(props) {
     )
 }
 
-export default Work;
+export default WorkSection;

@@ -17,7 +17,7 @@ const data = [
     {
         "id": 1,
         "title": "Hip Hop Genius",
-        "summary": "A music platform focused on lyrical analysis of Hip Hop artists. Currently working on display of meaningful results while utilizing AWS Lambda for daily API testing.",
+        "summary": "A project focused on lyrical analysis of Hip Hop artists. Shows artists usage of words and phrases over time. Utilizing AWS Lambda for testing the Genius API daily.",
         "time": "Oct 2018 - Dec 2019",
         "url": "https://github.com/ajgrowney/lyrical-analysis",
         "images": [],

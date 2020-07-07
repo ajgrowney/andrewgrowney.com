@@ -1,6 +1,6 @@
 import React from 'react'
 import Nav from './Nav'
-import { Header } from '../Homepage/js';
+import Header from './Header';
 
 function Summary(props){
     let { resourceType, nav, header, sections } = props
