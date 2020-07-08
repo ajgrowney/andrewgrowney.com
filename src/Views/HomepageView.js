@@ -18,10 +18,8 @@ function initializeReactGA() {
 
 function Home(){
     let pageLinks = [
-        {
-            type: "Dropdown",
-            title: "Home",
-            active: true,
+        { 
+            type: "Dropdown", title: "Home", active: true,
             links: [
                 { text: "About", element: "about_id" },
                 { text: "Work", element: "work_id" },
@@ -29,11 +27,7 @@ function Home(){
                 { text: "Contact", element: "contact_id" }
             ]
         },
-        {
-            type: "SingleLink",
-            title: "Projects",
-            pageRef: "/projects"
-        },
+        { type: "SingleLink", title: "Projects", pageRef: "/projects" },
         { type: "SingleLink", title: "Blogs", pageRef: "/blogs"}
 
     ]

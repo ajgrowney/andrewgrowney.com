@@ -1,10 +1,20 @@
 import React from 'react'
+import PageNotFoundView from './NotFoundView'
 import { ResourceView } from '../Components/js'
 import blogs from '../Data/blogData'
 
 function BlogPageView(props){
-    let blog_id  = props.match.params.blogId
-    const blog_selected = blogs.filter(b => b.id == blog_id)[0]
+    let blog_id_param = props.match.params.blogId
+    if(isNaN(parseInt(blog_id_param))){
+        return(<PageNotFoundView />)
+    }
+    let blog_id = parseInt(blog_id_param)
+    let blog_selected = blogs.filter(b => (b.id === blog_id))
+    if(blog_selected.length != 1){
+        return(<PageNotFoundView />)
+    }else{
+        blog_selected = blog_selected[0]
+    }
     
     const navContent = [
         { type: "SingleLink", title: "Home", pageRef: "/" },

@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { ProjectPageView, ProjectHomeView, HomepageView, BlogHomeView, BlogPageView } from './Views'
 import * as serviceWorker from './serviceWorker';
+import NotFoundView from './Views/NotFoundView';
 
 ReactDOM.render(
     <Router>
@@ -13,6 +14,7 @@ ReactDOM.render(
             <Route exact path="/blogs" component={BlogHomeView} />
             <Route path="/projects/:projectId" component={ProjectPageView} />
             <Route path="/blogs/:blogId" component={BlogPageView} />
+            <Route component={NotFoundView} />
         </Switch>
     </Router>
     , document.getElementById('root')
