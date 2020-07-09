@@ -1,4 +1,5 @@
 import React from 'react'
+import { pageView } from '../Components/js/Analytics'
 import PageNotFoundView from './NotFoundView'
 import { ResourceView } from '../Components/js'
 import blogs from '../Data/blogData'
@@ -8,6 +9,7 @@ function BlogPageView(props){
     if(isNaN(parseInt(blog_id_param))){
         return(<PageNotFoundView />)
     }
+    pageView('/blogs/'+blog_id_param)
     let blog_id = parseInt(blog_id_param)
     let blog_selected = blogs.filter(b => (b.id === blog_id))
     if(blog_selected.length != 1){
@@ -15,7 +17,6 @@ function BlogPageView(props){
     }else{
         blog_selected = blog_selected[0]
     }
-    
     const navContent = [
         { type: "SingleLink", title: "Home", pageRef: "/" },
         { type: "SingleLink", title: "Projects", pageRef: "/projects" },

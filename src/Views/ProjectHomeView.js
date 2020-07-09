@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactGA from 'react-ga';
+import { pageView } from '../Components/js/Analytics'
 import Navbar from 'react-bootstrap/Navbar'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
@@ -9,10 +9,6 @@ import project_data from '../Data/projectData'
 import './css/projectPage.css'
 import 'bootstrap/dist/css/bootstrap.css'
 
-function initializeReactGA() {
-  ReactGA.initialize('UA-136977966-1')
-  ReactGA.pageview('/projectPage');
-}
 
 
 function NormalProject(props) {
@@ -41,7 +37,7 @@ function ProjectSearchBar() {
 }
 
 function ProjectHome(props) {
-  initializeReactGA()
+  pageView('/projects')
   const allProjects = project_data
   const featuredIndex = props.featuredIndex || 4
   const featuredProject = project_data.find((proj) => proj.id === featuredIndex)

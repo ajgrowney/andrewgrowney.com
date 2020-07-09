@@ -9,6 +9,9 @@
     padding-left: 5%;
     padding-right: 5%;
 }
+.jumboHeader div{
+    align-self: center;
+}
 
 .header_image{
     margin: auto;

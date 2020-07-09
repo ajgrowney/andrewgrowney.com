@@ -1,5 +1,6 @@
 import React from 'react';
-import ReactGA from 'react-ga';
+import { pageView } from '../Components/js/Analytics'
+
 import { BaseSection, SummaryView } from '../Components/js'
 import { About, Contact, Projects, Work } from '../Components/Homepage/js'
 import { ProjectData, JobData, SkillData, SocialLinksData } from '../Data/'
@@ -10,11 +11,6 @@ const aboutText = "Working towards the title critical thinker before Software En
     "After starting my career as a Software Engineer, I try to work with quality design and documentation at the forefront of each project I work on. " +
     "As I have encountered different problems, I have had to pick up new languages, learn new technologies, and study everything from data structures to algorithms to quantum mechanics. My experience has given me skills in, but not limited to these."
 
-
-function initializeReactGA() {
-    ReactGA.initialize('UA-136977966-1')
-    ReactGA.pageview('/homepage');
-}
 
 function Home(){
     let pageLinks = [
@@ -51,7 +47,7 @@ function Home(){
         { title: "Let's Chat", content: <Contact email={"ajgrowney@gmail.com"} socialData={SocialLinksData} />, id: "contact_id" }
     ]
     let sectionComponents = sectionsList.map((section) => <BaseSection section={section} />);
-    initializeReactGA()
+    pageView('/homepage')
     return (
         <div id="app_container">
             <SummaryView resourceType={"personal"} nav={pageLinks} header={headerContent} sections={sectionComponents} />
