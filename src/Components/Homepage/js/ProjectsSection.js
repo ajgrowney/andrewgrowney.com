@@ -28,9 +28,7 @@ function ProjectCard(props){
                     >
                         Request Project Details
                     </Button>
-
                 }
-                
                 <hr />
                 {project.languages.join(', ')}
             </Card.Body>

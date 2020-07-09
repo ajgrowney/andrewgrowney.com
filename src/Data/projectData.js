@@ -50,7 +50,7 @@ const data = [
         "summary": "Created a reddit system for the KU SELF Program to use for creating group sessions",
         "description": "Reddit style brainstorming site. Designed to make people's favorite ideas more visible, the skill sessions website allowed for real time voting, idea posting/commenting, and event creation.",
         "time": "Jan 2019 - May 2019",
-        "url": "#",
+        "url": "https://github.com/ajgrowney/self-skill-sessions",
         "images": [ss_login,ss_createIdea],
         "languages": ["Google Firestore", "Javascript", "React.js", "Bootstrap", "CSS"],
         "visibility": "public"
@@ -60,7 +60,7 @@ const data = [
         "title": "andrewgrowney.com",
         "summary": "Challenge to build and deploy fully functioning website in 6 hours. Using React and AWS, successfully designed, built, and deployed all in one day.",
         "time": "March 1, 2019",
-        "url": "#",
+        "url": "https://github.com/ajgrowney/andrewgrowney.com",
         "images": [],
         "languages": ["Javascript", "React.js", "AWS Route 53", "AWS S3", "React-Bootsrap", "CSS"],
         "visibility": "public"
