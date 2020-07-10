@@ -4,7 +4,7 @@ import { pageView } from '../Components/js/Analytics'
 import { BaseSection, SummaryView } from '../Components/js'
 import { About, Contact, Projects, Work } from '../Components/Homepage/js'
 import { ProjectData, JobData, SkillData, SocialLinksData } from '../Data/'
-import pro_pic from '../Images/pro_pic.jpg'
+import { ProfilePhoto } from '../Images'
 import './css/homepage.css';
 
 const aboutText = "Working towards the title critical thinker before Software Engineer. I work on projects to help out friends, push my skills and abilities, expand my horizons, and have a lot of fun. " +
@@ -37,7 +37,7 @@ function Home(){
             <br />,
             "With a passion for people, faith, music, coffee, college basketball, and software design, feel free to reach out about anything or everything!"
         ],
-        imageContent: [pro_pic],
+        imageContent: [ProfilePhoto],
         imageRounded: true
     }
     let sectionsList = [

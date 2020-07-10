@@ -1,6 +1,5 @@
 import React from 'react'
-import CacheBlogImg from '../Images/Blog_CachingInsteadOfCleaning.png'
-import FirstInternImg from '../Images/Blog_FirstTechIntern.jpg'
+import { CacheBlogImage, FirstInternImage } from '../Images'
 const blogs = [
     {
         id: 0,
@@ -29,7 +28,7 @@ const blogs = [
 
         ],
         featured: true,
-        image: [CacheBlogImg]
+        image: [CacheBlogImage]
     },
     {
         id: 1,
@@ -48,7 +47,17 @@ const blogs = [
             <div>The culture, within organizations of all sizes, plays a monumental role in the pace of work done and the attitudes of its members. As a whole, Cerner did a fantastic job with the workplace environment to encourage collaboration and efficiency. My specific team also gave me motivation through seeing the hard work of my fellow associates in our weekly demo meeting. Being transparent in this way didn't only keep people accountable for their progress, but it made those watching accountable for their pace of work. I can see how this method of presentation is extremely effective and where it can be applied in my organizations going into senior year, and my career following.</div>,
             <div>Overall, it was a fantastic summer and couldn't have asked for anything more. Truly a great experience with a couple key takeaways that I will keep for a long time. </div>
         ],
-        image: [FirstInternImg]
+        image: [FirstInternImage]
+    },
+    {
+        id: 2,
+        title: "",
+        date: "",
+        preview: "",
+        content: [
+
+        ],
+        image: []
     }
 ]
 

@@ -1,6 +1,4 @@
-import ss_login from '../Images/SELFSkillDemo-Login.gif'
-import ss_createIdea from '../Images/SELFSkillDemo-CreateIdea.gif'
-
+import { SkillSession_Login, SkillSession_Idea } from '../Images'
 
 const data = [
     {
@@ -51,7 +49,7 @@ const data = [
         "description": "Reddit style brainstorming site. Designed to make people's favorite ideas more visible, the skill sessions website allowed for real time voting, idea posting/commenting, and event creation.",
         "time": "Jan 2019 - May 2019",
         "url": "https://github.com/ajgrowney/self-skill-sessions",
-        "images": [ss_login,ss_createIdea],
+        "images": [SkillSession_Login, SkillSession_Idea],
         "languages": ["Google Firestore", "Javascript", "React.js", "Bootstrap", "CSS"],
         "visibility": "public"
     },
