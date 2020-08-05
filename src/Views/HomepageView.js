@@ -46,7 +46,7 @@ function Home(){
         { title: "Projects", content: <Projects projects={ProjectData} projectPerColumn={2} />, id: "project_id" },
         { title: "Let's Chat", content: <Contact email={"ajgrowney@gmail.com"} socialData={SocialLinksData} />, id: "contact_id" }
     ]
-    let sectionComponents = sectionsList.map((section) => <BaseSection section={section} />);
+    let sectionComponents = sectionsList.map((section) => <BaseSection id={section.id} title={section.title} content={section.content} />);
     pageView('/homepage')
     return (
         <div id="app_container">

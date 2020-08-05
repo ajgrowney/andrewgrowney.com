@@ -79,7 +79,7 @@ function ProjectHome(props) {
     { id: "previousproj_id", title: "Previous Projects", content: <div> {previousProjectComponents} </div> }
   ]
 
-  let sectionComponents = sections.map((section) => <BaseSection key={section.id} section={section} />)
+  let sectionComponents = sections.map((section) => <BaseSection key={section.id} id={section.id} title={section.title} content={section.content} />)
 
   return (
     <div className="app_container">

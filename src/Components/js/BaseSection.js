@@ -1,8 +1,10 @@
 import React from 'react'
 import '../css/sections.css'
 
-function BaseSection(props){
-    let { id, title, content } = props.section
+// Param: id { string } - 
+// Param: title { string } - 
+// Param: content { JSX } - Element in the boady of the section 
+function BaseSection({id, title, content}){
     return(
         <div id={id} className="chapterContainer">
             <h3 className="chapterTitle">{title}</h3>

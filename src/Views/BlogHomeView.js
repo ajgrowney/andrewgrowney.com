@@ -19,7 +19,7 @@ function BlogPreviewSection(b){
             </div>
         ]
     }
-    return <BaseSection key={b.id} section={blog_preview} />
+    return <BaseSection key={b.id} id={blog_preview.id} title={blog_preview.title} content={blog_preview.content} />
 }
 
 function BlogHome(props){

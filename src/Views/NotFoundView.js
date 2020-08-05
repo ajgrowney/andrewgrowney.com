@@ -20,7 +20,7 @@ function NotFoundView(props){
     return(
         <div>
             <Nav navContent={links} />
-            <BaseSection section={notFoundSection} />
+            <BaseSection id={notFoundSection.id} title={notFoundSection.title} content={notFoundSection.content}/>
         </div>
     )
 }

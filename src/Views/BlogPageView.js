@@ -12,7 +12,8 @@ function BlogPageView(props){
     pageView('/blogs/'+blog_id_param)
     let blog_id = parseInt(blog_id_param)
     let blog_selected = blogs.filter(b => (b.id === blog_id))
-    if(blog_selected.length != 1){
+    console.log(blog_selected.length)
+    if(blog_selected.length !== 1){
         return(<PageNotFoundView />)
     }else{
         blog_selected = blog_selected[0]
