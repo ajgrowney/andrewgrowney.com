@@ -3,6 +3,7 @@ import { CacheBlogImage, FirstInternImage } from '../Images'
 const blogs = [
     {
         id: 0,
+        visibility: "public",
         title: "Caching Instead of Cleaning Your Room",
         date: "9/17/2018",
         preview: "Applications of a fundamental computer science concept in the most familiar of places",
@@ -32,6 +33,7 @@ const blogs = [
     },
     {
         id: 1,
+        visibility: "public",
         title: "First Tech Internship Takeaways",
         date: "8/9/2018",
         preview: "The first experience working in the professional tech world.",
@@ -51,7 +53,19 @@ const blogs = [
     },
     {
         id: 2,
-        title: "",
+        visibility: "private",
+        title: "API First Design",
+        date: "",
+        preview: "",
+        content: [
+
+        ],
+        image: []
+    },
+    {
+        id: 3,
+        visibility: "private",
+        title: "Intro to Kubernetes and Containerized System Design",
         date: "",
         preview: "",
         content: [

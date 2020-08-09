@@ -5,7 +5,7 @@ const all_jobs = [
         company: "Atonix Digital",
         location: "Denver, CO",
         about: "Platform and Analytics Team Engineer for Asset Performance Management SaaS Company. "+
-            "Manager and co-designer of AWS EKS Kubernetes cluster running multiple services across autoscaling groups. " +  
+            "Manager and co-designer of AWS EKS Kubernetes cluster running multiple services across AWS Managed Node Groups. " +  
             "Principle designer of company's .NET Core AWS Lambda project template utilized by all teams and ten actively deployed functions. "+
             "Developed multiple APIs behind AWS API Gateway using AWS Lambda Proxy Integrations and provided .NET Standard SDK and CLI to allow for ease of use. "+
             "Assisted in migration of monolithic .NET Framework based TFVC repository to .NET Core and .NET Standard Azure Git Repos. "+

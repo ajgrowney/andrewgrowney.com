@@ -33,9 +33,9 @@ function Home(){
             <h1>Andrew Growney</h1>
         ],
         subtitleContent: [
-            "I am a Software Engineer on the Platform Team for Atonix Digital in Denver, CO and recent graduate from the University of Kansas.",
+            "I am a Software Engineer on the Platform and Analytics Team for Atonix Digital in Denver, CO and recent graduate from the University of Kansas.",
             <br />,
-            "With a passion for people, faith, music, coffee, college basketball, and software design, feel free to reach out about anything or everything!"
+            "With a passion for people, sci-fi, physics, music, faith, coffee, college basketball, and software design, feel free to reach out about anything or everything!"
         ],
         imageContent: [ProfilePhoto],
         imageRounded: true

@@ -50,7 +50,7 @@ function BlogHome(props){
         ],
         imageContent: featured_blog.image
     }
-    const sections = nonfeatured_blogs
+    const sections = nonfeatured_blogs.filter(b => b.visibility === "public")
     const sectionComps = sections.map(s => BlogPreviewSection(s))
     return(
         <div className="app_container">
