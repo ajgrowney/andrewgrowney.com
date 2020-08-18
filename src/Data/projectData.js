@@ -38,7 +38,7 @@ const data = [
         "summary": "Using only image processing data from our DITI Early Detection of Breast Cancer project, we worked on implementing a few different classifiers to check predictions",
         "time": "Jan 2019 - Mar 2019",
         "images": [],
-        "url": "https://github.com/ajgrowney/pyditi_metadataclassifier",
+        "url": "https://github.com/ajgrowney/py-diti/tree/master/metadata_clf",
         "languages": ["Python", "Scikit Learn", "Machine Learning", "Data Science", "Pandas"],
         "visibility": "public"
     },
