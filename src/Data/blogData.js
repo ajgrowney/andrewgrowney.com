@@ -53,20 +53,46 @@ const blogs = [
     },
     {
         id: 2,
-        visibility: "private",
-        title: "API First Design",
-        date: "",
-        preview: "",
+        visibility: "public",
+        title: "Journey into DevOps",
+        date: "9/21/2020",
+        preview: "Going from graduating with a IC Physics Degree to Designing CI/CD Pipelines and the path between.",
         content: [
-
+            <div>
+                Looking into different jobs applications at the beginning of senior year, it was tough to nail down the exact role I really wanted.
+                With machine learning research experience and a great time working through projects during college, both Software Engineering and Machine Learning Engineer roles were at the top of my list.
+                At the bottom laid a role that seemed ridiculuously boring because of no impact on products or solutions that ended up in the hands of consumers...the <b><i>DevOps Engineer</i></b>.
+            </div>,
+            <div>
+                Time passes and I accept a role with an interesting startup based out of Kansas City with the title of Software Engineer on the Platform Team. 
+                After acclimating to the new environment and training, I broke ground on a Serverless Template for our development teams' future work in AWS Lambda. And then it happened.
+                <br /> <br />
+                <h6><i>Put together a CI/CD Pipeline for the project.</i></h6> <br />
+                With all the courage I could muster up, I took a single, gentle step into the world of DevOps. And to my surprise, it was...fun. 
+                When discussing complexity in our computer science cirriculum, its scope was often limited to program runtime and memory. 
+                As important as efficient code was to our applications, the scope of how I viewed complexity widened significantly as I progressed from implementing the serverless application's pipeline, to developing build and deployment templates for our other applications.
+                Providing the development teams with simple processes for managing company wide access to their applications in their desired environments 
+            </div>
         ],
         image: []
     },
     {
         id: 3,
         visibility: "private",
+        title: "API First Design and the Power of Swagger",
+        date: "//2020",
+        preview: "Documentation is one of the least rewarding, time consuming, and mentally exhausting exercises for a development team. But it doesn't have to be.",
+        content: [
+            <div>There are few things less enjoyable to the typical developer than spending time writing documentation. However, one of those few things is working with system that does not interact as it is described or expected to. An immovable object meets an unstoppable force.</div>,
+            <div></div>
+        ],
+        image: []
+    },
+    {
+        id: 4,
+        visibility: "private",
         title: "Intro to Kubernetes and Containerized System Design",
-        date: "",
+        date: "//2020",
         preview: "",
         content: [
 
