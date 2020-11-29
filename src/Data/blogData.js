@@ -1,5 +1,5 @@
 import React from 'react'
-import { CacheBlogImage, FirstInternImage } from '../Images'
+import { CacheBlogImage, FirstInternImage, DevOpsBlogImage } from '../Images'
 const blogs = [
     {
         id: 0,
@@ -54,27 +54,42 @@ const blogs = [
     {
         id: 2,
         visibility: "public",
-        title: "Journey into DevOps",
-        date: "9/21/2020",
-        preview: "Going from graduating with a IC Physics Degree to Designing CI/CD Pipelines and the path between.",
+        title: "An Apology to DevOps",
+        date: "11/21/2020",
+        preview: "Going from graduating with a IC Physics Degree to Designing CI/CD Pipelines. The path between that led to a place more familiar than expected.",
         content: [
             <div>
                 Looking into different jobs applications at the beginning of senior year, it was tough to nail down the exact role I really wanted.
                 With machine learning research experience and a great time working through projects during college, both Software Engineering and Machine Learning Engineer roles were at the top of my list.
-                At the bottom laid a role that seemed ridiculuously boring because of no impact on products or solutions that ended up in the hands of consumers...the <b><i>DevOps Engineer</i></b>.
+                At the bottom laid a role that seemed ridiculuously boring because of no impact on products or solutions that ended up in the hands of consumers...the <b><i>DevOps Engineer</i></b>. 
+                It's not a colloquial job title. Not something you learn about in college. Not something you would EVER hear about outside of a tech environment.
+                My rough mental translation of the title was along the lines of "someone who cleans up after people who do the real work". 
+                <br />  <br />
             </div>,
             <div>
-                Time passes and I accept a role with an interesting startup based out of Kansas City with the title of Software Engineer on the Platform Team. 
-                After acclimating to the new environment and training, I broke ground on a Serverless Template for our development teams' future work in AWS Lambda. And then it happened.
+                Time passes and I accept a role with a startup based out of Kansas City with the title of Software Engineer. On the first day, I get my placement on the Platform Team. 
+                The team's primary responsibilities included enhancing overall system performance, researching and implementing new technologies to enhance the platform, and managing application and service deployment.
+                The last piece of that didn't really hit me until I saw the last task of the our first Serverless project feature: 
                 <br /> <br />
-                <h6><i>Put together a CI/CD Pipeline for the project.</i></h6> <br />
+                <center><h6><i>Implement a Continuous Integration and Deployment pipeline for the project.</i></h6> </center>
+                <br />
                 With all the courage I could muster up, I took a single, gentle step into the world of DevOps. And to my surprise, it was...fun. 
-                When discussing complexity in our computer science cirriculum, its scope was often limited to program runtime and memory. 
-                As important as efficient code was to our applications, the scope of how I viewed complexity widened significantly as I progressed from implementing the serverless application's pipeline, to developing build and deployment templates for our other applications.
-                Providing the development teams with simple processes for managing company wide access to their applications in their desired environments 
+                <br /><br />
+            </div>,
+            <div>
+                The surprise was quickly replaced with a feeling of amazement. I'd been duped. Played like a fool.
+                It dawned upon me that in the midst of writing this automated build, deploy, and monitoring pipeline that not only was I building a product, but I had a consumer.
+                The consumer, our Applications Development team, were actually just solving a different style of problem than we were. But at the end of the day, we were Software Engineers because we were still just problem solving.
+                At this point, we have built build and release pipeline templates for Angular applications, Docker images, AWS Lambda projects, Nuget packages, NPM modules, and a couple other artifact types.
+                Each one of these products has extreme value because it allows our company to enforce coding/testing standards, but also quickly go from concepts to customer facing applications without people standing in the way. 
+            </div>,
+            <div>
+                Upon having the opportunity to be part of the DevOps process, an apology is owed to the job title "DevOps Engineer" and the practice as a whole. With just a different style of problem solving, it really provides an interesting place for new developers to enter an organization.
+                It helped me get a higher view of our platform as a whole and which technologies were being used to develop products at Atonix Digital. It really seems like the perfect place to introduce someone to a company to help them better understand not only the products, but the development lifecycle also.
+                So if you come across a job opening that aligns will a DevOps Engineer, don't overlook it, because it might just be the most enjoyable kind of Software Engineering for you.
             </div>
         ],
-        image: []
+        image: [DevOpsBlogImage]
     },
     {
         id: 3,
