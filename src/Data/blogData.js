@@ -93,13 +93,25 @@ const blogs = [
     },
     {
         id: 3,
-        visibility: "private",
+        visibility: "public",
         title: "API First Design and the Power of Swagger",
         date: "//2020",
         preview: "Documentation is one of the least rewarding, time consuming, and mentally exhausting exercises for a development team. But it doesn't have to be.",
         content: [
-            <div>There are few things less enjoyable to the typical developer than spending time writing documentation. However, one of those few things is working with system that does not interact as it is described or expected to. An immovable object meets an unstoppable force.</div>,
-            <div></div>
+            <div>
+                As a more connected world develops, the distance between computing devices shrinks, and the ability for smaller devices to communicate with more power machines increases.
+                These "more powerful" devices can be qualified as computers that have more CPU, more RAM, more GPU, or even more storage.
+                These smaller devices are able to take advantage of these more powerful devices' ability to run computationally complex programs that have value. 
+                In a world where computing is done closer to the edge, there is a need for these more powerful machines to be able to communicate with the smaller ones.
+                One widely used way is developing REST APIs to provide programmatic access to resources. I'll jump more into REST API Design in another post, but I want to focus on the process here.
+                What makes a good API maintainable and understood by all clients. One of the first answers typically is thought of as a four letter in the Software community: documentation.
+            </div>,
+            <div>
+                There are few things less enjoyable to the typical developer than spending time writing documentation. 
+                However, one of those few things is working with system that does not interact as it is described or expected to.
+                So if a writing documentation burns you in the short term by taking away developer time, but a lack of it burns you long term by losing developer time trying to figure out the code, what gives?
+                Surely you are going to be losing on one side of this equation, so the question is what is our best loss to take?
+            </div>
         ],
         image: []
     },
