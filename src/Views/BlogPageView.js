@@ -41,6 +41,8 @@ function BlogPageView(props){
 
     return(
         <div id="root">
+            <meta id="og-image" property="og:image" content={blog_selected.image} />
+            <meta id="og-description" property="og:description" content={blog_selected.title} />
             <ResourceView resourceType={"Blogs"} nav={navContent} header={headerContent} resource={blog_selected.content} />
         </div>
     )
