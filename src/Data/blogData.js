@@ -31,7 +31,6 @@ const blogs = [
             </div>
 
         ],
-        featured: true,
         image: [CacheBlogImage]
     },
     {
@@ -97,6 +96,7 @@ const blogs = [
     {
         id: 3,
         visibility: "public",
+        featured: true,
         title: "APIs: Definition Driven Development and the Power of Swagger",
         date: "3/6/2021",
         preview: "Documentation is one of the least rewarding, time consuming, and mentally exhausting exercises for a development team. But it doesn't have to be.",
