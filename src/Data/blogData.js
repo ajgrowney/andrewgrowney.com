@@ -1,5 +1,8 @@
 import React from 'react'
+import ImageSet from '../Components/js/ImageSet';
 import { CacheBlogImage, FirstInternImage, DevOpsBlogImage } from '../Images'
+import { APIDevCycle, PetstoreDetails, PetstoreSite, SampleSwagger } from '../Images/Blogs/DesignFirstAPI'
+
 const blogs = [
     {
         id: 0,
@@ -94,29 +97,230 @@ const blogs = [
     {
         id: 3,
         visibility: "public",
-        title: "API First Design and the Power of Swagger",
-        date: "//2020",
+        title: "APIs: Definition Driven Development and the Power of Swagger",
+        date: "3/6/2021",
         preview: "Documentation is one of the least rewarding, time consuming, and mentally exhausting exercises for a development team. But it doesn't have to be.",
         content: [
             <div>
-                As a more connected world develops, the distance between computing devices shrinks, and the ability for smaller devices to communicate with more power machines increases.
+                <h3>Motivation</h3>
+                As a more technologically connected world develops, the distance between computing devices shrinks, internet bandwidth and speed increases, and the ability for smaller devices to communicate with more power machines becomes that much more important.
                 These "more powerful" devices can be qualified as computers that have more CPU, more RAM, more GPU, or even more storage.
                 These smaller devices are able to take advantage of these more powerful devices' ability to run computationally complex programs that have value. 
                 In a world where computing is done closer to the edge, there is a need for these more powerful machines to be able to communicate with the smaller ones.
                 One widely used way is developing REST APIs to provide programmatic access to resources. I'll jump more into REST API Design in another post, but I want to focus on the process here.
-                What makes a good API maintainable and understood by all clients. One of the first answers typically is thought of as a four letter in the Software community: documentation.
+                What makes a good API usable and understood by all clients? One of the first answers typically is thought of as a four letter in the Software community: documentation.
+                <br /><br />
+                There are few things less enjoyable to the typical developer than spending time writing documentation. On the flip side, one of those few things is working with system that does not interact as it is described or expected to.
+                So the tradeoff can be posed something like: writing documentation burns you in the short term by taking away developer time. But a lack of documentation burns you long term by your developers losing time trying to figure out the code and losing API users to frustration trying to figure out the interface.
+                Surely you are going to be losing on one side of this equation, so the question is what is the best loss to take?
+                <br /><br />
+                One way to calculate the best loss to take is how long you expect to support this API. If it for a migration or just doesn't hold any lasting value, taking the loss on having to ressurect the code and deploy it again might be the best case as you might even be able to come up with a better design.
+                However, most APIs have not only the need for long term support, but also for long term stability. If this is a monetized API, you can't be expecting users to be adjusting their client programs all the time for small breaking changes in the architecture. 
+                Managing those client expectations and usabilty can be saved for an exercise in API versioning with respect to the first release of a stable API. 
+                Getting to that stable v1 release means you have developers and a business team working across a team, or even an organization, to get the design and deployment finished.
+                Few business team members (and arguably even few developers) have any desire to read through the code or even comments in the code to construct a mental diagram of what's occuring to explain the value of each parameter and endpoint.
+                But the whole purpose of an API is to allow customers, whether they be internal or public, to quickly understand and adopt the value behind each endpoint, parameter, and response in the interface. If there wasn't value in any of those, why would it be included?
+                So everyone wins in the API development and design process if there is a clear and consistent way to learn and track the documentation.
+                Enter the OpenAPI and Swagger Specification as part of, what I've seen called many things but I'll refer to as, Definition Driven Development. <br /><br />
             </div>,
             <div>
-                There are few things less enjoyable to the typical developer than spending time writing documentation. 
-                However, one of those few things is working with system that does not interact as it is described or expected to.
-                So if a writing documentation burns you in the short term by taking away developer time, but a lack of it burns you long term by losing developer time trying to figure out the code, what gives?
-                Surely you are going to be losing on one side of this equation, so the question is what is our best loss to take?
+                <h3>What is Definition Driven Development?</h3>
+                The Definition Driven Development API Workflow follows the diagram below:<br />
+                <ImageSet sources={[APIDevCycle]} />
+                The client, whether they be internal or external, really only has two interactions with the API lifecycle. They have wants/needs, and they use what is deployed. A bonus for them is a documentation site that allows them to navigate what is deployed.
+                Working off the asumption you want to provide them that documentation site for a better experience and less emails / phone calls, one extremely helpful tool in this process is known as an OpenAPI or Swagger specification document.
+                <br /><br />
+                <ImageSet sources={[SampleSwagger]} />
+                <br /> <br />
+                The goal of this document is to specify, with however much or little detail, all possible endpoints, parameters, definitions, and responses of your API. This document represents the "Definition" that is driving this process.
+                Let's explore how this document's value grows throughout each step and iteration of the development process within the context of an example. In this example, let us be a ski resort that has never developed an API.<br /><br />
+            </div>,
+            <div>
+                <h3>Approval and Refinement</h3>
+                <div className="flexContainer">
+                    <p className="flexItem">
+                        When there is a set of specific wants and needs that are being brought to you, they typically represent interactions with some set of entities in your system. 
+                        In the specification document, you can define the scope of that entity you want to expose and give access to per the want or need of the user. 
+                        In our example, say a user really wants to get information about the slopes they can ski at your resort and filter by difficulty rating. As the ski resort, you might track a lot of information about each slope you have. 
+                        Maybe you track when it was last groomed, an estimate of traffic per day, difficulty rating, and the run's vertical feet.
+                        As part of the approval process, you clarify that the traffic per day is something you don't want to expose to external clients. 
+                        So in this stage of the document, you'd be able to capture a fully qualified and approved representation of a slope entity in the "definitions" section.
+                        The other conversation that needs to happen here is figure out where in your API Ecosystem is this resource best served. In our case, this is our first API so I will save that for the deployment step.
+                    </p>
+                    <pre className="flexItem">
+                        <code>
+                        {JSON.stringify({
+                            "definitions": {
+                                "slope": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "description": "Identifier for the slope"
+                                        },
+                                        "difficulty": {
+                                            "type": "string",
+                                            "format": "enum",
+                                            "enum": [
+                                                "green",
+                                                "blue",
+                                                "black"
+                                            ]
+                                        },
+                                        "vertical_feet": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "description": "Vertical feet of the slope"
+                                        },
+                                        "last_groomed": {
+                                            "type": "date",
+                                            "description": "Date on which the run was last groomed"
+                                        },
+                                    }
+                                }
+                            }
+                            },null,2)}
+                        </code>
+                    </pre>
+                </div>
+                <h3>Specification Design</h3>
+                <div className="flexContainer">
+                    <p className="flexItem">
+                        With definitions provided through the approval and refinement process, specification design is able to have its scope reduced drastically. 
+                        This enables a more focused conversation around the best experience for clients to access the resources defined, parameters allowed, and responses they would expect back. 
+                        Here we know at a minimum they would want the list of filtered slopes back if it is successful, but we can also prepare them to be able to handle a response if their authentication failed. 
+                        At this point, you can also provide the document as feedback to the client or even deployed to a pre-release documentation site so the users can be ready to integrate with the API upon its release.
+                    </p>
+                    <pre className="flexItem">
+                        <code>
+                        {JSON.stringify({
+                            "paths": {
+                                "/slopes": {
+                                  "get": {
+                                    "tags": ["v1"],
+                                    "operationId": "getSlopes",
+                                    "summary": "List slopes",
+                                    "description": "Fetch a list of the slopes for our ski resort",
+                                    "parameters": [
+                                        {
+                                            "name": "difficulty",
+                                            "in": "query",
+                                            "type": "string",
+                                            "format": "enum",
+                                            "enum": [
+                                                "green",
+                                                "blue",
+                                                "black"
+                                            ],
+                                            "description": "Filter the return list to only slopes of a specific difficulty rating",
+                                            "required": false
+                                        }
+                                    ],
+                                    "responses": {
+                                        "200": {
+                                          "description": "Success",
+                                          "schema": {
+                                              "type": "array",
+                                              "items": {
+                                                  "type": "#/definitions/slope"
+                                                }
+                                            }
+                                        },
+                                        "401": {
+                                            "description": "Unauthenticated",
+                                            "schema": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }}
+                            },null,2)}
+                        </code>
+                    </pre>
+                </div>
+                <h3>Development and Testing</h3>
+                With this iteration of the specification finished, development and testing are extremely straightforward as you just have to work towards an implementation of the specification document. 
+                One great thing about this document format is you can integrate it into many API tools, like Postman and API Gateway, with a simple import. Setting up paths for your testing are as simple as working through permutations of paths and parameters while validating the response. 
+
+                <br /><br />
+                <h3>Deploy Code and Documentation</h3>
+                
+                <div className="flexContainer">
+                    <p className="flexItem">
+                        Now that development and testing have finished, you know you have a functional API that matches the full specification. If this is your first API, like it is ours for this example, we have to decide the base URL that users are going to access it at.
+                        We'll choose to host it at https://api.myskicompany.com/v1 as our first version of an API. Now unless your client is just a huge fan of parsing through a JSON file, they'd probably enjoy a better UX to view the documentation. 
+                        One of the great things about this style of specification document, is there are a lots of options for rendering a great UI with extremely limited overhead. A couple of the most commonly used are Dapperxox, Redoc, and Swagger UI. 
+                        Using any of those three will get your clients up and running with the only work on your part being linking the specification to the rendering tool.
+                    </p>
+                    <pre className="flexItem">
+                        <code>
+                            {JSON.stringify({
+                                "info": {
+                                    "version": "1.0.0",
+                                    "title": "My Resort API",
+                                    "description": "API for finding information about the resort"
+                                },
+                                "schemes": [
+                                    "https"
+                                ],
+                                "basePath": "/v1",
+                                "host": "api.myskicompany.com"
+                            },null,2)}
+                        </code>
+                    </pre>
+                </div>
+            </div>,
+            <div>
+                <h3>More Resources</h3>
+                If you like this process and are interested in seeing a final view of a full specification file, a great example of this can be found at  
+                <a href="https://github.com/OAI/OpenAPI-Specification/blob/master/examples/v2.0/json/petstore-simple.json" target="_blank" rel="noopener noreferrer" > Full Sample Swagger: Simple Pet Store</a>.
+                The other supported format for these files is YAML so you'll find examples of both throughout GitHub. 
+            </div>
+        ],
+        image: [PetstoreSite]
+    },
+    {
+        i: 4,
+        visibility: "private",
+        title: ""
+    },
+    {
+        id: 5,
+        visibility: "private",
+        title: "2020: A Year of Learning",
+        date: "12/25/2020",
+        preview: "A recap of some of the simple, hard, and exciting concepts I started learning in the year of COVID-19 ",
+        content: [
+            <div>
+                <h2>Kubernetes</h2>
+                <p>TODO</p>
+            </div>,
+            <div>
+                <h2>API Design</h2>
+                <p>TODO</p>
+            </div>,
+            <div>
+                <h2>Knowledge Graphs</h2>
+                <p>TODO</p>
+            </div>,
+            <div>
+                <h2>Networking</h2>
+                <p>TODO</p>
+            </div>,
+            <div>
+                <h2>Prometheus / Grafana</h2>
+                <p>TODO</p>
+            </div>,
+            <div>
+                <h2>AWS</h2>
+                <p>TODO</p>
             </div>
         ],
         image: []
     },
     {
-        id: 4,
+        id: 6,
         visibility: "private",
         title: "Intro to Kubernetes and Containerized System Design",
         date: "//2020",

@@ -6,11 +6,11 @@ import blogs from '../Data/blogData'
 
 function BlogPageView(props){
     let blog_id_param = props.match.params.blogId
-    if(isNaN(parseInt(blog_id_param))){
+    let blog_id = parseInt(blog_id_param)
+    if(isNaN(blog_id)){
         return(<PageNotFoundView />)
     }
-    pageView('/blogs/'+blog_id_param)
-    let blog_id = parseInt(blog_id_param)
+    pageView('/blogs/'+blog_id)
     let blog_selected = blogs.filter(b => (b.id === blog_id))
     console.log(blog_selected.length)
     if(blog_selected.length !== 1){

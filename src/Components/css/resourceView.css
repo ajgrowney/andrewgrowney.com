@@ -8,6 +8,39 @@
     margin-bottom: 1rem;
 }
 
+.flexContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: auto;
+    width: 100%;
+    margin: 0 auto;
+}
+.flexItem{
+    width: 100%;
+    max-width: 600px;
+}
+pre.flexItem{
+    background-color: black;
+    color: white;
+}
+.flexItem code{
+    font-size: small;
+}
+.imageSetContainer {
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.imageSetitem{
+    width: 100%;
+    align-self: center;
+    max-width: 600px;
+    max-height: 400px;
+}
+
 @media (max-width: 760px){
     .resourceBody{
         margin-left: 2rem;

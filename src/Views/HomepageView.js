@@ -9,6 +9,7 @@ import './css/homepage.css';
 
 const aboutText = "Working towards the title critical thinker before Software Engineer. I work on projects to help out friends, push my skills and abilities, expand my horizons, and have a lot of fun. " +
     "After starting my career as a Software Engineer, I try to work with quality design and documentation at the forefront of each project I work on. " +
+    "Thinking about analytics and performance at scale is the biggest piece of that design. " +
     "As I have encountered different problems, I have had to pick up new languages, learn new technologies, and study everything from data structures to algorithms to quantum mechanics. My experience has given me skills in, but not limited to these."
 
 

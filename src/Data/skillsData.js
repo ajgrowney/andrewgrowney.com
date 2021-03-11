@@ -17,10 +17,11 @@ const skills = [
             ".NET",
             "Bash",
             "SQL",
+            "Kafka",
+            "Prometheus",
             "Azure Pipelines",
             "Google Firebase",
-            "Haskell",
-            "C",
+            "Haskell"
         ]
     },
     {
@@ -45,7 +46,6 @@ const skills = [
             "Javascript (ECMAScript 6)",
             "Node.js",
             "React.js",
-            "Bootstrap",
             "HTML5 & CSS3",
             "Electron.js"
         ]

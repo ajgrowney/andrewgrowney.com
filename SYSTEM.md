@@ -2,6 +2,10 @@
 
 
 ## Defined Interactions
+### Resource Types
+- Projects
+- Blogs
+
 ### Users and Views
 - If the user goes to a `/{resource}` page
     - Display means of navigating all available items in that resource type AND a summary of them
