@@ -1,10 +1,13 @@
 import React from 'react'
+import Helmet from 'react-helmet';
 import { pageView } from '../Components/js/Analytics'
 import PageNotFoundView from './NotFoundView'
 import { ResourceView } from '../Components/js'
 import blogs from '../Data/blogData'
 
 function BlogPageView(props){
+    let headerElement = props.headEl;
+    console.log(headerElement)
     let blog_id_param = props.match.params.blogId
     let blog_id = parseInt(blog_id_param)
     if(isNaN(blog_id)){
@@ -41,8 +44,12 @@ function BlogPageView(props){
 
     return(
         <div id="root">
-            <meta id="og-image" property="og:image" content={blog_selected.image} />
-            <meta id="og-description" property="og:description" content={blog_selected.title} />
+            <Helmet>
+                <title>{blog_selected.title}</title>
+                <meta name="image" property="og:image" content={blog_selected.image} />
+                <meta name="description" property="og:description" content={blog_selected.title} />
+                <meta name="author" content="Andrew Growney" />
+            </Helmet>
             <ResourceView resourceType={"Blogs"} nav={navContent} header={headerContent} resource={blog_selected.content} />
         </div>
     )
