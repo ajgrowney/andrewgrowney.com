@@ -7,10 +7,11 @@ import '../css/header.css'
 
 function ImageCarousel(props){
     let { images } = props;
+    console.log(images)
     let carouselElements
     carouselElements = images.map((im) => 
-        <div key={im} className='carousel-inner'>
-            <Image className="header_imageObject" src={im} alt="Profile Picture" roundedCircle={props.round} />
+        <div key={im.url} className='carousel-inner'>
+            <Image className="header_imageObject" src={im.content} alt="Profile Picture" roundedCircle={props.round} />
         </div>
     )
 
