@@ -11,7 +11,7 @@ function GetNavsToDisplay(nav_sets)
     if(navSet.type === "Dropdown")
     {
       return(
-        <NavDropdown title={navSet.title} className={(navSet.active)? "active": ""}>{
+        <NavDropdown key={navSet.title} title={navSet.title} className={(navSet.active)? "active": ""}>{
           navSet.links.map((link) =>
               <NavDropdown.Item key={link.text}
                 className={"navLink"}

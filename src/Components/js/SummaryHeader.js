@@ -10,16 +10,16 @@ function ImageCarousel(props){
     console.log(images)
     let carouselElements
     carouselElements = images.map((im) => 
-        <div key={im.url} className='carousel-inner'>
-            <Image className="header_imageObject" src={im.content} alt="Profile Picture" roundedCircle={props.round} />
-        </div>
+        <Carousel.Item key={im} className='carousel-inner'>
+            <Image className="header_imageObject" src={im} alt="Profile Picture" roundedCircle={props.round} />
+        </Carousel.Item>
     )
 
     if(images.length > 1)
     {
-        return (<Carousel className="header_image">{carouselElements}</Carousel>)
+        return (<Carousel className="header_image" interval={3000}>{carouselElements}</Carousel>)
     }else {
-        return(<div className="header_image">{carouselElements}</div>)
+        return(<div className="header_image"><div><Image className="header_imageObject" src={images[0]} roundedCircle={props.round} /></div></div>)
     }
 }
 
