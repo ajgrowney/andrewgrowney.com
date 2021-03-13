@@ -9,16 +9,16 @@ function ImageCarousel(props){
     let { images } = props;
     let carouselElements
     carouselElements = images.map((im) => 
-        <div key={im} className='carousel-inner'>
+        <Carousel.Item key={im} className='carousel-inner'>
             <Image className="header_imageObject" src={im} alt="Profile Picture" roundedCircle={props.round} />
-        </div>
+        </Carousel.Item>
     )
-
+    
     if(images.length > 1)
     {
         return (<Carousel className="header_image">{carouselElements}</Carousel>)
     }else {
-        return(<div className="header_image">{carouselElements}</div>)
+        return(<div className="header_image"><div><Image className="header_imageObject" src={images[0]} /></div></div>)
     }
 }
 
