@@ -283,7 +283,23 @@ const blogs = [
     {
         i: 4,
         visibility: "private",
-        title: ""
+        title: "March Madness ML",
+        date: "4/26/2021",
+        preview: "The machine learning project that took me from last to first in back-to-back years of the March Madness bracket challenge",
+        content: [
+            <div>
+                <h3>Motivation</h3>
+            </div>,
+            <div>
+                <h3>Project Approach</h3>
+            </div>,
+            <div>
+                <h3>Results</h3>
+            </div>,
+            <div>
+                <h3>Conclusions</h3>
+            </div>
+        ]
     },
     {
         id: 5,

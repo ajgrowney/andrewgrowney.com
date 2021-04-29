@@ -62,6 +62,17 @@ const data = [
         "images": [],
         "languages": ["Javascript", "React.js", "AWS Route 53", "AWS S3", "React-Bootsrap", "CSS"],
         "visibility": "public"
+    },
+    {
+        "id": 6, 
+        "title": "March Madness ML",
+        "summary": "Machine learning",
+        "description": "Test. Lets see if i write more text.Lets see if i write more text.Lets see if i write more text.Lets see if i write more text.Lets see if i write more text.Lets see if i write more text.",
+        "time": "March 2021 - Present",
+        "url": "https://github.com/ajgrowney/march-madness-ml",
+        "images": [],
+        "languages": ["Python", "Scikit Learn", "Pandas", "Tensorflow"],
+        "visibility": "public"
     }
 ]
 
