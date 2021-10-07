@@ -1,4 +1,4 @@
-import { SkillSession_Login, SkillSession_Idea } from '../Images'
+import { SkillSession_Login, SkillSession_Idea } from '../images'
 
 const data = [
     {

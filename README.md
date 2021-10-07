@@ -1,6 +1,9 @@
 # Personal Website
-
+## Initial Goal
 Built with React in a 6 hour challenge. Now maintained consistently as a personal portfolio and resume. Also potentially to be used for different types of future content.
+
+## v2 Site Update (10/1/2021)
+Migrated from a create-react-app project to GatsbyJs. This was an important goal in order to provide the performance and meta tags for blog posts.
 
 ## Reason to Visit Page
 ### Homepage (url: /)

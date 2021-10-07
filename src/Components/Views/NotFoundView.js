@@ -1,6 +1,6 @@
 import React from 'react'
 import Button from 'react-bootstrap/Button'
-import { BaseSection, Nav } from '../Components/js'
+import { BaseSection, Nav } from '../js'
 function NotFoundView(props){
     let links = [
         { type: "SingleLink", title: "Home", pageRef: "/" },

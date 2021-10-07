@@ -1,4 +1,4 @@
-import { githubLogo, linkedinLogo, hackerrankLogo } from '../Images'
+import { githubLogo, linkedinLogo, hackerrankLogo } from '../images'
 
 const data = [
     { "alt": "Github Logo", "src": githubLogo, "href": "https://github.com/ajgrowney" },

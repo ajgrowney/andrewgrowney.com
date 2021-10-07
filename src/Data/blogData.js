@@ -1,7 +1,7 @@
 import React from 'react'
-import ImageSet from '../Components/js/ImageSet';
-import { CacheBlogImage, FirstInternImage, DevOpsBlogImage } from '../Images'
-import { APIDevCycle, PetstoreDetails, PetstoreSite, SampleSwagger } from '../Images/Blogs/DesignFirstAPI'
+import ImageSet from '../components/js/ImageSet';
+import { CacheBlogImage, FirstInternImage, DevOpsBlogImage } from '../images'
+import { APIDevCycle, PetstoreSite, SampleSwagger } from '../images/Blogs/DesignFirstAPI'
 
 const blogs = [
     {
@@ -212,7 +212,7 @@ const blogs = [
                                                 "blue",
                                                 "black"
                                             ],
-                                            "description": "Filter the return list to only slopes of a specific difficulty rating",
+                                            "description": "Filter the return list by difficulty rating",
                                             "required": false
                                         }
                                     ],

@@ -1,10 +1,15 @@
 import ReactGA from 'react-ga';
 
+const isBrowser = typeof window !== "undefined"
+
 function pageView(page){
-    if(window.location.hostname !== "localhost")
+    if(isBrowser)
     {
-        ReactGA.initialize('UA-136977966-1')
-        ReactGA.pageview(page);
+        if(window.location.hostname !== "localhost")
+        {
+            ReactGA.initialize('UA-136977966-1')
+            ReactGA.pageview(page);
+        }
     }
 }
 

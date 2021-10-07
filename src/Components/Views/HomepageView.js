@@ -1,10 +1,10 @@
 import React from 'react';
-import { pageView } from '../Components/js/Analytics'
+import { pageView } from '../js/Analytics'
 
-import { BaseSection, SummaryView } from '../Components/js'
-import { About, Contact, Projects, Work } from '../Components/Homepage/js'
-import { ProjectData, JobData, SkillData, SocialLinksData } from '../Data/'
-import { ProfilePhoto } from '../Images'
+import { BaseSection, SummaryView } from '../js'
+import { About, Contact, Projects, Work } from '../Homepage/js'
+import { ProjectData, JobData, SkillData, SocialLinksData } from '../../Data'
+import { ProfilePhoto } from '../../images'
 import './css/homepage.css';
 
 const aboutText = "Working towards the title critical thinker before Software Engineer. I work on projects to help out friends, push my skills and abilities, expand my horizons, and have a lot of fun. " +

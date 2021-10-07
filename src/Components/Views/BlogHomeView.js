@@ -1,8 +1,8 @@
 import React from 'react'
-import { pageView } from '../Components/js/Analytics'
+import { pageView } from '../js/Analytics'
 import Button from 'react-bootstrap/Button';
-import { BaseSection, SummaryView } from '../Components/js'
-import blogs from '../Data/blogData'
+import { BaseSection, SummaryView } from '../js'
+import blogs from '../../Data/blogData'
 import './css/projectPage.css'
 
 function BlogPreviewSection(b){

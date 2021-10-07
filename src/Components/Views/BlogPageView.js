@@ -1,13 +1,14 @@
 import React from 'react'
 import Helmet from 'react-helmet';
-import { pageView } from '../Components/js/Analytics'
+import { pageView } from '../js/Analytics'
 import PageNotFoundView from './NotFoundView'
-import { ResourceView } from '../Components/js'
-import blogs from '../Data/blogData'
+import { ResourceView } from '../js'
+import blogs from '../../Data/blogData'
 
 function BlogPageView(props){
     let headerElement = props.headEl;
     console.log(headerElement)
+    console.log(props)
     let blog_id_param = props.match.params.blogId
     let blog_id = parseInt(blog_id_param)
     if(isNaN(blog_id)){

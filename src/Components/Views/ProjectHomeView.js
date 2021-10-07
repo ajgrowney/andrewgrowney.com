@@ -1,11 +1,11 @@
 import React from 'react'
-import { pageView } from '../Components/js/Analytics'
+import { pageView } from '../js/Analytics'
 import Navbar from 'react-bootstrap/Navbar'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
-import { BaseSection, SummaryView } from '../Components/js'
-import project_data from '../Data/projectData'
+import { BaseSection, SummaryView } from '../js'
+import project_data from '../../Data/projectData'
 import './css/projectPage.css'
 import 'bootstrap/dist/css/bootstrap.css'
 
@@ -39,7 +39,7 @@ function ProjectSearchBar() {
 function ProjectHome(props) {
   pageView('/projects')
   const allProjects = project_data
-  const featuredIndex = props.featuredIndex || 4
+  const featuredIndex = (typeof props.featuredIndex !== undefined) ? props.featuredIndex : 4
   const featuredProject = project_data.find((proj) => proj.id === featuredIndex)
 
   // Nav

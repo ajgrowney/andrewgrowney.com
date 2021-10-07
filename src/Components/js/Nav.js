@@ -2,6 +2,7 @@ import React from 'react'
 import Navbar from 'react-bootstrap/Navbar'
 import NavDropdown from 'react-bootstrap/NavDropdown'
 import Nav from 'react-bootstrap/Nav'
+import { Link } from 'gatsby'
 import 'bootstrap/dist/css/bootstrap.css'
 import '../css/nav.css'
 
@@ -25,9 +26,9 @@ function GetNavsToDisplay(nav_sets)
     } else if (navSet.type === "SingleLink") {
       return(
         <Nav.Item key={navSet.title} className={(navSet.active) ? "active": ""}>
-          <Nav.Link key={navSet.title} className="navLink" href={navSet.pageRef}>
-            {navSet.title}
-          </Nav.Link>
+            <Link key={navSet.title} className="nav-link" href={navSet.pageRef}>
+              {navSet.title}
+            </Link>
         </Nav.Item>
       )
     } else {
