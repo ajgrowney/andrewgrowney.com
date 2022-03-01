@@ -1,0 +1,1 @@
+{"version":3,"file":"component---src-pages-index-js-1496768ebcdf00cca94e.js","mappings":"kJAGA,UADiB,kBAAM,gBAAC,KAAD","sources":["webpack://andrewgrowney/./src/pages/index.js"],"sourcesContent":["import React from 'react'\nimport { HomepageView } from '../components/Views'\nconst HomePage = () => <HomepageView />\nexport default HomePage"],"names":[],"sourceRoot":""}

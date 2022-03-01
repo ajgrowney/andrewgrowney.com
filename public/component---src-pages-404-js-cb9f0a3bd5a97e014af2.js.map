@@ -1,0 +1,1 @@
+{"version":3,"file":"component---src-pages-404-js-cb9f0a3bd5a97e014af2.js","mappings":"kJAGA,UADiB,kBAAM,gBAAC,KAAD","sources":["webpack://andrewgrowney/./src/pages/404.js"],"sourcesContent":["import React from \"react\";\nimport { NotFoundView  } from \"../components/Views\";\nconst NotFound = () => <NotFoundView />\nexport default NotFound;"],"names":[],"sourceRoot":""}
