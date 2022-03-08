@@ -284,7 +284,7 @@ const blogs = [
         id: 4,
         visibility: "public",
         featured: true,
-        title: "YDKDK: The Machine Learning Behind Your March Madness Picks",
+        title: "YDKYK: The Machine Learning Behind Your March Madness Picks",
         date: "3/1/2022",
         preview: "First post in the series: You Didn't Know You Know. We walk sports fans through the process of picking their March Madness bracket to show them that they might know more about machine learning than they think",
         content: [

@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkandrewgrowney=self.webpackChunkandrewgrowney||[]).push([[873],{8718:function(e,n,r){r.r(n);var a=r(7294),t=r(3338);n.default=function(){return a.createElement(t.wL,{match:{params:{blogId:4}}})}}}]);
-//# sourceMappingURL=component---src-pages-blogs-4-js-c89d239cfcadee27b6a6.js.map

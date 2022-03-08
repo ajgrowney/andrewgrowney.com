@@ -1,0 +1,75 @@
+.matchupView {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    min-height: 100vh;
+}
+.selectorContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    width: 60vw;
+}
+.matchupContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width: 80vw;
+}
+
+.teamItem {
+    background-color: #E9E9E9;
+    min-height: 40vh;
+    max-height: 40vh;
+    min-width: 25vw;
+}
+.selectTeamItem {
+    background-color: #E9E9E9;
+    min-height: 40vh;
+    max-height: 40vh;
+    min-width: 25vw;
+}
+
+.teamItem .teamItemBody {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow-x: scroll;
+}
+.teamItemFeatures {
+    overflow-y: scroll;
+}
+.matchupResultsContainer {
+    background-color: #E9E9E9;
+    text-align: center;
+    min-width: 33vw;
+}
+
+@media (max-width: 760px){
+    .selectorContainer {
+        display: flex;
+        flex-direction: column;
+    }
+    .matchupContainer {
+        flex-direction: column;
+    }
+
+    .teamItem {
+        min-height: 25vh;
+        min-width: 80vw;
+    }
+    .selectTeamItem {
+        min-height: 25vh;
+        min-width: 80vw;
+    }
+
+    .matchupResultsContainer {
+        min-width: 50vw;
+    }
+}
