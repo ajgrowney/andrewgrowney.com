@@ -1,0 +1,686 @@
+{
+    "1985": [
+        {
+            "Prefix": "W",
+            "Name": "East"
+        },
+        {
+            "Prefix": "X",
+            "Name": "West"
+        },
+        {
+            "Prefix": "Y",
+            "Name": "Midwest"
+        },
+        {
+            "Prefix": "Z",
+            "Name": "Southeast"
+        }
+    ],
+    "1986": [
+        {
+            "Prefix": "W",
+            "Name": "East"
+        },
+        {
+            "Prefix": "X",
+            "Name": "Midwest"
+        },
+        {
+            "Prefix": "Y",
+            "Name": "Southeast"
+        },
+        {
+            "Prefix": "Z",
+            "Name": "West"
+        }
+    ],
+    "1987": [
+        {
+            "Prefix": "W",
+            "Name": "East"
+        },
+        {
+            "Prefix": "X",
+            "Name": "Southeast"
+        },
+        {
+            "Prefix": "Y",
+            "Name": "Midwest"
+        },
+        {
+            "Prefix": "Z",
+            "Name": "West"
+        }
+    ],
+    "1988": [
+        {
+            "Prefix": "W",
+            "Name": "East"
+        },
+        {
+            "Prefix": "X",
+            "Name": "Midwest"
+        },
+        {
+            "Prefix": "Y",
+            "Name": "Southeast"
+        },
+        {
+            "Prefix": "Z",
+            "Name": "West"
+        }
+    ],
+    "1989": [
+        {
+            "Prefix": "W",
+            "Name": "East"
+        },
+        {
+            "Prefix": "X",
+            "Name": "West"
+        },
+        {
+            "Prefix": "Y",
+            "Name": "Midwest"
+        },
+        {
+            "Prefix": "Z",
+            "Name": "Southeast"
+        }
+    ],
+    "1990": [
+        {
+            "Prefix": "W",
+            "Name": "East"
+        },
+        {
+            "Prefix": "X",
+            "Name": "Midwest"
+        },
+        {
+            "Prefix": "Y",
+            "Name": "Southeast"
+        },
+        {
+            "Prefix": "Z",
+            "Name": "West"
+        }
+    ],
+    "1991": [
+        {
+            "Prefix": "W",
+            "Name": "East"
+        },
+        {
+            "Prefix": "X",
+            "Name": "Southeast"
+        },
+        {
+            "Prefix": "Y",
+            "Name": "Midwest"
+        },
+        {
+            "Prefix": "Z",
+            "Name": "West"
+        }
+    ],
+    "1992": [
+        {
+            "Prefix": "W",
+            "Name": "East"
+        },
+        {
+            "Prefix": "X",
+            "Name": "West"
+        },
+        {
+            "Prefix": "Y",
+            "Name": "Midwest"
+        },
+        {
+            "Prefix": "Z",
+            "Name": "Southeast"
+        }
+    ],
+    "1993": [
+        {
+            "Prefix": "W",
+            "Name": "East"
+        },
+        {
+            "Prefix": "X",
+            "Name": "Midwest"
+        },
+        {
+            "Prefix": "Y",
+            "Name": "Southeast"
+        },
+        {
+            "Prefix": "Z",
+            "Name": "West"
+        }
+    ],
+    "1994": [
+        {
+            "Prefix": "W",
+            "Name": "East"
+        },
+        {
+            "Prefix": "X",
+            "Name": "Southeast"
+        },
+        {
+            "Prefix": "Y",
+            "Name": "Midwest"
+        },
+        {
+            "Prefix": "Z",
+            "Name": "West"
+        }
+    ],
+    "1995": [
+        {
+            "Prefix": "W",
+            "Name": "East"
+        },
+        {
+            "Prefix": "X",
+            "Name": "West"
+        },
+        {
+            "Prefix": "Y",
+            "Name": "Midwest"
+        },
+        {
+            "Prefix": "Z",
+            "Name": "Southeast"
+        }
+    ],
+    "1996": [
+        {
+            "Prefix": "W",
+            "Name": "East"
+        },
+        {
+            "Prefix": "X",
+            "Name": "Midwest"
+        },
+        {
+            "Prefix": "Y",
+            "Name": "Southeast"
+        },
+        {
+            "Prefix": "Z",
+            "Name": "West"
+        }
+    ],
+    "1997": [
+        {
+            "Prefix": "W",
+            "Name": "East"
+        },
+        {
+            "Prefix": "X",
+            "Name": "Southeast"
+        },
+        {
+            "Prefix": "Y",
+            "Name": "Midwest"
+        },
+        {
+            "Prefix": "Z",
+            "Name": "West"
+        }
+    ],
+    "1998": [
+        {
+            "Prefix": "W",
+            "Name": "East"
+        },
+        {
+            "Prefix": "X",
+            "Name": "West"
+        },
+        {
+            "Prefix": "Y",
+            "Name": "Midwest"
+        },
+        {
+            "Prefix": "Z",
+            "Name": "South"
+        }
+    ],
+    "1999": [
+        {
+            "Prefix": "W",
+            "Name": "East"
+        },
+        {
+            "Prefix": "X",
+            "Name": "Midwest"
+        },
+        {
+            "Prefix": "Y",
+            "Name": "South"
+        },
+        {
+            "Prefix": "Z",
+            "Name": "West"
+        }
+    ],
+    "2000": [
+        {
+            "Prefix": "W",
+            "Name": "East"
+        },
+        {
+            "Prefix": "X",
+            "Name": "South"
+        },
+        {
+            "Prefix": "Y",
+            "Name": "Midwest"
+        },
+        {
+            "Prefix": "Z",
+            "Name": "West"
+        }
+    ],
+    "2001": [
+        {
+            "Prefix": "W",
+            "Name": "East"
+        },
+        {
+            "Prefix": "X",
+            "Name": "West"
+        },
+        {
+            "Prefix": "Y",
+            "Name": "Midwest"
+        },
+        {
+            "Prefix": "Z",
+            "Name": "South"
+        }
+    ],
+    "2002": [
+        {
+            "Prefix": "W",
+            "Name": "East"
+        },
+        {
+            "Prefix": "X",
+            "Name": "Midwest"
+        },
+        {
+            "Prefix": "Y",
+            "Name": "South"
+        },
+        {
+            "Prefix": "Z",
+            "Name": "West"
+        }
+    ],
+    "2003": [
+        {
+            "Prefix": "W",
+            "Name": "East"
+        },
+        {
+            "Prefix": "X",
+            "Name": "South"
+        },
+        {
+            "Prefix": "Y",
+            "Name": "Midwest"
+        },
+        {
+            "Prefix": "Z",
+            "Name": "West"
+        }
+    ],
+    "2004": [
+        {
+            "Prefix": "W",
+            "Name": "Atlanta"
+        },
+        {
+            "Prefix": "X",
+            "Name": "Phoenix"
+        },
+        {
+            "Prefix": "Y",
+            "Name": "EastRutherford"
+        },
+        {
+            "Prefix": "Z",
+            "Name": "StLouis"
+        }
+    ],
+    "2005": [
+        {
+            "Prefix": "W",
+            "Name": "Albuquerque"
+        },
+        {
+            "Prefix": "X",
+            "Name": "Chicago"
+        },
+        {
+            "Prefix": "Y",
+            "Name": "Austin"
+        },
+        {
+            "Prefix": "Z",
+            "Name": "Syracuse"
+        }
+    ],
+    "2006": [
+        {
+            "Prefix": "W",
+            "Name": "Atlanta"
+        },
+        {
+            "Prefix": "X",
+            "Name": "Oakland"
+        },
+        {
+            "Prefix": "Y",
+            "Name": "Minneapolis"
+        },
+        {
+            "Prefix": "Z",
+            "Name": "WashingtonDC"
+        }
+    ],
+    "2007": [
+        {
+            "Prefix": "W",
+            "Name": "East"
+        },
+        {
+            "Prefix": "X",
+            "Name": "South"
+        },
+        {
+            "Prefix": "Y",
+            "Name": "Midwest"
+        },
+        {
+            "Prefix": "Z",
+            "Name": "West"
+        }
+    ],
+    "2008": [
+        {
+            "Prefix": "W",
+            "Name": "East"
+        },
+        {
+            "Prefix": "X",
+            "Name": "Midwest"
+        },
+        {
+            "Prefix": "Y",
+            "Name": "South"
+        },
+        {
+            "Prefix": "Z",
+            "Name": "West"
+        }
+    ],
+    "2009": [
+        {
+            "Prefix": "W",
+            "Name": "East"
+        },
+        {
+            "Prefix": "X",
+            "Name": "South"
+        },
+        {
+            "Prefix": "Y",
+            "Name": "Midwest"
+        },
+        {
+            "Prefix": "Z",
+            "Name": "West"
+        }
+    ],
+    "2010": [
+        {
+            "Prefix": "W",
+            "Name": "East"
+        },
+        {
+            "Prefix": "X",
+            "Name": "South"
+        },
+        {
+            "Prefix": "Y",
+            "Name": "Midwest"
+        },
+        {
+            "Prefix": "Z",
+            "Name": "West"
+        }
+    ],
+    "2011": [
+        {
+            "Prefix": "W",
+            "Name": "East"
+        },
+        {
+            "Prefix": "X",
+            "Name": "West"
+        },
+        {
+            "Prefix": "Y",
+            "Name": "Southeast"
+        },
+        {
+            "Prefix": "Z",
+            "Name": "Southwest"
+        }
+    ],
+    "2012": [
+        {
+            "Prefix": "W",
+            "Name": "East"
+        },
+        {
+            "Prefix": "X",
+            "Name": "Midwest"
+        },
+        {
+            "Prefix": "Y",
+            "Name": "South"
+        },
+        {
+            "Prefix": "Z",
+            "Name": "West"
+        }
+    ],
+    "2013": [
+        {
+            "Prefix": "W",
+            "Name": "East"
+        },
+        {
+            "Prefix": "X",
+            "Name": "South"
+        },
+        {
+            "Prefix": "Y",
+            "Name": "Midwest"
+        },
+        {
+            "Prefix": "Z",
+            "Name": "West"
+        }
+    ],
+    "2014": [
+        {
+            "Prefix": "W",
+            "Name": "East"
+        },
+        {
+            "Prefix": "X",
+            "Name": "South"
+        },
+        {
+            "Prefix": "Y",
+            "Name": "Midwest"
+        },
+        {
+            "Prefix": "Z",
+            "Name": "West"
+        }
+    ],
+    "2015": [
+        {
+            "Prefix": "W",
+            "Name": "East"
+        },
+        {
+            "Prefix": "X",
+            "Name": "South"
+        },
+        {
+            "Prefix": "Y",
+            "Name": "Midwest"
+        },
+        {
+            "Prefix": "Z",
+            "Name": "West"
+        }
+    ],
+    "2016": [
+        {
+            "Prefix": "W",
+            "Name": "East"
+        },
+        {
+            "Prefix": "X",
+            "Name": "Midwest"
+        },
+        {
+            "Prefix": "Y",
+            "Name": "South"
+        },
+        {
+            "Prefix": "Z",
+            "Name": "West"
+        }
+    ],
+    "2017": [
+        {
+            "Prefix": "W",
+            "Name": "East"
+        },
+        {
+            "Prefix": "X",
+            "Name": "West"
+        },
+        {
+            "Prefix": "Y",
+            "Name": "Midwest"
+        },
+        {
+            "Prefix": "Z",
+            "Name": "South"
+        }
+    ],
+    "2018": [
+        {
+            "Prefix": "W",
+            "Name": "East"
+        },
+        {
+            "Prefix": "X",
+            "Name": "Midwest"
+        },
+        {
+            "Prefix": "Y",
+            "Name": "South"
+        },
+        {
+            "Prefix": "Z",
+            "Name": "West"
+        }
+    ],
+    "2019": [
+        {
+            "Prefix": "W",
+            "Name": "East"
+        },
+        {
+            "Prefix": "X",
+            "Name": "West"
+        },
+        {
+            "Prefix": "Y",
+            "Name": "Midwest"
+        },
+        {
+            "Prefix": "Z",
+            "Name": "South"
+        }
+    ],
+    "2020": [
+        {
+            "Prefix": "W",
+            "Name": "NA1"
+        },
+        {
+            "Prefix": "X",
+            "Name": "NA2"
+        },
+        {
+            "Prefix": "Y",
+            "Name": "NA3"
+        },
+        {
+            "Prefix": "Z",
+            "Name": "NA4"
+        }
+    ],
+    "2021": [
+        {
+            "Prefix": "W",
+            "Name": "East"
+        },
+        {
+            "Prefix": "X",
+            "Name": "West"
+        },
+        {
+            "Prefix": "Y",
+            "Name": "Midwest"
+        },
+        {
+            "Prefix": "Z",
+            "Name": "South"
+        }
+    ],
+    "2022": [
+        {
+            "Prefix": "W",
+            "Name": "TBD"
+        },
+        {
+            "Prefix": "X",
+            "Name": "TBD"
+        },
+        {
+            "Prefix": "Y",
+            "Name": "TBD"
+        },
+        {
+            "Prefix": "Z",
+            "Name": "TBD"
+        }
+    ]
+}

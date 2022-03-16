@@ -67,7 +67,7 @@ const data = [
         "id": 6, 
         "title": "March Madness ML",
         "summary": "Machine learning",
-        "description": "Test. Lets see if i write more text.Lets see if i write more text.Lets see if i write more text.Lets see if i write more text.Lets see if i write more text.Lets see if i write more text.",
+        "description": "As a college basketball fan, it doesn't get better than March Madness. Having ML experience, it's too tempting to not give each year's Kaggle Competition a shot.",
         "time": "March 2021 - Present",
         "url": "https://github.com/ajgrowney/march-madness-ml",
         "images": [],

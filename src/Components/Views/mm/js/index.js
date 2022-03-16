@@ -1,4 +1,5 @@
 import HomePage from './MarchMadnessHomeView'
+import BracketPage from './Bracket'
 import MatchupPage from './Matchup'
 
-export { HomePage, MatchupPage }
+export { HomePage, BracketPage, MatchupPage }

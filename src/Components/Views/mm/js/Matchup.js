@@ -2,10 +2,10 @@ import React, { useState } from 'react'
 import Card from 'react-bootstrap/Card'
 import Select from 'react-select';
 import Dropdown from 'react-bootstrap/Dropdown'
+import Nav from '../../../js/Nav'
 import teamData from '../../../../Data/mm/teams'
-import linear_svc_pred from '../../../../Data/mm/predictions/linear_svc'
-import poly_svc_1_pred from '../../../../Data/mm/predictions/poly_svc_1'
-import poly_svc_2_pred from '../../../../Data/mm/predictions/poly_svc_2'
+import teamSeeds from '../../../../Data/mm/teamSeeds'
+import model_info_map from '../../../../Data/mm/model_info';
 import full_features_2021 from "../../../../Data/mm/features/2021/all_models"
 import '../css/matchup.css'
 import 'bootstrap/dist/css/bootstrap.css'
@@ -13,33 +13,11 @@ import { Button } from 'react-bootstrap'
 
 const DEFAULT_MODEL = "linear_svc"
 const DEFAULT_SEASON = 2021
-const SEASON_LIST = [2021]
+const SEASON_LIST = [2019, 2021]
 const feature_set_map = {
     "full": full_features_2021
 }
-const model_info_map = {
-    "coin": {
-        "features": "full"
-    },
-    "linear_svc": {
-        name: "Linear SVC",
-        id: "linear_svc",
-        "predictions": linear_svc_pred,
-        "features": "full"
-    },
-    "poly_svc_1": {
-        name: "Poly Kernel SVC 1",
-        id: "poly_svc_1",
-        "predictions": poly_svc_1_pred,
-        "features": "full"
-    },
-    "poly_svc_2": {
-        name: "Poly Kernel SVC 2",
-        id: "poly_svc_2",
-        "predictions": poly_svc_2_pred,
-        "features": "full"
-    }
-}
+
 function SelectTeam(model_id, season, setTeam, setTeamFeatures)
 {
     let selectHandler = (selectedOption) => {
@@ -53,8 +31,7 @@ function SelectTeam(model_id, season, setTeam, setTeamFeatures)
             if(teamFeatures){ setTeamFeatures(teamFeatures) }
         }   
     }
-
-    let options = teamData.map(x => ({value: x.name, label: x.name}))
+    let options = teamData.filter(x => Object.values(teamSeeds[season]).includes(String(x.id))).map(x => ({value: x.name, label: x.name}))
     return(
         <Card.Body className='teamItemBody'>
             <Select placeholder={'Select Team'} maxMenuHeight={200} options={options} onChange={selectHandler} />
@@ -75,9 +52,25 @@ function ModelSelector(selected, setModel)
         </Dropdown>
     )
 }
-function SeasonSelector(selected, setSeason)
+function SeasonSelector(selected, setSeason, team1, setTeam1, team2, setTeam2)
 {
-    let handler = (new_season) => { setSeason(new_season)}
+    let handler = (new_season) => { 
+        setSeason(new_season)
+        if(team1)
+        {
+            if(!Object.values(teamSeeds[new_season]).includes(String(team1.id)))
+            {
+                setTeam1(null)
+            }
+        }
+        if(team2)
+        {
+            if(!Object.values(teamSeeds[new_season]).includes(String(team2.id)))
+            {
+                setTeam2(null)
+            }
+        }
+    }
     return(
         <Dropdown class='selectorItem'>
             <Dropdown.Toggle>Season: {selected}</Dropdown.Toggle>
@@ -178,6 +171,13 @@ function MatchupResults(model, season, t1, t2)
 function Matchup()
 {
     let pageHeader = "Tournament Matchup"
+
+    let navContent = [
+        { type: "SingleLink", title: "Home", pageRef: "/" },
+        { type: "SingleLink", title: "March Madness", pageRef: "/marchmadness" },
+        { type: "SingleLink", title: "Bracket", pageRef: "/mm/bracket" }
+    ]
+
     let [model, setModel] = useState(DEFAULT_MODEL)
     let [season, setSeason] = useState(DEFAULT_SEASON)
     let [ t1, setTeam1 ] = useState(null)
@@ -191,12 +191,13 @@ function Matchup()
 
     return (
         <div>
+            <Nav navContent={navContent}/>
             <div className='matchupView'>
                 <div className='d-flex flex-column align-items-center'>
                     <h2>{pageHeader}</h2>
                     <div className='selectorContainer'>
                         {ModelSelector(model, setModel)}
-                        {SeasonSelector(season, setSeason)}
+                        {SeasonSelector(season, setSeason, t1, setTeam1, t2, setTeam2)}
                     </div>
                 </div>
                 <div className='matchupContainer'>
