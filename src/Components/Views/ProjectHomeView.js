@@ -1,5 +1,4 @@
 import React from 'react'
-import { pageView } from '../js/Analytics'
 import Navbar from 'react-bootstrap/Navbar'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
@@ -37,7 +36,6 @@ function ProjectSearchBar() {
 }
 
 function ProjectHome(props) {
-  pageView('/projects')
   const allProjects = project_data
   const featuredIndex = (typeof props.featuredIndex !== undefined) ? props.featuredIndex : 4
   const featuredProject = project_data.find((proj) => proj.id === featuredIndex)

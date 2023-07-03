@@ -10,16 +10,18 @@ import tourneySlots from '../../../../Data/mm/tourneySlots'
 import slotResults from '../../../../Data/mm/slotResults'
 import model_info_map from '../../../../Data/mm/model_info'
 import full_features_2021 from "../../../../Data/mm/features/2021/all_models"
+import full_features_2022 from "../../../../Data/mm/features/2022/all_models"
 import '../css/bracket.css'
 import 'bootstrap/dist/css/bootstrap.css'
 
-const DEFAULT_MODEL = "linear_svc"
-const DEFAULT_SEASON = 2021
-const SEASON_LIST = [2015, 2016, 2017, 2018, 2019, 2021]
+const DEFAULT_MODEL = "2022_grid_poly_1"
+const DEFAULT_SEASON = 2022
+const SEASON_LIST = [2015, 2016, 2017, 2018, 2019, 2021, 2022]
 const feature_set_map = {
-    "full": full_features_2021
+    "full_2021": full_features_2021,
+    "full": full_features_2022
 }
-const selectTeamName = (t_id) => { return teamData.find(y => y.id == t_id).name }
+const selectTeamName = (t_id) => { return t_id ? teamData.find(y => y.id == t_id).name : '' }
 
 function ModelSelector(selected, setModel)
 {
@@ -68,8 +70,6 @@ function ViewSelector(fromBlank, setFromBlank)
     ]
     let selected = options.filter(x => x.val === fromBlank)[0].name
     let otherOptions = options.filter(x => x.val !== fromBlank)
-    console.log(selected)
-    console.log(otherOptions)
     return(
         <Dropdown class='selectorItem'>
             <Dropdown.Toggle>Fill: {selected}</Dropdown.Toggle>
@@ -119,6 +119,7 @@ const BracketRegion = (regionName, matchups, fromBlank = false) => {
                     t1 = (fromBlank) ? (x.pt1 ? x.pt1 : x.t1) : x.t1
                     t2 = (fromBlank) ? (x.pt2 ? x.pt2 : x.t2) : x.t2
                     let correctMatchup = (fromBlank) ? ((x.pt2 === x.t2) && (x.pt1 === x.t1)) : true
+                    console.log(`Slot ${x.pt1} ${x.pt2} ${x.t1} ${x.t2}: ${x.id} = ${t1} vs ${t2}`)
                     let t1Name = selectTeamName(t1)
                     let t2Name = selectTeamName(t2)
 
@@ -137,7 +138,7 @@ const BracketRegion = (regionName, matchups, fromBlank = false) => {
                             if((x.pt1) && (x.t1 == x.pt1))
                             {
                                 t1Class = 'correct'
-                            } else if ((x.predicted))
+                            } else if ((x.predicted) && x.t1)
                             {
                                 t1Class = 'incorrect'
                             }
@@ -145,13 +146,13 @@ const BracketRegion = (regionName, matchups, fromBlank = false) => {
                             if(x.pt2 && x.t2 == x.pt2)
                             {
                                 t2Class = 'correct'
-                            } else if(x.predicted)
+                            } else if(x.predicted && x.t2)
                             {
                                 t2Class = 'incorrect'
                             }
                         }
                         
-                    } else if (x.predicted) {
+                    } else if (x.predicted && x.t1 && x.t2 && x.winner) {
                         if (x.predicted == x.winner && x.winner == t1)
                         {
                             t1Class = 'correct'
@@ -295,6 +296,10 @@ const GetRegionMatchups = (prefix, season, model, fromBlank) => {
 const GetTournamentData = (season, model, fromBlank = false) =>
 {
     let results = []
+    if(season > model_info_map[model].max_pred_year || season < model_info_map[model].min_pred_year)
+    {
+        return []
+    }
     // Get Slots for the season's tournament 
     let seasonRegions = tourneyRegions[season]
 
@@ -330,7 +335,7 @@ function Bracket()
 
     let [model, setModel] = useState(DEFAULT_MODEL)
     let [season, setSeason] = useState(DEFAULT_SEASON)
-    let [fromBlank, setFromBlank] = useState(false)
+    let [fromBlank, setFromBlank] = useState(true)
 
     let regions = GetTournamentData(season, model, fromBlank)
     return (
@@ -346,7 +351,7 @@ function Bracket()
                     </div>
                 </div>
                 <div className='regionsContainer'>
-                    {regions.map(r => BracketRegion(r.name, r.matchups, fromBlank))}
+                    {(regions.length > 0) ? regions.map(r => BracketRegion(r.name, r.matchups, fromBlank)) : <div>This model hasn't predicted this season</div>}
                 </div>
             </div>
         </div>

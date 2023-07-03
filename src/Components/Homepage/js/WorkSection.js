@@ -8,7 +8,7 @@ function WorkSection(props) {
     let { jobs } = props || [];
 
     let jobTabComponents = jobs.map((job) =>
-        <Tab eventKey={job.id} title={job.tab_title} className="workCell">
+        <Tab key={job.id} eventKey={job.id} title={job.tab_title} className="workCell">
             <h5>{job.position} / {job.company} / {job.location}</h5>
             <h6>{job.start_date}-{job.end_date}</h6>
             {job.about}

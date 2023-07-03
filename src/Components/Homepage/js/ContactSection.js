@@ -13,7 +13,7 @@ function ContactSection(props){
     const { email } = props
     const emailButtonText = props.emailButtonText || "Email Me"
     const socialData = props.socialData
-    const socialLinks = socialData.map((social) => <a href={social.href}> <img src={social.src} alt={social.alt} /> </a>)
+    const socialLinks = socialData.map((social) => <a key={social.alt} href={social.href}> <img src={social.src} alt={social.alt} /> </a>)
 
     return (
         <div className="contactContainer">

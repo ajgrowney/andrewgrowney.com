@@ -1,5 +1,4 @@
 import React from 'react'
-import { pageView } from '../js/Analytics'
 import Button from 'react-bootstrap/Button';
 import { BaseSection, SummaryView } from '../js'
 import blogs from '../../Data/blogData'
@@ -23,7 +22,6 @@ function BlogPreviewSection(b){
 }
 
 function BlogHome(props){
-    pageView('/blogs')
     const featured_blog = blogs.filter(b => b.featured)[0]
     const nonfeatured_blogs = blogs.filter(b => !b.featured)
     const navContent = [

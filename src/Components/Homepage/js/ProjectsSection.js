@@ -39,7 +39,7 @@ function ProjectCard(props){
 
 function ProjectColumn(props){
     const projectColumn = props.column
-    const projectCardComponents = projectColumn.map((project) => <ProjectCard project={project} />)
+    const projectCardComponents = projectColumn.map((project) => <ProjectCard key={project.id} project={project} />)
 
     return(
         <CardColumns className="projectCardColumn">
@@ -56,8 +56,7 @@ function ProjectsSection(props){
     while(projects.length > 0){
         project_cols.push(projects.splice(0, projects_per_column))
     }
-    
-    let projectColumnComponents = project_cols.map((c) =>  <ProjectColumn column={c}/>)
+    let projectColumnComponents = project_cols.map((c, idx) =>  <ProjectColumn key={idx} column={c}/>)
 
     return(
         <div className="projectColumnContainer">

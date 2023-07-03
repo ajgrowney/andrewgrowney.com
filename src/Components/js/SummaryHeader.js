@@ -7,7 +7,6 @@ import '../css/header.css'
 
 function ImageCarousel(props){
     let { images } = props;
-    console.log(images)
     let carouselElements
     carouselElements = images.map((im) => 
         <Carousel.Item key={im} className='carousel-inner'>
@@ -30,12 +29,8 @@ function Header(props){
     
     return (
         <Jumbotron bg="dark" id="intro_id" className="jumboHeader">
-            <div className="header_title">
-                {titleContent.map(x => x)}
-            </div>
-            <div className="header_subtitle">
-                {subtitleContent.map(x => x)}
-            </div>
+            <div className="header_title">{titleContent.map(x => x)}</div>
+            <div className="header_subtitle">{subtitleContent.map(x => x)}</div>
             {HeaderImage}
         </Jumbotron>
     )

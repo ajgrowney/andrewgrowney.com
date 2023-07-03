@@ -7,7 +7,6 @@ import '../css/header.css'
 
 function ImageCarousel(props){
     let { images } = props;
-    console.log(images)
     let carouselElements
     carouselElements = images.map((im) => 
         <Carousel.Item key={im} className='carousel-inner'>
@@ -17,7 +16,6 @@ function ImageCarousel(props){
     
     if(images.length > 1)
     {
-        console.log("Carousel")
         return (<Carousel className="header_image">{carouselElements}</Carousel>)
     }else {
         return(<div className="header_image"><div><Image className="header_imageObject" src={images[0]} /></div></div>)

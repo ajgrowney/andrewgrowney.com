@@ -7,25 +7,25 @@ import teamData from '../../../../Data/mm/teams'
 import teamSeeds from '../../../../Data/mm/teamSeeds'
 import model_info_map from '../../../../Data/mm/model_info';
 import full_features_2021 from "../../../../Data/mm/features/2021/all_models"
+import full_features_2022 from "../../../../Data/mm/features/2022/all_models"
 import '../css/matchup.css'
 import 'bootstrap/dist/css/bootstrap.css'
 import { Button } from 'react-bootstrap'
 
-const DEFAULT_MODEL = "linear_svc"
-const DEFAULT_SEASON = 2021
-const SEASON_LIST = [2019, 2021]
+const DEFAULT_MODEL = "2022_grid_poly_1"
+const DEFAULT_SEASON = 2022
+const SEASON_LIST = [ 2022, 2021, 2019]
 const feature_set_map = {
-    "full": full_features_2021
+    "full_2021": full_features_2021,
+    "full": full_features_2022
 }
 
 function SelectTeam(model_id, season, setTeam, setTeamFeatures)
 {
     let selectHandler = (selectedOption) => {
-        console.log(selectedOption)
         let team = teamData.find(x => x.name.toUpperCase() === selectedOption.value.toUpperCase())
         if(team)
         {
-            console.log("Fetching "+ team.id+ " features for "+season)
             let teamFeatures = feature_set_map[model_info_map[model_id]["features"]][season][team.id]
             setTeam(team)
             if(teamFeatures){ setTeamFeatures(teamFeatures) }
@@ -56,20 +56,8 @@ function SeasonSelector(selected, setSeason, team1, setTeam1, team2, setTeam2)
 {
     let handler = (new_season) => { 
         setSeason(new_season)
-        if(team1)
-        {
-            if(!Object.values(teamSeeds[new_season]).includes(String(team1.id)))
-            {
-                setTeam1(null)
-            }
-        }
-        if(team2)
-        {
-            if(!Object.values(teamSeeds[new_season]).includes(String(team2.id)))
-            {
-                setTeam2(null)
-            }
-        }
+        setTeam1(null)
+        setTeam2(null)
     }
     return(
         <Dropdown class='selectorItem'>

@@ -668,19 +668,19 @@
     "2022": [
         {
             "Prefix": "W",
-            "Name": "TBD"
+            "Name": "East"
         },
         {
             "Prefix": "X",
-            "Name": "TBD"
+            "Name": "West"
         },
         {
             "Prefix": "Y",
-            "Name": "TBD"
+            "Name": "Midwest"
         },
         {
             "Prefix": "Z",
-            "Name": "TBD"
+            "Name": "South"
         }
     ]
 }

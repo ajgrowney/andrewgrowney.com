@@ -7,7 +7,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 function SkillsCard(props){
     const { skill } = props;
     return (
-        <Card className="skillsCard" style={{ "text-align": "center" }}>
+        <Card className="skillsCard" style={{ "textAlign": "center" }}>
             <Card.Header> {skill.icon}<br />{skill.domain}</Card.Header>
             <Card.Body> {skill.list.join(', ')} </Card.Body>
         </Card>
@@ -17,7 +17,7 @@ function SkillsCard(props){
 function AboutSection(props){
     const aboutText = props.aboutText || ""
     const skills = props.skills || []
-    const skillsCardComponents = skills.map((skill) => <SkillsCard skill={skill} />)
+    const skillsCardComponents = skills.map((skill) => <SkillsCard key={skill.domain} skill={skill} />)
     return (
         <div className="aboutContainer">
             <div className="aboutTextContainer"> {aboutText} </div>

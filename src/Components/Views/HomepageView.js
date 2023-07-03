@@ -1,5 +1,4 @@
 import React from 'react';
-import { pageView } from '../js/Analytics'
 
 import { BaseSection, SummaryView } from '../js'
 import { About, Contact, Projects, Work } from '../Homepage/js'
@@ -29,14 +28,15 @@ function Home(){
 
     ]
     let headerContent = {
+        key: "home_header",
         titleContent: [
-            <h3>Hello World! My name is</h3>,
-            <h1>Andrew Growney</h1>
+            <h3 key="hello">Hello World! My name is</h3>,
+            <h1 key="name">Andrew Growney</h1>
         ],
         subtitleContent: [
-            "I am a Software Engineer on the Platform and Analytics Team for Atonix Digital in Denver, CO and recent graduate from the University of Kansas.",
-            <br />,
-            "With a passion for people, sci-fi, physics, music, faith, coffee, college basketball, and software design, feel free to reach out about anything or everything!"
+            <div key="iam">I am a Cloud Services Software Engineer at Maxar Technologies in Denver, CO.</div>,
+            <br key="br" />,
+            <div key="iammore">With a passion for people, sci-fi, physics, music, faith, coffee, college basketball, and software design</div>
         ],
         imageContent: [ProfilePhoto],
         imageRounded: true
@@ -48,7 +48,6 @@ function Home(){
         { title: "Let's Chat", content: <Contact email={"ajgrowney@gmail.com"} socialData={SocialLinksData} />, id: "contact_id" }
     ]
     let sectionComponents = sectionsList.map((section) => <BaseSection key={section.id} id={section.id} title={section.title} content={section.content} />);
-    pageView('/homepage')
     return (
         <div id="app_container">
             <SummaryView resourceType={"personal"} nav={pageLinks} header={headerContent} sections={sectionComponents} />

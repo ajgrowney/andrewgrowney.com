@@ -26,7 +26,7 @@ function GetNavsToDisplay(nav_sets)
     } else if (navSet.type === "SingleLink") {
       return(
         <Nav.Item key={navSet.title} className={(navSet.active) ? "active": ""}>
-            <Link key={navSet.title} className="nav-link" href={navSet.pageRef}>
+            <Link to={navSet.pageRef} key={navSet.title} className="nav-link" href={navSet.pageRef}>
               {navSet.title}
             </Link>
         </Nav.Item>

@@ -2,7 +2,7 @@ import json
 import os
 import pandas as pd
 
-DATA_SRC = os.getenv("MM_DATA", "/Users/andrewgrowney/Data/kaggle/marchmadness-2022/stage_1")
+DATA_SRC = os.getenv("MM_DATA", "/Users/andrewgrowney/Data/kaggle/marchmadness-2022/Stage2")
 TEAMS_DATA_LOC = "/Users/andrewgrowney/Code/React/andrewgrowney.com/src/Data/mm/teams.js"
 def fill_mm_teams():
     teams_df = pd.read_csv(os.path.join(DATA_SRC, "MTeams.csv"))

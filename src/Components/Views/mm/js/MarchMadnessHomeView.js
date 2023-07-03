@@ -1,4 +1,5 @@
 import React from 'react'
+import Helmet from 'react-helmet';
 import Nav  from '../../../js/Nav'
 import Button from 'react-bootstrap/Button'
 import {SummaryView, BaseSection} from '../../../js'
@@ -25,6 +26,7 @@ const PagePreviewSection = (p) => {
 }
 
 const MMHomeView = () => {
+
     let resourceType = ""
     let navContent = [
         { type: "SingleLink", title: "Matchup", pageRef: "/mm/matchup" },
@@ -56,8 +58,14 @@ const MMHomeView = () => {
         }
     ].map(x => PagePreviewSection(x))
     return (
+        <div id="root">
+        <Helmet>
+                <meta name="image" property="og:image" content={MMBracket} />
+                <meta name="description" property="og:description" content={"March Madness Predictions"} />
+        </Helmet>
         <div className='app_container'>
             <SummaryView resourceType={"March Madness Home"} nav={navContent} header={headerContent} sections={sections} />
+        </div>
         </div>
     )
 }
