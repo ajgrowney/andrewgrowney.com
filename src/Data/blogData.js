@@ -3,6 +3,7 @@ import ImageSet from '../components/js/ImageSet';
 import { CacheBlogImage, FirstInternImage, DevOpsBlogImage } from '../images'
 import { APIDevCycle, PetstoreSite, SampleSwagger } from '../images/Blogs/DesignFirstAPI'
 import { MMBracket, CoinClassifier, SeedClassifier, Rule3Classifier, Rule3Diagram, EastRegion_2021 } from '../images/Blogs/MarchMadnessML'
+import { OddsToProbs, TeamPointsPDF, TeamScoresLessThan, ProjTeamPtsMov, ProjSpreadCalc, CDFTailInterp, FullProjSpread, SBLogo } from '../images/Blogs/MMPt2'
 const blogs = [
     {
         id: 0,
@@ -283,7 +284,7 @@ const blogs = [
     {
         id: 4,
         visibility: "public",
-        featured: true,
+        featured: false,
         title: "YDKYK: The Machine Learning Behind Your March Madness Picks",
         date: "3/1/2022",
         preview: "First post in the series: You Didn't Know You Know. We walk sports fans through the process of picking their March Madness bracket to show them that they might know more about machine learning than they think",
@@ -421,37 +422,69 @@ const blogs = [
     },
     {
         id: 5,
-        visibility: "private",
-        title: "2020: A Year of Learning",
-        date: "12/25/2020",
-        preview: "A recap of some of the simple, hard, and exciting concepts I started learning in the year of COVID-19 ",
+        visibility: "public",
+        featured: true,
+        title: "YDKYK March Madness Pt 2: Win Probability ft Super Bowl Sunday",
+        date: "2/9/2024",
+        preview: "Waiting for Selection Sunday? Using Super Bowl Sunday to look at ways that Las Vegas, and you, can think about win probability come March.",
         content: [
             <div>
-                <h2>Kubernetes</h2>
-                <p>TODO</p>
+                <p>It's 37 days until Selection Sunday, so something has to distract us while we wait to fill out our brackets. Luckily, Super Bowl Sunday serves as an effective warm-up to put us in the right mindset.</p>
+                <p>In our previous article, we walked through the assigning a value to a team that represents how good they are. This was so we could use these numbers to predict which team would win when they face each other. In practice, building a model that predicts the winning team in a matchup will typically output the <b>probability</b> of each team winning.</p>
+                <p>Las Vegas, the host site of this year's Super Bowl, happens to be home to the most profitable builders of these models: sportsbooks. Let's see what these experts are saying about the Kansas City Chiefs and San Francisco 49ers chances of winning.</p>
             </div>,
             <div>
-                <h2>API Design</h2>
-                <p>TODO</p>
+                <h2>The Most Common: Spread and Moneyline</h2>
+                <p>When you hear about the Super Bowl, you are likely to hear about the spread and moneyline. These are the two most common ways to bet on the outcome of a game. The spread is a way to bet on the margin of victory, while the moneyline is a way to bet on the winner of the game.</p>
+                <h4>Win Probability from the Moneyline</h4>
+                <p>The moneyline is one of the simplest ways to look at probability these sportsbooks give each to win. As of today, the 49ers odds are -125, meaning you would have to bet $125 to win $100, and the Chiefs odds are +105, meaning you win $105 on a $100 bet. To find the win probability from these, we have to use the equations below: </p>
+                <ImageSet sources={[OddsToProbs]} />
+                <p>With the 49ers having negative odds, we use that equation to find this sportsbook gives them a 55.5% probability of winning. And the Chiefs, with positive odds, have a 48.8% chance.</p>
+                <hr />
+                <h5>My Mom Hates Gambling, and the Math is on Her Side</h5>
+                <p>You don't have to be a mathmatician to realize that 55.5 and 48.8 add up to more than 100%. To be more precise, the odds of 55.55% + 48.78% = 104.33%. This 4.33 above 100% is what is known as the "Sportsbook's Vigorish", or "Vig" for short. This is how they make money at scale. As long as their models can evenly distribute bets to each side of these lines, the only goal they have is to drive more betting volume.</p>
+                <p>If we see this as a "tax" to betting on either team, we can subtract half that tax from each side to get their models probability. This assigns a "vig" adjusted win probability of <b>53.39% to the 49ers</b> and <b>46.61% to the Chiefs</b>.</p>
+                <p>So when you are placing a bet, like the Chiefs Moneyline, they are making you pay an additional ~2.165% on top of what their <b>world-renowned</b> models have projected. So if your mom hates gambling too, just know she has probably ran the numbers.</p>
+                <hr/>
+                <br />
+                <h4>Win Probability from the Spread</h4>
+                <p>While the moneyline can be thought of as a direct bet on win probability, the spread is a bit more complex due to it being a bet on margin of victory.</p>
+                <p>The spread is currently at 49ers -2 at -105 odds, and Chiefs +2 at -115 odds. This is an example of the sportsbook using "the vig" to make bettors pay a higher tax on the Chiefs losing by 2 points or less than the Niners winning by 2 points or more.</p>
+                <p>They could be adjusting this to protect themselves because they see too many bets coming in on the Chiefs side. Another reason might be that their margin of victory model says the 49ers are expected to win by a fractional amount, like 1.8 points. So why not see if we can dive even deeper.</p>
             </div>,
             <div>
-                <h2>Knowledge Graphs</h2>
-                <p>TODO</p>
+                <h4>Deriving Spread and Win Probability from Team Totals</h4>
+                <p>Some books provide "Team Totals" bets that give us some insight into the spread.</p>
+                <p>The Team Total odds are setup so you can bet if a team will score over or under a point total. We took the odds each team scores less than the points and converted to probabilities the same equations above to get: </p>
+                <ImageSet sources={[TeamScoresLessThan]} />
+                <p>So let's build a margin of victory model from this. In the world of statistics, this data above can be looked at as a Cumulative Distribution Function. This is important because it means we know how to convert this data into "the probability each team scores X points" by converting it to a Probability Density Function.</p>
+                <p>The math behind this is less impressive than you might think. To find the probability that the Niners score <b>exactly</b> 14 points, we can just subtract the probability they score less than 13.5 points from the probability they score less than 14.5 points. We'll do this on all of the data they give us, from 14 through 33 points, for each team.</p>
+                <ImageSet sources={[TeamPointsPDF]} />
+                <p>So now that we have a model that can predict the probability of each team scoring an exact number of points, let's use it to calculate a probability of each score (except ties). We are going to use this so we can build out the full probability of each margin of victory. Because we are going to have to do this for each of the 380 combination of points that are not equal, we can look at just a couple of them.</p>
+                <p>The probability that the Niners score <b>exactly 15</b> and the Chiefs score <b>exactly 14</b> is ~0.05045%. Considering margin of victory to be 49ers score minus the Chiefs score, it is +1 in this scenario, so we will add .05045% to the probability of a +1 margin of victory. The probability that the Niners score 17 and the Chiefs score 24 is ~0.14%, so we add that 0.14% to the probability of a -7 margin of victory. After doing this for all 380 combinations, we get the following probabilities for each margin of victory:</p>
+                <ImageSet sources={[ProjTeamPtsMov]} />
+                <p>The blue line is our probability for each margin of victory for the 49ers (where left of the black line is negative meaning the Chiefs win). The red line of this graph is what our projected spread is based off this data.</p>
+                <p>To get this value, we peform an expected value calculation by adding together each margin of victory multiplied by the probability of it happening as shown below: </p>
+                <ImageSet sources={[ProjSpreadCalc]} />
+                <p>This is how we got our value of 0.38, which is suspiciously lower than the 2 that the sportsbook is offering. If you add together all of the probabilities for these margins of victory, you'll realize we only have a total probability of 0.47, meaning we are only calculating margin of victory for less than half of the real possible outcomes. Which makes sense because we aren't thinking about the cases where either team scores less than 14 or more than 33 points. So how can we handle this?</p>
+                <hr />
+                <h6>Forging our Own Path</h6>
+                <p>Since we don't have access to the sportsbook data outside of this range, we are going to have to build out our own probabilities. A simple approach is to establish limits where there is absolutely no chance of scoring below a certain point and where there's certainty of not scoring above a certain point. We're certain that neither team will score fewer than 0 points. Determining the upper limit is more complex, but for the sake of this analysis, we can say that neither team will score more than 50 points.</p>
+                <p>With those bounds, we can look at different ways to interpolate the probabilities of scoring points between 0 and 14, and also between 33 and 50.</p>
+                <ImageSet sources={[CDFTailInterp]} />
+                <p>There are more robust ways to model these probabilities, but using a simple linear interpolation can help us get a more accurate spread and win probability.</p>
+                <hr />
+                <p>After rerunning our margin of victory probabilities with our new bounds of 0 and 50, we get a better margin of victory model that is evaluated on 95.9% of the possible outcomes. Our new projected spread inches closer to what Vegas has: </p>
+                <ImageSet sources={[FullProjSpread]} />
+                <p>With our derived margin of victory model, we can also use this to find the win probability for each team by looking at the total probability on each side of the black line. This gives win probabilities of ~52.115% to the 49ers and ~47.885% to the Chiefs.</p>
             </div>,
             <div>
-                <h2>Networking</h2>
-                <p>TODO</p>
-            </div>,
-            <div>
-                <h2>Prometheus / Grafana</h2>
-                <p>TODO</p>
-            </div>,
-            <div>
-                <h2>AWS</h2>
-                <p>TODO</p>
+                <h3>And Back to the Waiting</h3>
+                <p>Using the Super Bowl as a warm-up to March Madness, we were able to see how sportsbooks use the spread and moneyline to give us insight into the win probability of each team. We also saw how we can use the team totals to build a margin of victory model like Vegas to calculate a spread and win probability.</p>
+                <p>So now we just have to figure out other ways to spend the next 37 days while we enjoy this last month and change of the regular season.</p>
             </div>
         ],
-        image: []
+        image: [SBLogo]
     },
     {
         id: 6,
