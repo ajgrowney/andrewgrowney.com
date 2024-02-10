@@ -9,7 +9,7 @@ function BlogPreviewSection(b){
         id: b.id,
         title: b.title,
         content: [
-            <div>
+            <div key={"blog" + b.id + "preview"}>
                 {b.preview}
                 <br /><br />
                 <Button onClick={() => window.location.href = "/blogs/"+b.id}>
@@ -31,14 +31,14 @@ function BlogHome(props){
     ]
     const headerContent = {
         titleContent: [
-            <div className={"featuredProjectHeader"}>
+            <div key="featureBlogHeader" className={"featuredProjectHeader"}>
                 <h4>Featured Blog:</h4>
                 <h2>{featured_blog.title}</h2>
                 <h6>{featured_blog.date}</h6>
             </div>
         ],
         subtitleContent: [
-            <div>
+            <div key="featureBlogPreview">
                 {featured_blog.preview}
                 <br /><br />
                 <Button onClick={() => window.location.href="/blogs/"+featured_blog.id}>
