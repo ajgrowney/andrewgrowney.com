@@ -72,12 +72,40 @@ const TeamOverview = ({ teamData }) => {
     )
 }
 
-const TeamHeader = ({ teamData }) => {
+const TeamSearchBar = ({ selectedYear, setTeamF }) => {
+    const [searchTerm, setSearchTerm] = useState('');
+  
+    const handleChange = (e) => { setSearchTerm(e.target.value) };
+  
+    const handleSelectTeam = (teamId) => { setSearchTerm(''); navTo(teamId, selectedYear, setTeamF);};
+  
+    // Filter teams based on search term
+    const filteredTeams = Object.entries(TeamIds).filter(([teamId, teamName]) => {
+        if (searchTerm === '') { return false } 
+        else { return teamName.toLowerCase().includes(searchTerm.toLowerCase()) }
+    }
+    );
+  
     return (
-        <div id={"teamHeader"} style={{width: "100%", border: "1px solid blue", "display": "flex", "flexDirection": "row", "justifyContent": "space-between"}}>
+      <div className='team-search-bar'>
+        <input type="text" placeholder="Search for a team" value={searchTerm} onChange={handleChange} />
+        <ul className='search-results'>
+          {filteredTeams.map(([teamId, teamName]) => (
+            <li key={teamId} onClick={() => handleSelectTeam(teamId)}>
+              {teamName}
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  };
+
+const TeamHeader = ({ teamData, selectedSzn, setTeamF }) => {
+    return (
+        <div id={"teamHeader"} className='team-header'>
             <div>TODO: Change year dropdown</div>
-            <h1>{teamData.name} - {teamData.year}</h1>
-            <div>TODO: Change team search bar</div>
+            <div><h1>{teamData.name}</h1><h5>{teamData.year}</h5></div>
+            <TeamSearchBar selectedYear={selectedSzn} setTeamF={setTeamF}  />
         </div>
     )
 }
@@ -209,7 +237,7 @@ const TeamData = () => {
     }
     return (
         <div style={{width: "100%", border: "1px solid yellow"}}>
-            <TeamHeader     teamData={teamData} />
+            <TeamHeader     teamData={teamData} selectedSzn={selectedYear} setTeamF={setSelectedTeam} />
             <TeamOverview   teamData={teamData} />
             <TeamResume     teamData={teamData} setTeamF={setSelectedTeam} />
             <TeamStats      teamData={teamData} />
