@@ -1,6 +1,6 @@
 
 /* Horizontal Table */
-.horizontal-table {
+.team-data-table {
   display: flex;
   flex-direction: row;
   overflow-x: auto;
@@ -8,23 +8,85 @@
   margin-bottom: 0.5rem;
   justify-content: space-around;
 }
+.team-data-table-entry {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  border: 1px solid red;
+}
+
+.team-data-table-entry-title {
+  display: flex;
+  flex-direction: row;
+  padding: 0.25rem;
+  justify-content: center;
+  font-weight: bold;
+  border: 1px solid black;
+  width: 100%;
+}
 
 .vertical-data {
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
-  justify-content: space-around;
-  border: 1px solid black;
-}
-.horizontal-data {
-  display: flex;
-  flex-direction: row;
-  overflow-x: auto;
-  justify-content: space-between;
-  border: 1px solid green;
+  border: 1px solid orange;
+  overflow-y: scroll;
+  width: 100%;
 }
 
-.horizontal-data div {
+/* Types of Table Values */
+.stat-value {
+  text-align: center;
   padding: 0.5rem;
+}
+.quad-game {
+  display: flex;
+  flex-direction: row;
+  border: 1px solid green;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 3rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  /* Align divs in the middle vertically */
+  align-items: center;
+}
+.quad-game div {
+  /* padding: 0.5rem; */
   border: 1px solid red;
+}
+
+.team-data-table-entry-title button{
+  display: none;
+}
+
+/* Media query for mobile devices */
+@media (max-width: 767px) {
+  .team-data-table-entry-title.is-collapsible button{
+    display: inline;
+  }
+  .team-data-table {
+    display: flex;
+    flex-direction: column;
+  }  
+  /* Turn it into a grid with 1 row and 2 columns (split 75 / 25) */
+  .team-data-table-entry {
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 75% 25%;
+    border: 1px solid red;
+    width: 100%;
+  }
+
+  .team-data-table-entry.is-collapsible{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    border: 1px solid blue;
+  }
+}
+
+/* Media query for desktop devices */
+@media (min-width: 768px) {
 }
