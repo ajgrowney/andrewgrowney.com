@@ -199,13 +199,15 @@ const TeamResume = ({ teamData, setTeamF }) => {
     )
 }
 
-const TeamStatsBarChart = ({ values, rankings }) => {
-    // Bar Chart of team stats where you can toggle between rankings and values
+const TeamStatsChart = ({ values, rankings }) => {
+    // Radar Chart to view team stats
+    //     stats: OE, DE, Poss, FG%, FG3%, FT%, Ast, TO, OppPoints, OppFG%, OppFG3%, OppFT%, OppAst, OppTO
+    // param values: object with each stat as a key
+    // param rankings: object with each stat as a key
     let cols = [{t: 'Efficiency', o: 'OE', d: 'DE'}, {o: 'Points', d: 'OppPoints'}, {o: 'Poss', d: 'Poss'}, {o: 'FG%', d: 'OppFG%'}, {o: 'FGM', d: 'OppFGM'}, {o: 'FG3%', d: 'OppFG3%'}, {o: 'FGM3', d: 'OppFGM3'}, {o: 'FT%', d: 'OppFT%'}, {o: 'FTM', d: 'OppFTM'}, {o: 'Ast', d: 'OppAst'}, {o: 'TO', d: 'OppTO'}]
     
     let data = cols.map((c) => ({
         stat: c.t ? c.t : c.o, 
-        off_value: values[c.o], def_value: values[c.d], 
         off_ranking: rankings[c.o], def_ranking: rankings[c.d], 
         off_bar_value: (363 - rankings[c.o]), def_bar_value: (363 - rankings[c.d])
     }));
@@ -224,10 +226,9 @@ const TeamStatsBarChart = ({ values, rankings }) => {
       };
 
     return (
-        <div>
-        <ResponsiveContainer width="100%" height={300}>
-            <RadarChart
-                width={500} height={300} data={data} >
+        <ResponsiveContainer width={500} height={400} className={'team-stats-chart'}>
+            <RadarChart width={500} height={400}
+                className={'team-stats-chart'} data={data} >
                 <PolarGrid />
                 <PolarAngleAxis dataKey="stat" />
                 <PolarRadiusAxis domain={[1, 363]} />
@@ -237,14 +238,7 @@ const TeamStatsBarChart = ({ values, rankings }) => {
                 <Radar name="defense" dataKey="def_bar_value" fill="#82ca9d" stroke="#82ca9d" opacity={0.5} />
             </RadarChart>
         </ResponsiveContainer>
-        
-        </div>
     )
-}
-
-const KeyStats = ({ teamData }) => {
-    
-    
 }
 
 const TeamStats = ({ teamData }) => {
@@ -280,7 +274,7 @@ const TeamStats = ({ teamData }) => {
             <hr />
             <div className='team-stats-data'>
                 <TeamDataTable key={'offense-key-stats'} data={[{key: 'offense', title: "Offense", value: offData, is_collapsible: true}]} />
-                <TeamStatsBarChart values={teamData.stats} rankings={teamData.stat_rankings} />
+                <TeamStatsChart values={teamData.stats} rankings={teamData.stat_rankings} />
                 <TeamDataTable key={'defense-key-stats'} data={[{key: 'defense', title: "Defense", value: defData, is_collapsible: true}]} />
             </div>
         </div>

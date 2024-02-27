@@ -77,6 +77,10 @@
   border: 1px solid yellow;
   justify-content: space-around;
 }
+.team-stats-chart {
+  border: 1px solid green;
+  max-width: 100%;
+}
 
 /* Types of Table Values */
 .stat-value {
