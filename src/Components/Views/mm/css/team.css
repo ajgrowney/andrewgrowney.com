@@ -1,3 +1,7 @@
+#root {
+  background-color: black;
+  color:#ccc;
+}
 .team-header {
   width: 100%;
   border: 1px solid blue;
@@ -66,6 +70,13 @@
   overflow-y: scroll;
   width: 100%;
 }
+.team-stats-data {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  border: 1px solid yellow;
+  justify-content: space-around;
+}
 
 /* Types of Table Values */
 .stat-value {
@@ -127,6 +138,11 @@
     justify-content: start;
     align-items: center;
     border: 1px solid blue;
+  }
+
+  .team-stats-data {
+    flex-direction: column;
+    justify-content: space-around;
   }
 }
 

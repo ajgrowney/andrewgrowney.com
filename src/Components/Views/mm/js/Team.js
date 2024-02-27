@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Helmet from 'react-helmet';
-import { useLocation, createHistory, createMemorySource, navigate } from '@reach/router';
+import { useLocation, navigate } from '@reach/router';
+import { RadarChart, Radar, PolarAngleAxis, PolarRadiusAxis, PolarGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import Nav  from '../../../js/Nav'
 import { MMBracket } from '../../../../images/Blogs/MarchMadnessML'
 import TeamIds from '../../../../Data/mm/team_ids'
@@ -10,7 +11,6 @@ const CURRENT_YEAR = 2024
 const DATA_HOME = 'https://raw.githubusercontent.com/ajgrowney/march-madness-ml/master/data/web/ts/'
 
 let navTo  = (team, year, setTeamF) => {
-    console.log(`Navigating to /mm/team?tid=${team}&year=${year}`)
     navigate(`/mm/team?tid=${team}&year=${year}`);
     setTeamF(team);
 }
@@ -199,9 +199,90 @@ const TeamResume = ({ teamData, setTeamF }) => {
     )
 }
 
+const TeamStatsBarChart = ({ values, rankings }) => {
+    // Bar Chart of team stats where you can toggle between rankings and values
+    let cols = [{t: 'Efficiency', o: 'OE', d: 'DE'}, {o: 'Points', d: 'OppPoints'}, {o: 'Poss', d: 'Poss'}, {o: 'FG%', d: 'OppFG%'}, {o: 'FGM', d: 'OppFGM'}, {o: 'FG3%', d: 'OppFG3%'}, {o: 'FGM3', d: 'OppFGM3'}, {o: 'FT%', d: 'OppFT%'}, {o: 'FTM', d: 'OppFTM'}, {o: 'Ast', d: 'OppAst'}, {o: 'TO', d: 'OppTO'}]
+    
+    let data = cols.map((c) => ({
+        stat: c.t ? c.t : c.o, 
+        off_value: values[c.o], def_value: values[c.d], 
+        off_ranking: rankings[c.o], def_ranking: rankings[c.d], 
+        off_bar_value: (363 - rankings[c.o]), def_bar_value: (363 - rankings[c.d])
+    }));
+    const CustomTooltip = ({ active, payload, label }) => {
+        if (active && payload && payload.length) {
+          const p = payload[0].payload;
+          return (
+            <div className="custom-tooltip">
+              <p>{`Offense: ${ordinal_with_suffix(p.off_ranking)}`}</p>
+              <p>{`Defense: ${ordinal_with_suffix(p.def_ranking)}`}</p>
+            </div>
+          );
+        }
+      
+        return null;
+      };
+
+    return (
+        <div>
+        <ResponsiveContainer width="100%" height={300}>
+            <RadarChart
+                width={500} height={300} data={data} >
+                <PolarGrid />
+                <PolarAngleAxis dataKey="stat" />
+                <PolarRadiusAxis domain={[1, 363]} />
+                <Tooltip content={<CustomTooltip />}/>
+                <Legend />
+                <Radar name='offense' dataKey="off_bar_value" fill="#8884d8" stroke="#8884d8" opacity={0.5}/>
+                <Radar name="defense" dataKey="def_bar_value" fill="#82ca9d" stroke="#82ca9d" opacity={0.5} />
+            </RadarChart>
+        </ResponsiveContainer>
+        
+        </div>
+    )
+}
+
+const KeyStats = ({ teamData }) => {
+    
+    
+}
+
 const TeamStats = ({ teamData }) => {
+    let offEntries = [
+        { name: "Offensive Efficiency", rank: teamData.stat_rankings["OE"], val: teamData.stats["OE"] },
+        { name: "Possessions", rank: teamData.stat_rankings["Poss"], val: teamData.stats["Poss"] },
+        { name: "FG%", rank: teamData.stat_rankings["FG%"], val: teamData.stats["FG%"] },
+        { name: "FG3%", rank: teamData.stat_rankings["FG3%"], val: teamData.stats["FG3%"] },
+        { name: "FT%", rank: teamData.stat_rankings["FT%"], val: teamData.stats["FT%"] }
+    ];
+    let defEntries = [
+        { name: "Defensive Efficiency", rank: teamData.stat_rankings["DE"], val: teamData.stats["DE"] },
+        { name: "Opponent FG%", rank: teamData.stat_rankings["OppFG%"], val: teamData.stats["OppFG%"] },
+        { name: "Opponent FG3%", rank: teamData.stat_rankings["OppFG3%"], val: teamData.stats["OppFG3%"] },
+        { name: "Opponent FT%", rank: teamData.stat_rankings["OppFT%"], val: teamData.stats["OppFT%"] }
+    ];
+
+    let offData = offEntries.map((obj) => {
+        return (<div style={{display: 'grid', gridTemplateRows: '1fr', gridTemplateColumns: '50% 25% 25%', width: '100%', alignItems: 'center'}}>
+                <div>{obj.name}</div><div>{obj.val}</div><div>{ordinal_with_suffix(obj.rank)}</div>
+            </div>
+        )})
+    let defData = defEntries.map((obj) => {
+        return (<div style={{display: 'grid', gridTemplateRows: '1fr', gridTemplateColumns: '50% 25% 25%', width: '100%', alignItems: 'center', marginBottom: '0.1rem'}}>
+                <div>{obj.name}</div><div>{obj.val}</div><div>{ordinal_with_suffix(obj.rank)}</div>
+            </div>
+        )})
+    
+
     return (
         <div id={"teamStats"} style={{width: "100%", border: "1px solid red"}}>
+            <h1>Stats</h1>
+            <hr />
+            <div className='team-stats-data'>
+                <TeamDataTable key={'offense-key-stats'} data={[{key: 'offense', title: "Offense", value: offData, is_collapsible: true}]} />
+                <TeamStatsBarChart values={teamData.stats} rankings={teamData.stat_rankings} />
+                <TeamDataTable key={'defense-key-stats'} data={[{key: 'defense', title: "Defense", value: defData, is_collapsible: true}]} />
+            </div>
         </div>
     )
 }
