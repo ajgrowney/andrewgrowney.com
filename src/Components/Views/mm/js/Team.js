@@ -5,14 +5,16 @@ import { RadarChart, Radar, PolarAngleAxis, PolarRadiusAxis, PolarGrid, Tooltip,
 import Nav  from '../../../js/Nav'
 import { MMBracket } from '../../../../images/Blogs/MarchMadnessML'
 import TeamIds from '../../../../Data/mm/team_ids'
+import SimilarTeams from '../../../../Data/mm/similar_teams'
+import TeamSeasons from '../../../../Data/mm/team_seasons'
 import 'bootstrap/dist/css/bootstrap.css'
 import '../css/team.css'
 const CURRENT_YEAR = 2024
-const DATA_HOME = 'https://raw.githubusercontent.com/ajgrowney/march-madness-ml/master/data/web/ts/'
+const DATA_HOME = 'https://raw.githubusercontent.com/ajgrowney/march-madness-ml/master/data/web/ts'
 
-let navTo  = (team, year, setTeamF) => {
+let navTo  = (team, year, setTeamYear) => {
     navigate(`/mm/team?tid=${team}&year=${year}`);
-    setTeamF(team);
+    setTeamYear({team: team, year: year});
 }
 
 let toggleCollapse = (id, display_val) => {
@@ -54,12 +56,22 @@ const TeamDataTable = ({ data, maxValueHeight }) => {
 }
 
 const TeamOverview = ({ teamData }) => {
+    // Tournament Data
+    let teamTourney = teamData.tournament;
+    let tourneyVal = ""
+    if (teamData.year === CURRENT_YEAR){
+        tourneyVal = "TBD March 17"
+    } else if (teamTourney === null){
+        tourneyVal = "Missed Tournament"
+    } else {
+        tourneyVal = teamTourney.exit_round === null ? "Champion" : `Lost in ${teamTourney.exit_round} (${teamTourney.seed} Seed)`
+    }
     let tableData = [
-        {key: 'seed',       title: "Seed",      value: teamData.tourney_seed},
-        {key: 'conf',       title: "Conference", value: `${teamData.record_conf[0]} - ${teamData.record_conf[1]}`},
-        {key: 'rec-ov',     title: "Overall", value: `${teamData.record[0]} - ${teamData.record[1]}`},
-        {key: 'rec-home',   title: "Home", value: `${teamData.record_home[0]} - ${teamData.record_home[1]}`},
-        {key: 'rec-road',   title: "Road", value: `${teamData.record_road[0]} - ${teamData.record_road[1]}`}
+        {key: 'tourney',    title: "Tournament",      value: tourneyVal},
+        {key: 'conf',       title: "Conference", value: `${teamData.record.conf[0]} - ${teamData.record.conf[1]}`},
+        {key: 'rec-ov',     title: "Overall", value: `${teamData.record.overall[0]} - ${teamData.record.overall[1]}`},
+        {key: 'rec-home',   title: "Home", value: `${teamData.record.home[0]} - ${teamData.record.home[1]}`},
+        {key: 'rec-road',   title: "Road", value: `${teamData.record.road[0]} - ${teamData.record.road[1]}`}
     ]
     // Apply a 'stat-value' div to each object value
     tableData.forEach((obj) => obj.value = <div className='stat-value'>{obj.value}</div>)
@@ -100,10 +112,26 @@ const TeamSearchBar = ({ selectedYear, setTeamF }) => {
     );
   };
 
+const YearSearchBar = ({ teamYears, selectedTeam, setTeamYearF }) => {
+  
+    return (
+      <div className='team-search-bar'>
+        <select onChange={(e) => navTo(selectedTeam, e.target.value, setTeamYearF)}>
+          {teamYears.map((ty) => (
+            <option key={ty} value={ty}>{ty}</option>
+          ))}
+        </select>
+      </div>
+    );
+};
+
 const TeamHeader = ({ teamData, selectedSzn, setTeamF }) => {
+    let [teamStartYear, teamEndYear] = TeamSeasons[teamData.id]
+    // TODO: replace with end year once 2023 data is available
+    let teamYears = Array.from({length: 2024 - teamStartYear}, (_, i) => teamStartYear + i).reverse();
     return (
         <div id={"teamHeader"} className='team-header'>
-            <div>TODO: Change year dropdown</div>
+            <YearSearchBar teamYears={teamYears} selectedTeam={teamData.id} setTeamYearF={setTeamF} />
             <div><h1>{teamData.name}</h1><h5>{teamData.year}</h5></div>
             <TeamSearchBar selectedYear={selectedSzn} setTeamF={setTeamF}  />
         </div>
@@ -111,35 +139,29 @@ const TeamHeader = ({ teamData, selectedSzn, setTeamF }) => {
 }
 
 // ---- Resume Helpers ----
-const get_quad_record = (wins, losses, quad) => {
-    wins = wins[quad]
-    losses = losses[quad]
-    return [wins.length, losses.length]
-}
 
-const get_quad_data = (wins, losses, quad, year, setTeamF) => {
-    let q_rec = get_quad_record(wins, losses, quad)
-    let quad_key = `${q_rec[0]} - ${q_rec[1]} vs Quad ${quad}`
+const get_quad_data = (rec, quad_wins, quad_losses, quad, year, setTeamF) => {
+    let quad_key = `${rec[0]} - ${rec[1]} vs Quad ${quad}`
     let quad_value = []
-    for (let i = 0; i < wins[quad].length; i++){
-        let game = wins[quad][i]
+    for (let i = 0; i < quad_wins.length; i++){
+        let game = quad_wins[i]
         let loc_prefix = game.team_loc === 'H' ? 'vs' : 'at'
         quad_value.push([
             game.date_int,
             game.date_str,
             game.opp_id,
-            `${loc_prefix} ${game.opp_name}`,
+            `${loc_prefix} ${TeamIds[game.opp_id]}`,
             `${game.team_score} - ${game.opp_score}`
         ])
     }
-    for (let i = 0; i < losses[quad].length; i++){
-        let game = losses[quad][i]
+    for (let i = 0; i < quad_losses.length; i++){
+        let game = quad_losses[i]
         let loc_prefix = game.team_loc === 'H' ? 'vs' : 'at'
         quad_value.push([
             game.date_int,
             game.date_str,
             game.opp_id,
-            `${loc_prefix} ${game.opp_name}`,
+            `${loc_prefix} ${TeamIds[game.opp_id]}`,
             `${game.team_score} - ${game.opp_score}`
         ])
     }
@@ -186,7 +208,7 @@ const TeamResume = ({ teamData, setTeamF }) => {
 
     let quad_table = []
     for (let i = 1; i < 5; i++){
-        let [quad_data_key, quad_data_val] = get_quad_data(teamData.quad_wins, teamData.quad_losses, i.toString(), teamData.year, setTeamF)
+        let [quad_data_key, quad_data_val] = get_quad_data(teamData.record[`quad_${i}`], teamData.quad_wins[i], teamData.quad_losses[i], i.toString(), teamData.year, setTeamF)
         quad_table.push({key: `quad_${i}_data`, title: quad_data_key, value: quad_data_val, is_collapsible: true})
     }
     return (
@@ -243,14 +265,16 @@ const TeamStatsChart = ({ values, rankings }) => {
 
 const TeamStats = ({ teamData }) => {
     let offEntries = [
-        { name: "Offensive Efficiency", rank: teamData.stat_rankings["OE"], val: teamData.stats["OE"] },
+        { name: "Adj Off Efficiency", rank: teamData.stat_rankings["AdjOE"], val: teamData.stats["AdjOE"]},
+        { name: "Off Efficiency", rank: teamData.stat_rankings["OE"], val: teamData.stats["OE"] },
         { name: "Possessions", rank: teamData.stat_rankings["Poss"], val: teamData.stats["Poss"] },
         { name: "FG%", rank: teamData.stat_rankings["FG%"], val: teamData.stats["FG%"] },
         { name: "FG3%", rank: teamData.stat_rankings["FG3%"], val: teamData.stats["FG3%"] },
         { name: "FT%", rank: teamData.stat_rankings["FT%"], val: teamData.stats["FT%"] }
     ];
     let defEntries = [
-        { name: "Defensive Efficiency", rank: teamData.stat_rankings["DE"], val: teamData.stats["DE"] },
+        { name: "Adj Def Efficiency", rank: teamData.stat_rankings["AdjDE"], val: teamData.stats["AdjDE"]},
+        { name: "Def Efficiency", rank: teamData.stat_rankings["DE"], val: teamData.stats["DE"] },
         { name: "Opponent FG%", rank: teamData.stat_rankings["OppFG%"], val: teamData.stats["OppFG%"] },
         { name: "Opponent FG3%", rank: teamData.stat_rankings["OppFG3%"], val: teamData.stats["OppFG3%"] },
         { name: "Opponent FT%", rank: teamData.stat_rankings["OppFT%"], val: teamData.stats["OppFT%"] }
@@ -281,20 +305,52 @@ const TeamStats = ({ teamData }) => {
     )
 }
 
+const SimilarTeamsTable = ({ selectedTeam, selectedYear, setTeamYearF }) => {
+    let similarTeams = SimilarTeams[`${selectedTeam}_${selectedYear}`]
+    if (similarTeams === undefined){
+        console.log("No similar team data found")
+        return <div></div>
+    }
+    let similarTeamsData = similarTeams.map((team) => {
+        return (
+            <div className='similar-team' key={team[0]} onClick={() => {navTo(team[0], team[1], setTeamYearF)}}>
+                <div>{TeamIds[team[0]]} ({team[1]})</div>
+                <div>{team[2]}</div>
+            </div>
+        )
+    })
+    return (
+        <div id={"similarTeams"} style={{width: "100%", border: "1px solid blue"}}>
+            <h1>Similar Teams</h1>
+            <hr />
+            <div className='similar-teams-table'>
+                <div className='similar-team-header'>
+                    <div>Team</div>
+                    <div>Similarity</div>
+                </div>
+                {similarTeamsData}
+            </div>
+        </div>
+    )
+}
+
+
 const TeamData = () => {
     let location = useLocation();
     let queryParams = new URLSearchParams(location.search);
-    const [selectedTeam, setSelectedTeam] = useState(queryParams.get('tid') || '');
-    const [selectedYear, setselectedYear] = useState(queryParams.get('year') || '2023');
-    console.log(`Team: ${selectedTeam} Year: ${selectedYear}`);
+    const [selectedTeamYear, setSelectedTeamYear] = useState({
+        team: queryParams.get('tid') || '1242',
+        year: queryParams.get('year') || '2023'
+    });
+    console.log(`Team: ${selectedTeamYear.team} Year: ${selectedTeamYear.year}`);
     let [teamData, setTeamData] = useState(null)
     useEffect(() => {
-        fetch(`${DATA_HOME}/${selectedTeam}_${selectedYear}.json`)
+        fetch(`${DATA_HOME}/${selectedTeamYear.team}_${selectedTeamYear.year}.json`)
             .then(response => response.json())
             .then(data => {setTeamData(data)})
             .catch(error => {
                 setTeamData({not_found: true});})
-        }, [selectedTeam, selectedYear]);
+        }, [selectedTeamYear]);
     console.log(teamData);
     
     if (teamData === null){
@@ -303,7 +359,7 @@ const TeamData = () => {
     else if (teamData.not_found === true){
         return (<div>
             <h1>Select a valid team</h1>
-            <select id="team-select" onChange={(e) => {navTo(e.target.value, selectedYear, setSelectedTeam)}}>
+            <select id="team-select" onChange={(e) => {navTo(e.target.value, selectedTeamYear.year, setSelectedTeamYear)}}>
                 <option value="" disabled selected>Select a Team</option>
                 {Object.keys(TeamIds).map((team_id) => <option key={team_id} value={team_id}>{TeamIds[team_id]}</option>)}
             </select>
@@ -312,10 +368,11 @@ const TeamData = () => {
     }
     return (
         <div style={{width: "100%", border: "1px solid yellow"}}>
-            <TeamHeader     teamData={teamData} selectedSzn={selectedYear} setTeamF={setSelectedTeam} />
+            <TeamHeader     teamData={teamData} selectedSzn={selectedTeamYear.year} setTeamF={setSelectedTeamYear} />
             <TeamOverview   teamData={teamData} />
-            <TeamResume     teamData={teamData} setTeamF={setSelectedTeam} />
+            <TeamResume     teamData={teamData} setTeamF={setSelectedTeamYear} />
             <TeamStats      teamData={teamData} />
+            <SimilarTeamsTable selectedTeam={selectedTeamYear.team} selectedYear={selectedTeamYear.year}  setTeamYearF={setSelectedTeamYear} />
         </div>
     )
 }

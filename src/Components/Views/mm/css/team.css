@@ -77,6 +77,9 @@
   border: 1px solid yellow;
   justify-content: space-around;
 }
+.team-stats-data div {
+  min-width: 6rem;
+}
 .team-stats-chart {
   border: 1px solid green;
   max-width: 100%;
