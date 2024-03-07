@@ -85,6 +85,25 @@
   max-width: 100%;
 }
 
+.similar-teams-table {
+  height: 100%;
+  border: 1px solid white;
+  width: 100%;
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 33% 33% 33%;
+  justify-content: space-around;
+  padding: 0.25rem;
+}
+.similar-teams-table-entry {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid red;
+  width: 100%;
+}
+
 /* Types of Table Values */
 .stat-value {
   text-align: center;
@@ -150,6 +169,10 @@
   .team-stats-data {
     flex-direction: column;
     justify-content: space-around;
+  }
+  .similar-teams-table {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
   }
 }
 

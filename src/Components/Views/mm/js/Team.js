@@ -63,8 +63,10 @@ const TeamOverview = ({ teamData }) => {
         tourneyVal = "TBD March 17"
     } else if (teamTourney === null){
         tourneyVal = "Missed Tournament"
+    } else if (teamData.year >= 2023) {
+        tourneyVal = "TBD March 17"
     } else {
-        tourneyVal = teamTourney.exit_round === null ? "Champion" : `Lost in ${teamTourney.exit_round} (${teamTourney.seed} Seed)`
+        tourneyVal = teamTourney.seed === null ? "Missed Tournament" : (teamTourney.exit_round === "Champion" ? "Champion" : `Lost in ${teamTourney.exit_round} (${teamTourney.seed} Seed)`)
     }
     let tableData = [
         {key: 'tourney',    title: "Tournament",      value: tourneyVal},
@@ -305,30 +307,27 @@ const TeamStats = ({ teamData }) => {
     )
 }
 
-const SimilarTeamsTable = ({ selectedTeam, selectedYear, setTeamYearF }) => {
-    let similarTeams = SimilarTeams[`${selectedTeam}_${selectedYear}`]
-    if (similarTeams === undefined){
+const SimilarTeamsTable = ({ similarTeamsData, setTeamYearF }) => {
+    if (similarTeamsData === undefined){
         console.log("No similar team data found")
         return <div></div>
     }
-    let similarTeamsData = similarTeams.map((team) => {
+    let formattedData = similarTeamsData.map((team) => {
+        let teamTourney = team.er === null ? "Missed Tournament" : team.er === "Champion" ? "Champion" : `Lost in ${team.er}`
+        let labelVal = `${team.year} ${TeamIds[team.id]}`
         return (
-            <div className='similar-team' key={team[0]} onClick={() => {navTo(team[0], team[1], setTeamYearF)}}>
-                <div>{TeamIds[team[0]]} ({team[1]})</div>
-                <div>{team[2]}</div>
+            <div className='similar-teams-table-entry' onClick={() => navTo(team.id, team.year, setTeamYearF)}>
+                <div>{labelVal}</div>
+                <div>{teamTourney}</div>
+                <div>Similarity: {team.st*100}%</div>
             </div>
         )
     })
     return (
-        <div id={"similarTeams"} style={{width: "100%", border: "1px solid blue"}}>
-            <h1>Similar Teams</h1>
-            <hr />
+        <div style={{'height': 'fit-content', 'border': '1px solid green'}} >
+            <h2>Similar Teams</h2>
             <div className='similar-teams-table'>
-                <div className='similar-team-header'>
-                    <div>Team</div>
-                    <div>Similarity</div>
-                </div>
-                {similarTeamsData}
+            {formattedData}
             </div>
         </div>
     )
@@ -372,7 +371,7 @@ const TeamData = () => {
             <TeamOverview   teamData={teamData} />
             <TeamResume     teamData={teamData} setTeamF={setSelectedTeamYear} />
             <TeamStats      teamData={teamData} />
-            <SimilarTeamsTable selectedTeam={selectedTeamYear.team} selectedYear={selectedTeamYear.year}  setTeamYearF={setSelectedTeamYear} />
+            <SimilarTeamsTable similarTeamsData={teamData.similar_teams}  setTeamYearF={setSelectedTeamYear} />
         </div>
     )
 }
