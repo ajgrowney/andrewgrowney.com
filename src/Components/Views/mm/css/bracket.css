@@ -3,26 +3,27 @@
     border: 1px solid green;
 }
 .sidePanel {
-  position: fixed;
+  position: absolute;
   top: 0;
-  left: 0;
+  right: 0;
   bottom: 0;
-  width: 250px;
   background: #fff;
   z-index: 1000;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   transition: all 0.3s;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  display: none;
+  visibility: visible;
 }
 
 .sidePanel.show {
-  display: block;
+  visibility: visible;
+  width: 25rem;
 }
 
 .sidePanel.hide {
-    display: none;
+    visibility: visible;
+    width: 2rem;
 }
 
 .data-container {
@@ -31,8 +32,11 @@
 }
 
 .region-container {
+    position: relative;
     width: 100%;
     border: 1px solid blue;
+    display: flex;
+    flex-direction: row;
 }
 .tourney-region {
     border: 1px solid yellow;
@@ -50,17 +54,21 @@
     grid-template-columns: 100%;
     grid-template-rows: 8rem 8rem 8rem 8rem;
 };
+.round-container.left div {
+    border: 2px solid blue;
+}
 .round-container.center {
     height: 100%;
     display: grid;
     grid-template-columns: 100%;
-    grid-template-rows: 8rem 8rem;
+    grid-template-rows: 1fr 1fr;
 }
-.round-container.center div {
-    margin-top: 2rem;
-    margin-bottom: 2rem;
+.round-container.center .game-container {
+    height: 8rem;
+    margin-top: 4rem;
+    margin-bottom: 4rem;
+    border: 2px solid red;
 }
-
 .round-container.right {
     height: 12rem;
     display: block;
@@ -69,11 +77,24 @@
     justify-content: center;
 }
 .round-container.right .game-container {
+    height: 8rem;
     border: 1px solid green;
     margin-top: 2rem;
-    height: 8rem;
 
 }
+.round-container-ff {
+    height: 100%;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 8rem 8rem;
+}
+.round-container-ch {
+    height: 12rem;
+    display: block;
+    align-items: center;
+    justify-content: center;
+}
+
 
 
 .game-container {
@@ -92,4 +113,7 @@
     align-items: center;
     border: 1px solid orange;
     width: 100%;
+}
+.team-container.green {
+    color: green;
 }

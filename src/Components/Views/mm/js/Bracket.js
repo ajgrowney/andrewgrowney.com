@@ -35,8 +35,10 @@ const TOURNEY_REGION_VIEWS = {
     "X2": { prefix: "Bottom",   slots: ["R1X2", "R1X7", "R1X6", "R1X3", "R2X3", "R2X2", "R3X2"]},
     "Y1": { prefix: "Top",      slots: ["R1Y1", "R1Y8", "R1Y5", "R1Y4", "R2Y1", "R2Y4", "R3Y1"]},
     "Y2": { prefix: "Bottom",   slots: ["R1Y2", "R1Y7", "R1Y6", "R1Y3", "R2Y3", "R2Y2", "R3Y2"]},
-    "Z1": { prefix: "Top", slots: ["R1Z1", "R1Z8", "R1Z5", "R1Z4", "R2Z1", "R2Z2", "R3Z1"]},
-    "Z2": { prefix: "Bottom", slots: ["R1Z2", "R1Z7", "R1Z6", "R1Z3", "R2Z3", "R2Z4", "R3Z2"]},
+    "Z1": { prefix: "Top",      slots: ["R1Z1", "R1Z8", "R1Z5", "R1Z4", "R2Z1", "R2Z2", "R3Z1"]},
+    "Z2": { prefix: "Bottom",   slots: ["R1Z2", "R1Z7", "R1Z6", "R1Z3", "R2Z3", "R2Z4", "R3Z2"]},
+    "16WX": { prefix: "Regionals", slots: ["R3W1", "R3W2", "R3X1", "R3X2", "R4W1", "R4X1", "R5WX"]},
+    "16YZ": { prefix: "Regionals", slots: ["R3Y1", "R3Y2", "R3Z1", "R3Z2", "R4Y1", "R4Z1", "R5YZ"]},
     "FF": { prefix: "Final Four", slots: ["R5WX", "R5YZ", "R6CH"]}
 }
 const feature_set_map = {
@@ -61,13 +63,25 @@ let  ViewSelector = (tourneyData, viewData, setView) => {
     let otherModes = allowed_modes.map(x => { return {name: VIEW_MODES[x].name, val: x} })
     // Region Dropdown Data
     let selectedRegion = TOURNEY_REGION_VIEWS[viewData.region].prefix;
-    if (selectedRegion != "Final Four") {
+    if (selectedRegion == "Regionals") {
+        let [r1, r2] = [viewData.region.substr(2, 1), viewData.region.substr(3, 1)]
+        let regName1 = tourneyData["regions"][r1]
+        let regName2 = tourneyData["regions"][r2]
+        selectedRegion = `${regName1} ${regName2} Regionals`
+
+    } else if (selectedRegion != "Final Four") {
         let regName = tourneyData["regions"][viewData.region[0]]
         selectedRegion = `${regName} ${selectedRegion}`
     }
     let otherRegions = Object.keys(TOURNEY_REGION_VIEWS).map(x => {
         let opName = TOURNEY_REGION_VIEWS[x].prefix;
-        if (opName != "Final Four") {
+        if (opName == "Regionals") {
+            let [r1, r2] = [x.substr(2, 1), x.substr(3, 1)]
+            let regName1 = tourneyData["regions"][r1]
+            let regName2 = tourneyData["regions"][r2]
+            opName = `${regName1} ${regName2} Regionals`
+    
+        } else if (opName != "Final Four") {
             let regName = tourneyData["regions"][x[0]]
             opName = `${regName} ${opName}`
         }
@@ -100,36 +114,50 @@ let  ViewSelector = (tourneyData, viewData, setView) => {
 
 const RegionData = (tourneyData, view) => {
     let selectedRegionSlots = TOURNEY_REGION_VIEWS[view.region].slots
-    console.log(selectedRegionSlots)
     // Get Game Data
     let gameData = selectedRegionSlots.map(x => {
-        let slotData = tourneyData["slots"][x]
-        let strongSeedScore = slotData["strong_seed"] == slotData["winner"] ? slotData["wscore"] : slotData["lscore"]
-        let weakSeedScore =     slotData["weak_seed"] == slotData["winner"] ? slotData["wscore"] : slotData["lscore"]
+        let s = tourneyData["slots"][x]
+        let [strongSeedScore, strongSeedColor] = s["strong_seed"] == s["winner"] ? [s["wscore"], "green"] : [s["lscore"], ""]
+        let [weakSeedScore, weakSeedColor] = s["weak_seed"] == s["winner"] ? [s["wscore"], "green"] : [s["lscore"], ""]
+        // Flip Round 2 games that aren't the 1 vs 8 slot
+        let isFlipped = x.substr(0,2) == "R2" && x[3] != "1"
+        let [topData, topColor] = isFlipped ? [TeamIds[s["weak_seed"]], weakSeedColor] : [TeamIds[s["strong_seed"]], strongSeedColor]
+        let [bottomData, bottomColor] = isFlipped ? [TeamIds[s["strong_seed"]], strongSeedColor] : [TeamIds[s["weak_seed"]], weakSeedColor]
         return (
-            <div className='game-container'>
-                <div className='team-container'>{TeamIds[slotData["strong_seed"]]} ({strongSeedScore})</div>
-                <div className='team-container'>{TeamIds[slotData["weak_seed"]]} ({weakSeedScore})</div>
+            <div key={x} id={x} className='game-container'>
+                <div className={`team-container ${topColor}`}>{topData}</div>
+                <div className='team-container'>{strongSeedScore} - {weakSeedScore}</div>
+                <div className={`team-container ${bottomColor}`}>{bottomData}</div>
             </div>
         )
     })
-    // Format into rounds
-    let roundIdxs = view.region == "FF" ? [2, 4, 5] : [4, 6, 7]
-    let classes = view.region == "FF" ? "round-conatiner" : "round-container"
-    let roundData = [
-        <div className={`${classes} left`}>{gameData.slice(0, roundIdxs[0])}</div>,
-        <div className={`${classes} center`}>{gameData.slice(roundIdxs[0], roundIdxs[1])}</div>,
-        <div className={`${classes} right`}>{gameData.slice(roundIdxs[1], roundIdxs[2])}</div>
-    ]
-    return (<div className='tourney-region'>
-        {roundData}
-    </div>)
+    // Format into region based view
+    let className = ""
+    let roundData = []
+    if (view.region == "FF") {
+        className = "ff-container"
+        roundData = [
+            <div className='round-container-ff'>{gameData.slice(0, 2)}</div>,
+            <div className='round-container-ch'>{gameData.slice(2, 3)}</div>
+        ]
+
+    } else {
+        className = "tourney-region"
+        roundData = [
+            <div className="round-container left">{gameData.slice(0, 4)}</div>,
+            <div className="round-container center">{gameData.slice(4, 6)}</div>,
+            <div className="round-container right">{gameData.slice(6, 7)}</div>
+        ]
+    }
+    return (<div className={className}>{roundData}</div>)
 }
 
-let SidePanel = (sidePanelData) => {
+let SidePanel = (sidePanelData, setSidePanel) => {
+    console.log(`Panel Change: ${sidePanelData.show}`)
+    let toggleVal = sidePanelData.show ? false : true
     let classes = `sidePanel ${sidePanelData.show ? 'show' : 'hide'}`
     return (
-        <div classNames={classes}>
+        <div className={classes} onClick={() => {setSidePanel({show: toggleVal, content: sidePanelData.content})}}>
             {sidePanelData.content}
         </div>
     )
@@ -169,8 +197,8 @@ let BracketData = () => {
                     </div>
                     <div className='region-container'>
                         {RegionData(bracketData, selectedState)}
+                        {SidePanel(sidePanel, setSidePanel)}
                     </div>
-                    {SidePanel(sidePanel)}
                 </div>)
     }
 }
