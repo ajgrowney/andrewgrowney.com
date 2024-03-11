@@ -1,6 +1,16 @@
-import React, { useState } from 'react'
+// 
+// Bracket Page supportts multiple viewing modes
+// 1. Read -    View the actual matchups and results
+// 2. Edit - View, fill, and export a bracket's results 
+//         - Support "fill with model" option
+//
+
+import React, { useEffect, useState } from 'react'
+import Helmet from 'react-helmet';
+import { useLocation, navigate } from '@reach/router';
 import Dropdown from 'react-bootstrap/Dropdown'
 import Nav from '../../../js/Nav'
+import TeamIds from '../../../../Data/mm/team_ids'
 import { CalculateWinner, ModelPredictKey } from '../../../../helpers/mm'
 import teamData from '../../../../Data/mm/teams'
 import teamSeeds from '../../../../Data/mm/teamSeeds'
@@ -13,346 +23,176 @@ import full_features_2021 from "../../../../Data/mm/features/2021/all_models"
 import full_features_2022 from "../../../../Data/mm/features/2022/all_models"
 import '../css/bracket.css'
 import 'bootstrap/dist/css/bootstrap.css'
+const DATA_HOME = 'https://raw.githubusercontent.com/ajgrowney/march-madness-ml/master/data/web/tourney'
 
 const DEFAULT_MODEL = "2022_grid_poly_1"
 const DEFAULT_SEASON = 2022
 const SEASON_LIST = [2015, 2016, 2017, 2018, 2019, 2021, 2022]
+const TOURNEY_REGION_VIEWS = {
+    "W1": { prefix: "Top", slots: ["R1W1", "R1W8", "R1W5", "R1W4", "R2W1", "R2W2", "R3W1"]},
+    "W2": { prefix: "Bottom", slots: ["R1W2", "R1W7", "R1W6", "R1W3", "R2W3", "R2W4", "R3W2"]},
+    "X1": { prefix: "Top", slots: ["R1X1", "R1X8", "R1X5", "R1X4", "R2X1", "R2X2", "R3X1"]},
+    "X2": { prefix: "Bottom", slots: ["R1X2", "R1X7", "R1X6", "R1X3", "R2X3", "R2X4", "R3X2"]},
+    "Y1": { prefix: "Top", slots: ["R1Y1", "R1Y8", "R1Y5", "R1Y4", "R2Y1", "R2Y2", "R3Y1"]},
+    "Y2": { prefix: "Bottom", slots: ["R1Y2", "R1Y7", "R1Y6", "R1Y3", "R2Y3", "R2Y4", "R3Y2"]},
+    "Z1": { prefix: "Top", slots: ["R1Z1", "R1Z8", "R1Z5", "R1Z4", "R2Z1", "R2Z2", "R3Z1"]},
+    "Z2": { prefix: "Bottom", slots: ["R1Z2", "R1Z7", "R1Z6", "R1Z3", "R2Z3", "R2Z4", "R3Z2"]},
+    "FF": { prefix: "Final Four", slots: ["R5WX", "R5YZ", "R6CH"]}
+}
 const feature_set_map = {
     "full_2021": full_features_2021,
     "full": full_features_2022
 }
-const selectTeamName = (t_id) => { return t_id ? teamData.find(y => y.id == t_id).name : '' }
 
-function ModelSelector(selected, setModel)
-{
-    let modelList = Object.keys(model_info_map)
-    let handler = (new_model) => { setModel(new_model)}
-    return(
-        <Dropdown class='selectorItem'>
-            <Dropdown.Toggle>Model: {model_info_map[selected].name}</Dropdown.Toggle>
-            <Dropdown.Menu>{
-                modelList.filter(x => x !== selected).map(x => 
-                    <Dropdown.Item onSelect={() => {handler(x)}}>{model_info_map[x].name}</Dropdown.Item>)
-            }</Dropdown.Menu>
-        </Dropdown>
-    )
+
+// ---- Bracket Viewing Modes ---
+const VIEW_MODES = {
+    "read": { name: "Read", is_allowed: (x) => true },
+    "edit": { name: "Edit", is_allowed: (x) => x == 2024 }
 }
-function SeasonSelector(selected, setSeason)
-{
-    let handler = (new_season) => { 
-        setSeason(new_season)
+
+let  ViewSelector = (tourneyData, viewData, setView) => {
+    // view: {mode: "read", year: 2022, region: "finalfour"}
+    let changeMode = (new_val) => { setView({mode: new_val, region: viewData.region, year: viewData.year}) }
+    let changeYear = (new_val) => { setView({mode: viewData.mode, region: viewData.region, year: new_val}) }
+    let changeRegion = (new_val) => { setView({mode: viewData.mode, region: new_val, year: viewData.year}) }
+    // Configure Mode options based on season
+    let allowed_modes = Object.keys(VIEW_MODES).filter(x => VIEW_MODES[x].is_allowed(viewData.year))
+    let otherModes = allowed_modes.map(x => { return {name: VIEW_MODES[x].name, val: x} })
+    // Region Dropdown Data
+    let selectedRegion = TOURNEY_REGION_VIEWS[viewData.region].prefix;
+    if (selectedRegion != "Final Four") {
+        let regName = tourneyData["regions"][viewData.region[0]]
+        selectedRegion = `${regName} ${selectedRegion}`
     }
-    
-    let otherOptions = SEASON_LIST.filter(x => x !== selected).sort((a,b) => b-a)
+    let otherRegions = Object.keys(TOURNEY_REGION_VIEWS).map(x => {
+        let opName = TOURNEY_REGION_VIEWS[x].prefix;
+        if (opName != "Final Four") {
+            let regName = tourneyData["regions"][x[0]]
+            opName = `${regName} ${opName}`
+        }
+        return ({name: opName, val: x})
+    })
     return(
-        <Dropdown class='selectorItem'>
-            <Dropdown.Toggle>Season: {selected}</Dropdown.Toggle>
+        <div style={{'display': 'flex', 'flexDirection': 'row', 'justifyContent': 'space-around'}}>
+        <Dropdown key='mode' class='selectorItem'>
+            <Dropdown.Toggle>{viewData.mode}</Dropdown.Toggle>
             <Dropdown.Menu>
-                {otherOptions.map(x => <Dropdown.Item onSelect={() => {handler(x)}}>{x}</Dropdown.Item>)}
+                {otherModes.map(x => <Dropdown.Item onSelect={() => {changeMode(x.val)}}>{x.name}</Dropdown.Item>)}
             </Dropdown.Menu>
         </Dropdown>
-    )
-}
-function ViewSelector(fromBlank, setFromBlank)
-{
-    let handler = (new_val) => { 
-        setFromBlank(new_val)
-    }
-    let options = [
-        {
-            val: true,
-            name: "From Blank"
-        },
-        {
-            val: false,
-            name: "Actual Matchups"
-        }
-    ]
-    let selected = options.filter(x => x.val === fromBlank)[0].name
-    let otherOptions = options.filter(x => x.val !== fromBlank)
-    return(
-        <Dropdown class='selectorItem'>
-            <Dropdown.Toggle>Fill: {selected}</Dropdown.Toggle>
+        <Dropdown key='year' class='selectorItem'>
+            <Dropdown.Toggle>{viewData.year}</Dropdown.Toggle>
             <Dropdown.Menu>
-                {otherOptions.map(x => <Dropdown.Item onSelect={() => {handler(x.val)}}>{x.name}</Dropdown.Item>)}
+                {SEASON_LIST.map(x => <Dropdown.Item onSelect={() => {changeYear(x)}}>{x}</Dropdown.Item>)}
             </Dropdown.Menu>
         </Dropdown>
-    )
-}
-
-
-const BracketRegion = (regionName, matchups, fromBlank = false) => {
-    let rounds = []
-    let startIdx = 0
-    let gameIndexes = [];
-    if (matchups.length == 17) {
-        gameIndexes = [[0,7,3,4,2,5,6,1], [0,3,2,1], [0,1], [0]]
-        startIdx = 2
-    } else if (matchups.length == 16) {
-        gameIndexes = [[0,7,3,4,2,5,6,1], [0,3,2,1], [0,1], [0]]
-        startIdx = 1
-    } else if (matchups.length == 15) {
-        gameIndexes = [[0,7,3,4,2,5,6,1], [0,3,2,1], [0,1], [0]]
-    }
-    else if (matchups.length == 7) {
-        gameIndexes = [[0,3,2,1], [0,1], [0]]
-    }
-    else if (matchups.length == 3) {
-        gameIndexes = [[0,1], [0]]
-    }
-
-    for(let curRound = 0; curRound < gameIndexes.length; curRound++)
-    {
-        let roundIndexes = gameIndexes[curRound]
-        let roundMatchups = roundIndexes.length
-        let selectedMatchups = matchups.slice(startIdx, startIdx + roundMatchups)
-        let orderedMatchups = []
-        for(let i = 0; i < roundMatchups; i++)
-        {
-            orderedMatchups = orderedMatchups.concat(selectedMatchups[roundIndexes[i]])
-        }
-        let round_id = `round-${curRound+1}`
-        rounds = rounds.concat(
-            <ul className='round' id={round_id}>{
-                orderedMatchups.map((x,idx) => {
-                    let [t1, t2] = [null, null]
-                    t1 = (fromBlank) ? (x.pt1 ? x.pt1 : x.t1) : x.t1
-                    t2 = (fromBlank) ? (x.pt2 ? x.pt2 : x.t2) : x.t2
-                    let correctMatchup = (fromBlank) ? ((x.pt2 === x.t2) && (x.pt1 === x.t1)) : true
-                    console.log(`Slot ${x.pt1} ${x.pt2} ${x.t1} ${x.t2}: ${x.id} = ${t1} vs ${t2}`)
-                    let t1Name = selectTeamName(t1)
-                    let t2Name = selectTeamName(t2)
-
-                    let t1ElMask = (x.predicted && (x.predicted == t1) && correctMatchup)
-                    let t2ElMask = (x.predicted && (x.predicted == t2) && correctMatchup)
-
-                    let t1Elements = t1ElMask ? [t1Name, x.predict_prob] : [t1Name]
-                    let t2Elements = t2ElMask ? [t2Name, x.predict_prob] : [t2Name]
-                    let [t1Class,t2Class] = ['','']
-                    let isFirstRoundSlot = x.id.charAt(1) == "1"
-                    // From Blank
-                    if(fromBlank)
-                    {
-                        if (!isFirstRoundSlot)
-                        {
-                            if((x.pt1) && (x.t1 == x.pt1))
-                            {
-                                t1Class = 'correct'
-                            } else if ((x.predicted) && x.t1)
-                            {
-                                t1Class = 'incorrect'
-                            }
-
-                            if(x.pt2 && x.t2 == x.pt2)
-                            {
-                                t2Class = 'correct'
-                            } else if(x.predicted && x.t2)
-                            {
-                                t2Class = 'incorrect'
-                            }
-                        }
-                        
-                    } else if (x.predicted && x.t1 && x.t2 && x.winner) {
-                        if (x.predicted == x.winner && x.winner == t1)
-                        {
-                            t1Class = 'correct'
-                        } else if (x.predicted == x.winner && x.winner == t2)
-                        {
-                            t2Class = 'correct'
-                        } else if (x.predicted == t1) {
-                            t1Class = 'incorrect'
-                        } else if (x.predicted == t2) {
-                            t2Class = 'incorrect'
-                        }
-                    }
-                    
-
-                    // Styling Shenangins
-                    let t1Top = (curRound === 0 || idx === 0 || (idx !== (roundMatchups-1))) ? true : false
-                    let [topTeamElements, bottomTeamElements] = t1Top ? [t1Elements,t2Elements] : [t2Elements,t1Elements]
-                    let [topTeamClass, bottomTeamClass] = t1Top ? [t1Class,t2Class] : [t2Class, t1Class]
-                    let [topClass, bottomClass] = [`team-top `+topTeamClass, `team-bottom `+bottomTeamClass]
-                    
-                    return(
-                        <div className='game' id={x.id}>
-                            <li className={topClass}>{topTeamElements.map(el => <span>{el}</span>)}</li>
-                            <li className='spacer'>&nbsp;</li>
-                            <li className={bottomClass}>{bottomTeamElements.map(el => <span>{el}</span>)}</li>
-                        </div>
-                    )
-                })
-            }</ul>)
-        startIdx += roundMatchups
-    }
-    return (
-        <div className='regionContainer' id={`region-${regionName.replace(" ","")}`}>
-            <h3 className='regionName'>{regionName}</h3>
-            <div className='regionRounds'>{rounds} </div>
+        <Dropdown key='region' class='selectorItem'>
+            <Dropdown.Toggle>{selectedRegion}</Dropdown.Toggle>
+            <Dropdown.Menu>
+                {otherRegions.map(x => <Dropdown.Item onSelect={() => {changeRegion(x.val)}}>{x.name}</Dropdown.Item>)}
+            </Dropdown.Menu>
+        </Dropdown>
         </div>
     )
 }
-const GetSlotResults = (season, slot) => {
-    // Get the results for a game that played in a tournament slot
-    let game = slotResults[`${season}_${slot}`]
-    return game
-}
-const GetMatchupResults = (season, model, team1, team2, slot = null) => {
-    let [predicted, predict_prob] = CalculateWinner(model, season, team1, team2)
-    let [matchup_key, ] = ModelPredictKey(season, team1, team2)
-    let actual = tourneyGameResults[matchup_key]
 
-    let results = {
-        t1: team1,
-        t2: team2,
-        winner: actual ? actual.Winner : null,
-        predicted: predicted,
-        predict_prob: predict_prob
-    }
-    return results
-}
 
-const CalculateSlotResults = (slots, season, model, fromBlank = false, winnerCache = {}, predictedCache = {}) =>
-{
-    let matchupResults = {}
-    
-    slots.forEach(slot => {
-        let [strongSeed, weakSeed] = tourneySlots[season][slot]
-        let [t1, t2, pt1, pt2] = [null, null, null, null]
-        // Resolve from matchup results
-        if (slot.length === 3 || slot.charAt(1) === "1")
-        {
-            // Play In Game (e.g. W11, W16) or First Round Game
-            t1 = parseInt(teamSeeds[season][strongSeed])
-            pt1 = parseInt(teamSeeds[season][strongSeed])
-            t2 = parseInt(teamSeeds[season][weakSeed])
-            pt2 = parseInt(teamSeeds[season][weakSeed])
-        }
-        else
-        {
-            t1 = parseInt(winnerCache[strongSeed])
-            pt1 = parseInt(predictedCache[strongSeed])
-            t2 = parseInt(winnerCache[weakSeed])
-            pt2 = parseInt(predictedCache[weakSeed])
-        }
-        let gameResult = null;
-        if(fromBlank)
-        {
-            let slotResults = GetSlotResults(season, slot)
-            let [predicted, predict_prob] = CalculateWinner(model, season, pt1, pt2)
-            gameResult = {
-                ...slotResults,
-                pt1: pt1,
-                pt2: pt2,
-                predicted: predicted,
-                predict_prob: predict_prob
-            }
-        }
-        else
-        {
-            gameResult = GetMatchupResults(season, model, t1, t2)
-        }
-        
-        matchupResults[slot] = gameResult
-        winnerCache[slot] = gameResult.winner
-        predictedCache[slot] = gameResult.predicted
-
-        // Fill in a Play In Game Winner
-        if(slot.length == 3)
-        {
-            teamSeeds[season][slot] = gameResult.winner
-        }
-    });
-    return matchupResults
-}
-
-const GetRegionMatchups = (prefix, season, model, fromBlank) => {
-    let results = []
-    // Get the slots (remove the R5 Final Four round)
-    let slots = Object.keys(tourneySlots[season]).filter(x => (x.includes(prefix) && x.slice(0,2) !== "R5"))
-    slots = slots.sort((x,y) => {
-        if(x.length !== y.length)
-        {
-            return x.length - y.length
-        }
-        else if (x[0] == "R" && y[0] == "R")
-        {
-            return parseInt(x[1]) - parseInt(x[2])
-        }
-        else {
-            return parseInt(x.slice(-2)) - parseInt(y.slice(-2))
-        }
+const RegionData = (tourneyData, view) => {
+    let selectedRegionSlots = TOURNEY_REGION_VIEWS[view.region].slots
+    console.log(selectedRegionSlots)
+    // Get Game Data
+    let gameData = selectedRegionSlots.map(x => {
+        let slotData = tourneyData["slots"][x]
+        let strongSeedScore = slotData["strong_seed"] == slotData["winner"] ? slotData["wscore"] : slotData["lscore"]
+        let weakSeedScore = slotData["weak_seed"] == slotData["winner"] ? slotData["wscore"] : slotData["lscore"]
+        return (
+            <div className='slotData'>
+                <div className='slotDataItem'>{TeamIds[slotData["strong_seed"]]} ({strongSeedScore})</div>
+                <div className='slotDataItem'>{TeamIds[slotData["weak_seed"]]} ({weakSeedScore})</div>
+            </div>
+        )
     })
-    // Fill the first round slots
-    let matchupResults = CalculateSlotResults(slots, season, model, fromBlank)
-
-    // return filled matchups
-    return Object.keys(matchupResults).map(slot_id => { 
-        let full = matchupResults[slot_id];
-        full["id"] = slot_id;
-        return full
-    })
+    // Format into rounds
+    let roundIdxs = view.region == "FF" ? [2, 4, 5] : [4, 6, 7]
+    let roundData = [
+        <div style={{'display': 'flex', 'flexDirection': 'column', 'justifyContent': 'space-around'}}>{gameData.slice(0, roundIdxs[0])}</div>,
+        <div style={{'display': 'flex', 'flexDirection': 'column', 'justifyContent': 'space-around'}}>{gameData.slice(roundIdxs[0], roundIdxs[1])}</div>,
+        <div style={{'display': 'flex', 'flexDirection': 'column', 'justifyContent': 'space-around'}}>{gameData.slice(roundIdxs[1], roundIdxs[2])}</div>
+    ]
+    return (<div style={{'border': '5px solid green', 'display': 'flex', 'flexDirection': 'row', 'minHeight': '10rem'}}>
+        {roundData}
+    </div>)
 }
 
-const GetTournamentData = (season, model, fromBlank = false) =>
-{
-    let results = []
-    if(season > model_info_map[model].max_pred_year || season < model_info_map[model].min_pred_year)
-    {
-        return []
-    }
-    // Get Slots for the season's tournament 
-    let seasonRegions = tourneyRegions[season]
+let SidePanel = (sidePanelData) => {
+    let classes = `sidePanel ${sidePanelData.show ? 'show' : 'hide'}`
+    return (
+        <div classNames={classes}>
+            {sidePanelData.content}
+        </div>
+    )
+}
 
-    let regionalWinners = {}
-    let regionalsPredicted = {}
-    // Resolve matchups for each region
-    seasonRegions.forEach(region => {
-        let regionMatchups = GetRegionMatchups(region.Prefix, season, model, fromBlank)
-        let regionChampionship = regionMatchups.find(m => m.id == `R4${region.Prefix}1`)
-        regionalWinners[`R4${region.Prefix}1`] = regionChampionship.winner
-        regionalsPredicted[`R4${region.Prefix}1`] = regionChampionship.predicted
-        results = results.concat({name: region.Name, matchups: regionMatchups})
+let BracketData = () => {
+    let [sidePanel, setSidePanel] = useState({show: false, content: "hi"})
+    let location = useLocation();
+    let queryParams = new URLSearchParams(location.search);
+    const [selectedState, setSelectedState] = useState({
+        mode: queryParams.get('mode') || 'read',
+        year: queryParams.get('year') || '2022',
+        region: queryParams.get('region') || 'FF'
     });
-    // Resolve final four matchups
-    let ff_slots = ["R5WX","R5YZ","R6CH"]
-    let ff_results = CalculateSlotResults(ff_slots, season, model, fromBlank, regionalWinners, regionalsPredicted)
-    let ff_matchups = Object.keys(ff_results).map(k => { let full = ff_results[k]; full["id"] = k; return full})   
-
-    results = results.concat({name: "Final Four", matchups: ff_matchups})
+    console.log(`Year: ${selectedState}`);
+    let [bracketData, setbracketData] = useState(null)
+    useEffect(() => {
+        fetch(`${DATA_HOME}/${selectedState.year}.json`)
+            .then(response => response.json())
+            .then(data => {setbracketData(data)})
+            .catch(error => {
+                setbracketData({not_found: true});})
+        }, [selectedState]);
+    console.log(bracketData);
     
-    return results
+    if (bracketData === null){
+        return <div>Loading...</div>
+    } else if (bracketData.not_found) {
+        return <div>Bracket data not found. Change year.</div>
+    } else {
+        return (
+                <div className='bracketView'>
+                    <div className='d-flex flex-column align-items-center'>
+                        <div className='selectorContainer'>
+                            {ViewSelector(bracketData, selectedState, setSelectedState)}
+                        </div>
+                    </div>
+                    <div className='regionsContainer'>
+                        {RegionData(bracketData, selectedState)}
+                        {SidePanel(sidePanel)}
+                    </div>
+                </div>)
+    }
 }
 
 function Bracket()
 {
-    let pageHeader = "Tournament Bracket"
 
     let navContent = [
         { type: "SingleLink", title: "Home", pageRef: "/" },
         { type: "SingleLink", title: "March Madness", pageRef: "/marchmadness" },
-        { type: "SingleLink", title: "Matchup", pageRef: "/mm/matchup" }
+        { type: "SingleLink", title: "Matchup", pageRef: "/mm/matchup/" },
+        { type: "SingleLink", title: "Team Viewer", pageRef: "/mm/team/" },
     ]
+    let [predictions, setPredictions] = useState({})
 
-    let [model, setModel] = useState(DEFAULT_MODEL)
-    let [season, setSeason] = useState(DEFAULT_SEASON)
-    let [fromBlank, setFromBlank] = useState(true)
-
-    let regions = GetTournamentData(season, model, fromBlank)
     return (
-        <div>
-            <Nav navContent={navContent}/>
-            <div className='bracketView'>
-                <div className='d-flex flex-column align-items-center'>
-                    <h2>{pageHeader}</h2>
-                    <div className='selectorContainer'>
-                        {ModelSelector(model, setModel)}
-                        {SeasonSelector(season, setSeason)}
-                        {ViewSelector(fromBlank, setFromBlank)}
-                    </div>
-                </div>
-                <div className='regionsContainer'>
-                    {(regions.length > 0) ? regions.map(r => BracketRegion(r.name, r.matchups, fromBlank)) : <div>This model hasn't predicted this season</div>}
-                </div>
+        <div id="root">
+            <Helmet>
+                    <meta name="description" property="og:description" content={"March Madness Predictions"} />
+            </Helmet>
+            <div className='app_container'>
+                <Nav page={"MM"} navContent={navContent} />
+                <BracketData />
             </div>
         </div>
     )
