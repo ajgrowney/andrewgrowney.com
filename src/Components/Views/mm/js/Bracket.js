@@ -27,14 +27,14 @@ const DATA_HOME = 'https://raw.githubusercontent.com/ajgrowney/march-madness-ml/
 
 const DEFAULT_MODEL = "2022_grid_poly_1"
 const DEFAULT_SEASON = 2022
-const SEASON_LIST = [2015, 2016, 2017, 2018, 2019, 2021, 2022]
+const SEASON_LIST = [2013, 2014, 2015, 2016, 2017, 2018, 2019, 2021, 2022]
 const TOURNEY_REGION_VIEWS = {
-    "W1": { prefix: "Top", slots: ["R1W1", "R1W8", "R1W5", "R1W4", "R2W1", "R2W2", "R3W1"]},
-    "W2": { prefix: "Bottom", slots: ["R1W2", "R1W7", "R1W6", "R1W3", "R2W3", "R2W4", "R3W2"]},
-    "X1": { prefix: "Top", slots: ["R1X1", "R1X8", "R1X5", "R1X4", "R2X1", "R2X2", "R3X1"]},
-    "X2": { prefix: "Bottom", slots: ["R1X2", "R1X7", "R1X6", "R1X3", "R2X3", "R2X4", "R3X2"]},
-    "Y1": { prefix: "Top", slots: ["R1Y1", "R1Y8", "R1Y5", "R1Y4", "R2Y1", "R2Y2", "R3Y1"]},
-    "Y2": { prefix: "Bottom", slots: ["R1Y2", "R1Y7", "R1Y6", "R1Y3", "R2Y3", "R2Y4", "R3Y2"]},
+    "W1": { prefix: "Top",      slots: ["R1W1", "R1W8", "R1W5", "R1W4", "R2W1", "R2W4", "R3W1"]},
+    "W2": { prefix: "Bottom",   slots: ["R1W6", "R1W3", "R1W7", "R1W2", "R2W3", "R2W2", "R3W2"]},
+    "X1": { prefix: "Top",      slots: ["R1X1", "R1X8", "R1X5", "R1X4", "R2X1", "R2X4", "R3X1"]},
+    "X2": { prefix: "Bottom",   slots: ["R1X2", "R1X7", "R1X6", "R1X3", "R2X3", "R2X2", "R3X2"]},
+    "Y1": { prefix: "Top",      slots: ["R1Y1", "R1Y8", "R1Y5", "R1Y4", "R2Y1", "R2Y4", "R3Y1"]},
+    "Y2": { prefix: "Bottom",   slots: ["R1Y2", "R1Y7", "R1Y6", "R1Y3", "R2Y3", "R2Y2", "R3Y2"]},
     "Z1": { prefix: "Top", slots: ["R1Z1", "R1Z8", "R1Z5", "R1Z4", "R2Z1", "R2Z2", "R3Z1"]},
     "Z2": { prefix: "Bottom", slots: ["R1Z2", "R1Z7", "R1Z6", "R1Z3", "R2Z3", "R2Z4", "R3Z2"]},
     "FF": { prefix: "Final Four", slots: ["R5WX", "R5YZ", "R6CH"]}
@@ -105,22 +105,23 @@ const RegionData = (tourneyData, view) => {
     let gameData = selectedRegionSlots.map(x => {
         let slotData = tourneyData["slots"][x]
         let strongSeedScore = slotData["strong_seed"] == slotData["winner"] ? slotData["wscore"] : slotData["lscore"]
-        let weakSeedScore = slotData["weak_seed"] == slotData["winner"] ? slotData["wscore"] : slotData["lscore"]
+        let weakSeedScore =     slotData["weak_seed"] == slotData["winner"] ? slotData["wscore"] : slotData["lscore"]
         return (
-            <div className='slotData'>
-                <div className='slotDataItem'>{TeamIds[slotData["strong_seed"]]} ({strongSeedScore})</div>
-                <div className='slotDataItem'>{TeamIds[slotData["weak_seed"]]} ({weakSeedScore})</div>
+            <div className='game-container'>
+                <div className='team-container'>{TeamIds[slotData["strong_seed"]]} ({strongSeedScore})</div>
+                <div className='team-container'>{TeamIds[slotData["weak_seed"]]} ({weakSeedScore})</div>
             </div>
         )
     })
     // Format into rounds
     let roundIdxs = view.region == "FF" ? [2, 4, 5] : [4, 6, 7]
+    let classes = view.region == "FF" ? "round-conatiner" : "round-container"
     let roundData = [
-        <div style={{'display': 'flex', 'flexDirection': 'column', 'justifyContent': 'space-around'}}>{gameData.slice(0, roundIdxs[0])}</div>,
-        <div style={{'display': 'flex', 'flexDirection': 'column', 'justifyContent': 'space-around'}}>{gameData.slice(roundIdxs[0], roundIdxs[1])}</div>,
-        <div style={{'display': 'flex', 'flexDirection': 'column', 'justifyContent': 'space-around'}}>{gameData.slice(roundIdxs[1], roundIdxs[2])}</div>
+        <div className={`${classes} left`}>{gameData.slice(0, roundIdxs[0])}</div>,
+        <div className={`${classes} center`}>{gameData.slice(roundIdxs[0], roundIdxs[1])}</div>,
+        <div className={`${classes} right`}>{gameData.slice(roundIdxs[1], roundIdxs[2])}</div>
     ]
-    return (<div style={{'border': '5px solid green', 'display': 'flex', 'flexDirection': 'row', 'minHeight': '10rem'}}>
+    return (<div className='tourney-region'>
         {roundData}
     </div>)
 }
@@ -160,16 +161,16 @@ let BracketData = () => {
         return <div>Bracket data not found. Change year.</div>
     } else {
         return (
-                <div className='bracketView'>
+                <div className='data-container'>
                     <div className='d-flex flex-column align-items-center'>
                         <div className='selectorContainer'>
                             {ViewSelector(bracketData, selectedState, setSelectedState)}
                         </div>
                     </div>
-                    <div className='regionsContainer'>
+                    <div className='region-container'>
                         {RegionData(bracketData, selectedState)}
-                        {SidePanel(sidePanel)}
                     </div>
+                    {SidePanel(sidePanel)}
                 </div>)
     }
 }
@@ -190,7 +191,7 @@ function Bracket()
             <Helmet>
                     <meta name="description" property="og:description" content={"March Madness Predictions"} />
             </Helmet>
-            <div className='app_container'>
+            <div className='app-container'>
                 <Nav page={"MM"} navContent={navContent} />
                 <BracketData />
             </div>
