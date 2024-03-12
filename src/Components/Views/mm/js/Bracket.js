@@ -27,7 +27,8 @@ const DATA_HOME = 'https://raw.githubusercontent.com/ajgrowney/march-madness-ml/
 
 const DEFAULT_MODEL = "2022_grid_poly_1"
 const DEFAULT_SEASON = 2022
-const SEASON_LIST = [2013, 2014, 2015, 2016, 2017, 2018, 2019, 2021, 2022]
+// const SEASON_LIST = [2013, 2014, 2015, 2016, 2017, 2018, 2019, 2021, 2022]
+const SEASON_LIST = [2022, 2021, 2019, 2018, 2017, 2016, 2015, 2014, 2013]
 const TOURNEY_REGION_VIEWS = {
     "W1": { prefix: "Top",      slots: ["R1W1", "R1W8", "R1W5", "R1W4", "R2W1", "R2W4", "R3W1"]},
     "W2": { prefix: "Bottom",   slots: ["R1W6", "R1W3", "R1W7", "R1W2", "R2W3", "R2W2", "R3W2"]},
@@ -58,17 +59,14 @@ let  ViewSelector = (tourneyData, viewData, setView) => {
     let changeMode = (new_val) => { setView({mode: new_val, region: viewData.region, year: viewData.year}) }
     let changeYear = (new_val) => { setView({mode: viewData.mode, region: viewData.region, year: new_val}) }
     let changeRegion = (new_val) => { setView({mode: viewData.mode, region: new_val, year: viewData.year}) }
-    // Configure Mode options based on season
+    // Other Modes Dropdown
     let allowed_modes = Object.keys(VIEW_MODES).filter(x => VIEW_MODES[x].is_allowed(viewData.year))
     let otherModes = allowed_modes.map(x => { return {name: VIEW_MODES[x].name, val: x} })
-    // Region Dropdown Data
+    // Other Regions Dropdown
     let selectedRegion = TOURNEY_REGION_VIEWS[viewData.region].prefix;
     if (selectedRegion == "Regionals") {
-        let [r1, r2] = [viewData.region.substr(2, 1), viewData.region.substr(3, 1)]
-        let regName1 = tourneyData["regions"][r1]
-        let regName2 = tourneyData["regions"][r2]
-        selectedRegion = `${regName1} ${regName2} Regionals`
-
+        let [r1, r2] = [viewData.region.charAt(2), viewData.region.charAt(3)]
+        selectedRegion = `${tourneyData["regions"][r1]} ${tourneyData["regions"][r2]} Regionals`
     } else if (selectedRegion != "Final Four") {
         let regName = tourneyData["regions"][viewData.region[0]]
         selectedRegion = `${regName} ${selectedRegion}`
@@ -76,11 +74,8 @@ let  ViewSelector = (tourneyData, viewData, setView) => {
     let otherRegions = Object.keys(TOURNEY_REGION_VIEWS).map(x => {
         let opName = TOURNEY_REGION_VIEWS[x].prefix;
         if (opName == "Regionals") {
-            let [r1, r2] = [x.substr(2, 1), x.substr(3, 1)]
-            let regName1 = tourneyData["regions"][r1]
-            let regName2 = tourneyData["regions"][r2]
-            opName = `${regName1} ${regName2} Regionals`
-    
+            let [r1, r2] = [x.charAt(2), x.charAt(3)]
+            opName = `${tourneyData["regions"][r1]} ${tourneyData["regions"][r2]} Regionals`
         } else if (opName != "Final Four") {
             let regName = tourneyData["regions"][x[0]]
             opName = `${regName} ${opName}`
@@ -111,8 +106,51 @@ let  ViewSelector = (tourneyData, viewData, setView) => {
     )
 }
 
+const TeamDataEntryTitle = ({title, classNames, toggle_key}) => (
+    <div className={classNames}>
+        <h5>{title}</h5>
+        <button onClick={() => {toggleCollapse(toggle_key, "flex")}}>+</button>
+    </div> 
+)
 
-const RegionData = (tourneyData, view) => {
+const TeamDataTable = ({ data, maxValueHeight }) => {
+// Description: Component displaying data in a 'team-data-table' div
+// param data: list of objects with keys: title, value, is_collapsible
+// param maxValueHeight: max height of the value div
+if (data.constructor !== Array){
+    console.error("TeamDataTable: data is not an array")
+    return <div>Error</div>
+}
+
+let entries = data.map((obj) => {
+    let entry_key = obj.key;
+    let data_div_key = `${entry_key}_data`;
+    let objClassNames = obj.is_collapsible ? 'panel-entry is-collapsible' : 'panel-entry not-collapsible'
+    let titleClassNames = obj.is_collapsible ? 'panel-entry-title is-collapsible' : 'panel-entry-title not-collapsible'
+    return(<div className={objClassNames} key={entry_key}>
+        <TeamDataEntryTitle title={obj.title} classNames={titleClassNames} toggle_key={data_div_key} />
+        <div id={data_div_key} className='vertical-data' style={{'maxHeight': maxValueHeight}}>{obj.value}</div>
+    </div>)
+})
+return (<div className='panel-table'>{entries}</div>)
+}
+
+let fmtContent = (teamName, teamYear, content) => {
+    let [wins, losses] = content["Rec"]
+    let ranks = content["Ranks"]
+    let rankDiv = <div>{Object.keys(ranks).map(x => <div>{x}: {ranks[x]}</div>)}</div>
+    let simTeams = content["Sims"] // Format: [ { i: tid, y: year, s: sim_score, e: exit round}]
+    let simDiv = <div>{simTeams.map(x => <div>{x.y} {TeamIds[x.i]}: {x.s}</div>)}</div>
+
+    return [
+        {title: `${teamName} ${teamYear}`, value: <div>{`Record: ${wins} - ${losses}`}</div>, is_collapsible: false, key: "team_info"},
+        {title: "Insights", value: <div>Coming Soon</div>, is_collapsible: false, key: "insights"},
+        {title: "Ranks", value: rankDiv, is_collapsible: true, key: "ranks"},
+        {title: "Similar Teams", value: simDiv, is_collapsible: true, key: "sims"}
+    ]
+}
+
+const RegionData = (tourneyData, view, setSidePanel) => {
     let selectedRegionSlots = TOURNEY_REGION_VIEWS[view.region].slots
     // Get Game Data
     let gameData = selectedRegionSlots.map(x => {
@@ -121,13 +159,16 @@ const RegionData = (tourneyData, view) => {
         let [weakSeedScore, weakSeedColor] = s["weak_seed"] == s["winner"] ? [s["wscore"], "green"] : [s["lscore"], ""]
         // Flip Round 2 games that aren't the 1 vs 8 slot
         let isFlipped = x.substr(0,2) == "R2" && x[3] != "1"
-        let [topData, topColor] = isFlipped ? [TeamIds[s["weak_seed"]], weakSeedColor] : [TeamIds[s["strong_seed"]], strongSeedColor]
-        let [bottomData, bottomColor] = isFlipped ? [TeamIds[s["strong_seed"]], strongSeedColor] : [TeamIds[s["weak_seed"]], weakSeedColor]
+        let [ssid, wsid] = [s["strong_seed"], s["weak_seed"]]
+        let strongSeedContent = [TeamIds[ssid], strongSeedColor, fmtContent(TeamIds[ssid], view.year, tourneyData.teams[ssid])]
+        let weakSeedContent = [TeamIds[wsid], weakSeedColor, fmtContent(TeamIds[wsid], view.year, tourneyData.teams[wsid])]
+        let [topData, topColor, topSideCont] = isFlipped ? weakSeedContent : strongSeedContent
+        let [bottomData, bottomColor, bottomSideCont] = isFlipped ? strongSeedContent : weakSeedContent
         return (
             <div key={x} id={x} className='game-container'>
-                <div className={`team-container ${topColor}`}>{topData}</div>
+                <div className={`team-container ${topColor}`} onClick={() => setSidePanel({show: true, content: <TeamDataTable data={topSideCont} />})}>{topData}</div>
                 <div className='team-container'>{strongSeedScore} - {weakSeedScore}</div>
-                <div className={`team-container ${bottomColor}`}>{bottomData}</div>
+                <div className={`team-container ${bottomColor}`} onClick={() => setSidePanel({show: true, content: <TeamDataTable data={bottomSideCont} />})}>{bottomData}</div>
             </div>
         )
     })
@@ -196,7 +237,7 @@ let BracketData = () => {
                         </div>
                     </div>
                     <div className='region-container'>
-                        {RegionData(bracketData, selectedState)}
+                        {RegionData(bracketData, selectedState, setSidePanel)}
                         {SidePanel(sidePanel, setSidePanel)}
                     </div>
                 </div>)

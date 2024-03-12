@@ -38,6 +38,39 @@
     display: flex;
     flex-direction: row;
 }
+/* Final Four Styling */
+.ff-container {
+    display: grid;
+    grid-template-columns: 40% 40%;
+    grid-template-rows: 1fr;
+    width: 100%;
+    height: 32rem;
+    align-items: center;
+}
+
+.round-container-ff {
+    height: 100%;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 16rem 16rem;
+}
+.round-container-ff .game-container {
+    height: 8rem;
+    align-self: center;
+}
+
+.round-container-ch {
+    border: 1px solid orange;
+    height: 16rem;
+}
+.round-container-ch .game-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+/* Tourney Round Styling (non Final Four) */
 .tourney-region {
     border: 1px solid yellow;
     display: grid;
@@ -47,7 +80,6 @@
     height: 32rem;
     align-items: center;
 }
-/* Tourney Round Styling */
 .round-container.left {
     height: 100%;
     display: grid;
@@ -82,20 +114,6 @@
     margin-top: 2rem;
 
 }
-.round-container-ff {
-    height: 100%;
-    display: grid;
-    grid-template-columns: 100%;
-    grid-template-rows: 8rem 8rem;
-}
-.round-container-ch {
-    height: 12rem;
-    display: block;
-    align-items: center;
-    justify-content: center;
-}
-
-
 
 .game-container {
     display: flex;
@@ -116,4 +134,43 @@
 }
 .team-container.green {
     color: green;
+}
+
+/* Sidebar */
+
+.panel-table {
+display: flex;
+flex-direction: column;
+white-space: nowrap;
+margin-top: 0.5rem;
+margin-bottom: 0.5rem;
+justify-content: space-around;
+}
+.panel-entry {
+display: flex;
+flex-direction: column;
+white-space: nowrap;
+justify-content: start;
+align-items: center;
+border: 1px solid red;
+}
+
+.panel-entry-title {
+    display: flex;
+    flex-direction: row;
+    padding: 0.25rem;
+    justify-content: center;
+    font-weight: bold;
+    border: 1px solid black;
+    width: 100%;
+}
+
+.panel-entry-title button {
+    display: none;
+}
+
+@media (max-width: 767px) { 
+  .panel-entry-title.is-collapsible button{
+    display: inline;
+  }
 }
