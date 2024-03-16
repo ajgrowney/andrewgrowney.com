@@ -2,8 +2,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-around;
     min-height: 100vh;
+    padding-top: 5rem;
 }
 .selectorContainer {
     display: flex;
@@ -14,19 +14,49 @@
     padding-bottom: 0.5rem;
     width: 60vw;
 }
-.matchupContainer {
+.selectTeamsContainer {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
     width: 80vw;
 }
-
+.compareTeams {
+    height: 15rem;
+    overflow-y: scroll;
+    text-align: center;
+    min-width: 50rem;
+}
+.compareTeamsBody {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+.compareTeamsHeader {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 1fr;
+    width: 100%;
+    font-weight: bold;
+}
+.compareTeamsElement {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 1fr;
+}
 .teamItem {
     background-color: #E9E9E9;
     min-height: 40vh;
     max-height: 40vh;
     min-width: 25vw;
+}
+.teamItemName {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
 .selectTeamItem {
     background-color: #E9E9E9;
@@ -58,7 +88,7 @@
         display: flex;
         flex-direction: column;
     }
-    .matchupContainer {
+    .selectTeamsContainer {
         flex-direction: column;
     }
 
@@ -73,5 +103,8 @@
 
     .matchupResultsContainer {
         min-width: 50vw;
+    }
+    .compareTeams {
+        min-width: 80vw;
     }
 }

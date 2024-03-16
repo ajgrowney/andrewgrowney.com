@@ -2,9 +2,10 @@ import React, { useState } from 'react'
 import Card from 'react-bootstrap/Card'
 import Select from 'react-select';
 import Dropdown from 'react-bootstrap/Dropdown'
+import { Link } from 'gatsby'
 import Nav from '../../../js/Nav'
-import teamData from '../../../../Data/mm/teams'
-import teamSeeds from '../../../../Data/mm/teamSeeds'
+import teamData from '../../../../Data/mm/teams_v2'
+import teamSeeds from '../../../../Data/mm/teamSeeds_v2'
 import model_info_map from '../../../../Data/mm/model_info';
 import full_features_2021 from "../../../../Data/mm/features/2021/all_models"
 import full_features_2022 from "../../../../Data/mm/features/2022/all_models"
@@ -13,25 +14,29 @@ import 'bootstrap/dist/css/bootstrap.css'
 import { Button } from 'react-bootstrap'
 
 const DEFAULT_MODEL = "2022_grid_poly_1"
-const DEFAULT_SEASON = 2022
-const SEASON_LIST = [ 2022, 2021, 2019]
+const DEFAULT_SEASON = 2023
+const SEASON_LIST = [ 2023, 2022, 2021, 2019]
 const feature_set_map = {
     "full_2021": full_features_2021,
     "full": full_features_2022
 }
 
-function SelectTeam(model_id, season, setTeam, setTeamFeatures)
+function SelectTeam(model_id, season, setTeam)
 {
     let selectHandler = (selectedOption) => {
-        let team = teamData.find(x => x.name.toUpperCase() === selectedOption.value.toUpperCase())
-        if(team)
+        let selectedTeam = teamData.find(x => x.n.toUpperCase() === selectedOption.value.toUpperCase())
+        if(selectedTeam)
         {
-            let teamFeatures = feature_set_map[model_info_map[model_id]["features"]][season][team.id]
-            setTeam(team)
-            if(teamFeatures){ setTeamFeatures(teamFeatures) }
+            let tf = {}
+            try {
+                tf = feature_set_map[model_info_map[model_id]["features"]][season][selectedTeam.i]
+            } catch (error) {
+                console.log(error)
+            }
+            setTeam({info: selectedTeam, features: tf})
         }   
     }
-    let options = teamData.filter(x => Object.values(teamSeeds[season]).includes(String(x.id))).map(x => ({value: x.name, label: x.name}))
+    let options = teamData.filter(x => Object.values(teamSeeds[season]).includes(x.i)).map(x => ({value: x.n, label: x.n}))
     return(
         <Card.Body className='teamItemBody'>
             <Select placeholder={'Select Team'} maxMenuHeight={200} options={options} onChange={selectHandler} />
@@ -68,60 +73,45 @@ function SeasonSelector(selected, setSeason, team1, setTeam1, team2, setTeam2)
         </Dropdown>
     )
 }
-function TeamComponent(team, teamFeatures, setTeam)
+function TeamComponent(team, setTeam)
 {
-
     let team_title = (
         <Card.Title className='teamItemName'>
-        {team.name} &nbsp; &nbsp;
+        {team.info.n} &nbsp; &nbsp;
+            {/* Info Button */}
+            <Link to={`/mm/team/?tid=${team.info.i}`}><Button variant='outline-info'>i</Button></Link>
+            {/* Remove Button */}
             <Button variant='outline-danger' onClick={() => { setTeam(null) }}>X</Button>
         </Card.Title>
     )
-
-    if (teamFeatures)
-    {
-        return (
-            <Card.Body className='teamItemBody'>
-                {team_title}
-                <Card.Subtitle>Features</Card.Subtitle>
-                <div className='teamItemFeatures'>
-                    <Card.Text>{
-                        Object.keys(teamFeatures).map(x => 
-                            <div>{x}: {teamFeatures[x].toFixed(2)}</div>)
-                    }</Card.Text>
-                </div>
-            </Card.Body>
-        )
-    } else {
-        return(
-            <Card.Body className='teamItemBody'>
-                {team_title}
-            </Card.Body>
-        )
-    }
+    return(
+        <Card.Body className='teamItemBody'>
+            {team_title}
+        </Card.Body>
+    )
 }
 
-function CalculateWinner(model_id, season, t1,t2)
+function CalculateWinner(model_id, season, t1, t2)
 {
     let winner = ""
     let prob = 0.0
-    if(model_id == "coin")
-    {
+    if (t1 === null || t2 === null) {
+        winner = { name: "Select Teams" }
+        prob = "N/A"
+    } else if(model_id == "coin") {
         winner = (Math.random() > 0.5) ? t1 : t2
         prob = 0.5
         prob = (prob*100).toFixed(2) + "%"
-    }
-    else
-    {
-        let sorted_teams = [t1, t2].sort((x,y) => x.id > y.id)
-        let team_key_suffix = sorted_teams.map(x => x.id).join("_")
+    } else {
+        let sorted_teams = [t1, t2].sort((x,y) => x.info.i > y.info.i)
+        let team_key_suffix = sorted_teams.map(x => x.info.i).join("_")
         let matchup_key = `${season}_${team_key_suffix}`
         let model_predictions = model_info_map[model_id]["predictions"]
         let matchup_probability = model_predictions[matchup_key]
         if(matchup_probability)
         {
             let t1_won = matchup_probability >= 0.5
-            winner = t1_won ? sorted_teams[0] : sorted_teams[1] 
+            winner = t1_won ? sorted_teams[0].info : sorted_teams[1].info
             prob = t1_won ? matchup_probability : (1 - matchup_probability)
             prob = (prob*100).toFixed(2) + "%"
         }
@@ -133,17 +123,12 @@ function CalculateWinner(model_id, season, t1,t2)
     }
     return [winner, prob]
 }
-function MatchupResults(model, season, t1, t2)
-{
-    let [winner, probability] = ["", 0.0]
-    if (t1 && t2)
-    {
-        console.log("Making prediction using "+ model + " between " + t1.id + " and " + t2.id);
-        [winner, probability] = CalculateWinner(model, season, t1, t2)
-    }
+let ModelPrediction = (model, setModel, season, t1, t2) => {
+    let [winner, probability] = CalculateWinner(model, season, t1, t2)
 
     return (
         <Card className='matchupResultsContainer'>
+            {ModelSelector(model, setModel)}
             <table>
                 <tr><th>Winner</th><th>Probability</th></tr>
                 <tr>
@@ -155,46 +140,80 @@ function MatchupResults(model, season, t1, t2)
     )
 }
 
+let CompareTeams = (t1, t2) => {
+    if (t1 === null || t2 === null){
+        return <Card className='compareTeams'>Select Teams Above</Card>
+    }
+    let t1_features = Object.keys(t1.features)
+    let t2_features = Object.keys(t2.features)
+    let statsToCompare = t1_features.filter(x => t2_features.includes(x))
+    statsToCompare = statsToCompare.filter(x => ! x.endsWith("stdev"))
+    // Build out table view comparing features
+
+    let table_rows_data = statsToCompare.map((feature) => {
+        let t1_val = t1.features[feature].toFixed(2)
+        let t2_val = t2.features[feature].toFixed(2)
+        return (
+            <Card.Text className='compareTeamsElement'>
+                <div>{t1_val}</div>
+                <div>{feature}</div>
+                <div>{t2_val}</div>
+            </Card.Text>
+        )
+    })
+    let m_data = (
+        <Card.Body className='compareTeamsBody'>
+            <Card.Title className='compareTeamsHeader'>
+                <div>{t1.info.n}</div>
+                <div>Stat</div>
+                <div>{t2.info.n}</div>
+            </Card.Title>
+
+            {table_rows_data}
+        </Card.Body>
+    )
+
+    return (<Card className='compareTeams'>{m_data}</Card>)
+}
+
+let MatchupData = () => {
+    let [model, setModel] = useState(DEFAULT_MODEL)
+    let [season, setSeason] = useState(DEFAULT_SEASON)
+    let [ t1, setTeam1 ] = useState(null)
+    let [ t2, setTeam2 ] = useState(null)
+    let team1Component = (t1 !== null) ? TeamComponent(t1, setTeam1) : SelectTeam(model, season, setTeam1)
+    let team2Component = (t2 !== null) ? TeamComponent(t2, setTeam2) : SelectTeam(model, season, setTeam2)
+    return (
+        <div className='matchupView'>
+            <h2>Matchup Analyzer</h2>
+            <div className='selectorContainer'>
+                {SeasonSelector(season, setSeason, t1, setTeam1, t2, setTeam2)}
+            </div>
+            <Card className='selectTeamsContainer'>
+                {team1Component}
+                <p>vs</p>
+                {team2Component}
+            </Card>
+            {CompareTeams(t1, t2)}
+            {ModelPrediction(model, setModel, season, t1, t2)}
+        </div>
+    )
+}
+
 
 function Matchup()
 {
-    let pageHeader = "Tournament Matchup"
-
+    console.log(teamData)
     let navContent = [
         { type: "SingleLink", title: "Home", pageRef: "/" },
         { type: "SingleLink", title: "March Madness", pageRef: "/marchmadness" },
         { type: "SingleLink", title: "Bracket", pageRef: "/mm/bracket" }
     ]
 
-    let [model, setModel] = useState(DEFAULT_MODEL)
-    let [season, setSeason] = useState(DEFAULT_SEASON)
-    let [ t1, setTeam1 ] = useState(null)
-    let [ t2, setTeam2 ] = useState(null)
-    let [ t1features, setTeam1Features ] = useState(null)
-    let [ t2features, setTeam2Features ] = useState(null)
-    let team1Component = (t1) ? TeamComponent(t1, t1features, setTeam1) : SelectTeam(model, season, setTeam1, setTeam1Features)
-    let t1Class = (t1) ? 'teamItem' : 'selectTeamItem'
-    let team2Component = (t2) ? TeamComponent(t2, t2features, setTeam2) : SelectTeam(model, season, setTeam2, setTeam2Features)
-    let t2Class = (t2) ? 'teamItem' : 'selectTeamItem'
-
     return (
         <div>
             <Nav navContent={navContent}/>
-            <div className='matchupView'>
-                <div className='d-flex flex-column align-items-center'>
-                    <h2>{pageHeader}</h2>
-                    <div className='selectorContainer'>
-                        {ModelSelector(model, setModel)}
-                        {SeasonSelector(season, setSeason, t1, setTeam1, t2, setTeam2)}
-                    </div>
-                </div>
-                <div className='matchupContainer'>
-                    <Card className={t1Class}>{team1Component}</Card>
-                    <p>vs</p>
-                    <Card className={t2Class}>{team2Component}</Card>
-                </div>
-                {MatchupResults(model, season, t1, t2)}
-            </div>
+            <MatchupData />
         </div>
     )
 }

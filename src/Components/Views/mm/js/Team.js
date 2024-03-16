@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
+import { Badge, Button, Card } from 'react-bootstrap'
 import Helmet from 'react-helmet';
+import Select from 'react-select';
+import { Link } from 'gatsby';
 import { useLocation, navigate } from '@reach/router';
-import { RadarChart, Radar, PolarAngleAxis, PolarRadiusAxis, PolarGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { RadialBar, RadialBarChart, RadarChart, Radar, PolarAngleAxis, PolarRadiusAxis, PolarGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import Nav  from '../../../js/Nav'
 import { MMBracket } from '../../../../images/Blogs/MarchMadnessML'
 import TeamIds from '../../../../Data/mm/team_ids'
-import SimilarTeams from '../../../../Data/mm/similar_teams'
 import TeamSeasons from '../../../../Data/mm/team_seasons'
 import 'bootstrap/dist/css/bootstrap.css'
 import '../css/team.css'
@@ -26,12 +28,19 @@ let toggleCollapse = (id, display_val) => {
     }
 }
 
-const TeamDataEntryTitle = ({title, classNames, toggle_key}) => (
-        <div className={classNames}>
-            <h5>{title}</h5>
-            <button onClick={() => {toggleCollapse(toggle_key, "flex")}}>+</button>
-        </div> 
-    )
+const TeamDataEntryTitle = ({is_collapsible, title, classNames, toggle_key}) => {
+        if (is_collapsible === true) {
+            return(
+                <div className={classNames}>
+                    <h5>{title}</h5><Badge variant='primary' onClick={() => {toggleCollapse(toggle_key, "flex")}}>+</Badge>
+                </div>)
+        } else {
+            return(
+                <div className={classNames}>
+                    <h5>{title}</h5>
+                </div>)
+        }
+    }
 
 const TeamDataTable = ({ data, maxValueHeight }) => {
     // Description: Component displaying data in a 'team-data-table' div
@@ -47,10 +56,10 @@ const TeamDataTable = ({ data, maxValueHeight }) => {
         let data_div_key = `${entry_key}_data`;
         let objClassNames = obj.is_collapsible ? 'team-data-table-entry is-collapsible' : 'team-data-table-entry not-collapsible'
         let titleClassNames = obj.is_collapsible ? 'team-data-table-entry-title is-collapsible' : 'team-data-table-entry-title not-collapsible'
-        return(<div className={objClassNames} key={entry_key}>
-            <TeamDataEntryTitle title={obj.title} classNames={titleClassNames} toggle_key={data_div_key} />
+        return(<Card className={objClassNames} key={entry_key}>
+            <TeamDataEntryTitle is_collapsible={obj.is_collapsible} title={obj.title} classNames={titleClassNames} toggle_key={data_div_key} />
             <div id={data_div_key} className='vertical-data' style={{'maxHeight': maxValueHeight}}>{obj.value}</div>
-        </div>)
+        </Card>)
     })
     return (<div className='team-data-table'>{entries}</div>)
 }
@@ -63,26 +72,24 @@ const TeamOverview = ({ teamData }) => {
         tourneyVal = "TBD March 17"
     } else if (teamTourney === null){
         tourneyVal = "Missed Tournament"
-    } else if (teamData.year >= 2023) {
-        tourneyVal = "TBD March 17"
     } else {
         tourneyVal = teamTourney.seed === null ? "Missed Tournament" : (teamTourney.exit_round === "Champion" ? "Champion" : `Lost in ${teamTourney.exit_round} (${teamTourney.seed} Seed)`)
     }
     let tableData = [
-        {key: 'tourney',    title: "Tournament",      value: tourneyVal},
-        {key: 'conf',       title: "Conference", value: `${teamData.record.conf[0]} - ${teamData.record.conf[1]}`},
+        {key: 'tourney',    title: <Link to={`/mm/bracket/?year=${teamData.year}`} >Tournament</Link>,      value: tourneyVal},
         {key: 'rec-ov',     title: "Overall", value: `${teamData.record.overall[0]} - ${teamData.record.overall[1]}`},
+        {key: 'conf',       title: "Conference", value: `${teamData.record.conf[0]} - ${teamData.record.conf[1]}`},
         {key: 'rec-home',   title: "Home", value: `${teamData.record.home[0]} - ${teamData.record.home[1]}`},
         {key: 'rec-road',   title: "Road", value: `${teamData.record.road[0]} - ${teamData.record.road[1]}`}
     ]
     // Apply a 'stat-value' div to each object value
     tableData.forEach((obj) => obj.value = <div className='stat-value'>{obj.value}</div>)
     return(
-        <div id={"teamOverview"} style={{width: "100%", border: "1px solid black"}}>
+        <Card id={"teamOverview"} style={{width: "100%"}}>
             <h1>Overview</h1>
             <hr />
             <TeamDataTable data={tableData}  maxValueHeight={'8rem'}/>
-        </div>
+        </Card>
     )
 }
 
@@ -99,32 +106,39 @@ const TeamSearchBar = ({ selectedYear, setTeamF }) => {
         else { return teamName.toLowerCase().includes(searchTerm.toLowerCase()) }
     }
     );
-  
+
+
+    // Replace with react-select
+    let options = Object.entries(TeamIds).map(([teamId, teamName]) => ({value: teamId, label: teamName}))
+    const handleSelect = (selectedOption) => {
+        navTo(selectedOption.value, selectedYear, setTeamF);
+    }
     return (
-      <div className='team-search-bar'>
-        <input type="text" placeholder="Search for a team" value={searchTerm} onChange={handleChange} />
-        <ul className='search-results'>
-          {filteredTeams.map(([teamId, teamName]) => (
-            <li key={teamId} onClick={() => handleSelectTeam(teamId)}>
-              {teamName}
-            </li>
-          ))}
-        </ul>
-      </div>
-    );
+        <div className='team-search-bar'>
+            <Select placeholder={'Select Team'} maxMenuHeight={200} options={options} onChange={handleSelect} />
+        </div>
+    )
   };
 
-const YearSearchBar = ({ teamYears, selectedTeam, setTeamYearF }) => {
-  
+const YearSearchBar = ({ current, teamYears, selectedTeam, setTeamYearF }) => {
+    // Replace with react-select
+    let options = teamYears.map((ty) => ({value: ty, label: ty}))
+    const handleSelect = (selectedOption) => {
+        navTo(selectedTeam, selectedOption.value, setTeamYearF);
+    }
     return (
-      <div className='team-search-bar'>
-        <select onChange={(e) => navTo(selectedTeam, e.target.value, setTeamYearF)}>
-          {teamYears.map((ty) => (
-            <option key={ty} value={ty}>{ty}</option>
-          ))}
-        </select>
-      </div>
-    );
+        <div className='team-search-bar'>
+            <Select placeholder={current} maxMenuHeight={200} options={options} onChange={handleSelect} />
+        </div>
+    )
+    // return (
+    //   <div className='team-search-bar'>
+    //     <select onChange={(e) => navTo(selectedTeam, e.target.value, setTeamYearF)}>
+    //       {teamYears.map((ty) => (
+    //         <option key={ty} value={ty}>{ty}</option>
+    //       ))}
+    //     </select>
+    //   </div>
 };
 
 const TeamHeader = ({ teamData, selectedSzn, setTeamF }) => {
@@ -133,7 +147,7 @@ const TeamHeader = ({ teamData, selectedSzn, setTeamF }) => {
     let teamYears = Array.from({length: 2024 - teamStartYear}, (_, i) => teamStartYear + i).reverse();
     return (
         <div id={"teamHeader"} className='team-header'>
-            <YearSearchBar teamYears={teamYears} selectedTeam={teamData.id} setTeamYearF={setTeamF} />
+            <YearSearchBar current={selectedSzn} teamYears={teamYears} selectedTeam={teamData.id} setTeamYearF={setTeamF} />
             <div><h1>{teamData.name}</h1><h5>{teamData.year}</h5></div>
             <TeamSearchBar selectedYear={selectedSzn} setTeamF={setTeamF}  />
         </div>
@@ -144,40 +158,42 @@ const TeamHeader = ({ teamData, selectedSzn, setTeamF }) => {
 
 const get_quad_data = (rec, quad_wins, quad_losses, quad, year, setTeamF) => {
     let quad_key = `${rec[0]} - ${rec[1]} vs Quad ${quad}`
-    let quad_value = []
+    let quad_games = []
     for (let i = 0; i < quad_wins.length; i++){
         let game = quad_wins[i]
         let loc_prefix = game.team_loc === 'H' ? 'vs' : 'at'
-        quad_value.push([
+        quad_games.push([
             game.date_int,
             game.date_str,
             game.opp_id,
             `${loc_prefix} ${TeamIds[game.opp_id]}`,
-            `${game.team_score} - ${game.opp_score}`
+            `${game.team_score} - ${game.opp_score}`,
+            game.team_score > game.opp_score ? 'green' : 'red'
         ])
     }
     for (let i = 0; i < quad_losses.length; i++){
         let game = quad_losses[i]
         let loc_prefix = game.team_loc === 'H' ? 'vs' : 'at'
-        quad_value.push([
+        quad_games.push([
             game.date_int,
             game.date_str,
             game.opp_id,
             `${loc_prefix} ${TeamIds[game.opp_id]}`,
-            `${game.team_score} - ${game.opp_score}`
+            `${game.team_score} - ${game.opp_score}`,
+            game.team_score > game.opp_score ? 'green' : 'red'
         ])
     }
-    // Sort quad_value by date_int
-    quad_value.sort((a, b) => (a[0] > b[0]) ? -1 : 1)
+    // Sort quad_games by date_int
+    quad_games.sort((a, b) => (a[0] > b[0]) ? -1 : 1)
     // and remove it from the value
-    quad_value.forEach((game) => game.splice(0, 1))
+    quad_games.forEach((game) => game.splice(0, 1))
     // Format the game into a div
-    quad_value = quad_value.map((game, i) => 
+    quad_games = quad_games.map((game, i) => 
         <div className='quad-game' key={i}>
-        <div>{game[0]}</div> <div onClick={() => { navTo(game[1], year, setTeamF)}}>{game[2]}</div> <div>{game[3]}</div>
+        <div>{game[0]}</div> <a href="javascript:;" onClick={() => { navTo(game[1], year, setTeamF)}}>{game[2]}</a> <div style={{'color': game[4]}}>{game[3]}</div>
         </div>)
     
-    return [quad_key, quad_value]
+    return [quad_key, quad_games]
 }
 
 let ordinal_with_suffix = (i) => {
@@ -214,7 +230,7 @@ const TeamResume = ({ teamData, setTeamF }) => {
         quad_table.push({key: `quad_${i}_data`, title: quad_data_key, value: quad_data_val, is_collapsible: true})
     }
     return (
-        <div id={"teamResume"} style={{width: "100%", border: "1px solid green"}}>
+        <div id={"teamResume"} style={{width: "100%"}}>
             <h1>Resume</h1>
             <hr />
             <TeamDataTable data={strength_data} maxValueHeight={'8rem'} />
@@ -295,7 +311,7 @@ const TeamStats = ({ teamData }) => {
     
 
     return (
-        <div id={"teamStats"} style={{width: "100%", border: "1px solid red"}}>
+        <div id={"teamStats"} style={{width: "100%"}}>
             <h1>Stats</h1>
             <hr />
             <div className='team-stats-data'>
@@ -315,16 +331,23 @@ const SimilarTeamsTable = ({ similarTeamsData, setTeamYearF }) => {
     let formattedData = similarTeamsData.map((team) => {
         let teamTourney = team.er === null ? "Missed Tournament" : team.er === "Champion" ? "Champion" : `Lost in ${team.er}`
         let labelVal = `${team.year} ${TeamIds[team.id]}`
+        let data = [{'s': (team.st*100).toFixed(2)}]
         return (
-            <div className='similar-teams-table-entry' onClick={() => navTo(team.id, team.year, setTeamYearF)}>
-                <div>{labelVal}</div>
+            <Card className='similar-teams-table-entry' >
+                {/* RadialBarChart with SemiCircle of data val and value under in text box */}
+                <ResponsiveContainer width={100} height={100}>
+                    <RadialBarChart cy={80} innerRadius={40} outerRadius={60} data={data} startAngle={180} endAngle={0}>
+                        <RadialBar minPointSize={15} background dataKey="s" fill="#82ca9d" />
+                    <text textAnchor='middle' verticalAnchor='middle' x='50%' y='80%' fill="#000">{(team.st*100).toFixed(2)}%</text>
+                    </RadialBarChart>
+                </ResponsiveContainer>
+                <a href="javascript:;" onClick={() => navTo(team.id, team.year, setTeamYearF)}>{labelVal}</a>
                 <div>{teamTourney}</div>
-                <div>Similarity: {team.st*100}%</div>
-            </div>
+            </Card>
         )
     })
     return (
-        <div style={{'height': 'fit-content', 'border': '1px solid green'}} >
+        <div style={{'height': 'fit-content'}} >
             <h2>Similar Teams</h2>
             <div className='similar-teams-table'>
             {formattedData}
@@ -366,7 +389,7 @@ const TeamData = () => {
         </div>)
     }
     return (
-        <div style={{width: "100%", border: "1px solid yellow"}}>
+        <div style={{width: "100%"}}>
             <TeamHeader     teamData={teamData} selectedSzn={selectedTeamYear.year} setTeamF={setSelectedTeamYear} />
             <TeamOverview   teamData={teamData} />
             <TeamResume     teamData={teamData} setTeamF={setSelectedTeamYear} />

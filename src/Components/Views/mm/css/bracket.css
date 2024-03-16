@@ -1,7 +1,8 @@
 .app-container {
     width: 100%;
-    border: 1px solid green;
+    background-color: #fff;
 }
+
 .sidePanel {
   position: absolute;
   top: 0;
@@ -28,31 +29,32 @@
 
 .data-container {
     width: 100%;
-    border: 1px solid red;
 }
 
 .region-container {
     position: relative;
     width: 100%;
-    border: 1px solid blue;
     display: flex;
     flex-direction: row;
+    height: fit-content;
 }
 /* Final Four Styling */
 .ff-container {
     display: grid;
     grid-template-columns: 40% 40%;
-    grid-template-rows: 1fr;
+    grid-template-rows: 1fr 1fr;
     width: 100%;
-    height: 32rem;
+    height: 36rem;
     align-items: center;
+    text-align: center;
 }
 
 .round-container-ff {
     height: 100%;
     display: grid;
     grid-template-columns: 100%;
-    grid-template-rows: 16rem 16rem;
+    grid-template-rows: 4rem 16rem 16rem;
+    align-items: center;
 }
 .round-container-ff .game-container {
     height: 8rem;
@@ -60,77 +62,92 @@
 }
 
 .round-container-ch {
-    border: 1px solid orange;
-    height: 16rem;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 4rem 32rem;
+    align-items: center;
 }
 .round-container-ch .game-container {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 100%;
+    height: 16rem;
+}
+
+.round-container-ch {
+    align-items: center;
 }
 
 /* Tourney Round Styling (non Final Four) */
 .tourney-region {
-    border: 1px solid yellow;
     display: grid;
     grid-template-columns: 33% 33% 33%;
-    grid-template-rows: 1fr;
+    grid-template-rows: 1fr 1fr;
     width: 100%;
-    height: 32rem;
+    height: 36rem;
+    align-items: center;
+    text-align: center;
+}
+.round-container {
     align-items: center;
 }
 .round-container.left {
     height: 100%;
     display: grid;
     grid-template-columns: 100%;
-    grid-template-rows: 8rem 8rem 8rem 8rem;
+    grid-template-rows: 4rem 8rem 8rem 8rem 8rem;
 };
-.round-container.left div {
-    border: 2px solid blue;
+.round-container.left .game-container {
+    height: 8rem;
 }
 .round-container.center {
     height: 100%;
     display: grid;
     grid-template-columns: 100%;
-    grid-template-rows: 1fr 1fr;
+    grid-template-rows: 4rem 16rem 16rem;
+    justify-content: center;
 }
 .round-container.center .game-container {
     height: 8rem;
-    margin-top: 4rem;
-    margin-bottom: 4rem;
-    border: 2px solid red;
 }
 .round-container.right {
-    height: 12rem;
-    display: block;
-    border: 1px solid orange;
-    align-items: center;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 4rem 32rem;
     justify-content: center;
 }
 .round-container.right .game-container {
-    height: 8rem;
-    border: 1px solid green;
-    margin-top: 2rem;
-
+    height: 16rem;
 }
 
 .game-container {
+    background-color: rgb(250, 246, 246);
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    flex-direction: grid;
+    grid-template-columns: 45% 10% 45%;
+    grid-template-rows: 100%;
     align-items: center;
-    border: 1px solid pink;
+    border-right: 1px solid black;
     width: 100%;
     min-height: 5rem;
+}
+.score-container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .team-container {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    border: 1px solid orange;
+    height: 100%;
     width: 100%;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
 }
 .team-container.green {
     color: green;
@@ -139,20 +156,21 @@
 /* Sidebar */
 
 .panel-table {
-display: flex;
-flex-direction: column;
-white-space: nowrap;
-margin-top: 0.5rem;
-margin-bottom: 0.5rem;
-justify-content: space-around;
+    display: flex;
+    flex-direction: column;
+    white-space: nowrap;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    justify-content: space-around;
+    padding-left: 0.5rem;
 }
 .panel-entry {
-display: flex;
-flex-direction: column;
-white-space: nowrap;
-justify-content: start;
-align-items: center;
-border: 1px solid red;
+    display: flex;
+    flex-direction: column;
+    white-space: nowrap;
+    justify-content: start;
+    align-items: center;
+    padding-left: 0.5rem;
 }
 
 .panel-entry-title {
@@ -160,9 +178,15 @@ border: 1px solid red;
     flex-direction: row;
     padding: 0.25rem;
     justify-content: center;
+    align-items: center;
     font-weight: bold;
-    border: 1px solid black;
+    color: black;
+    border-bottom: 1px solid black;
     width: 100%;
+}
+.panel-entry-title div {
+    margin-left: 1rem;
+    margin-right: 1rem;
 }
 
 .panel-entry-title button {
