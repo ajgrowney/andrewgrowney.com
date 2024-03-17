@@ -144,7 +144,7 @@ const YearSearchBar = ({ current, teamYears, selectedTeam, setTeamYearF }) => {
 const TeamHeader = ({ teamData, selectedSzn, setTeamF }) => {
     let [teamStartYear, teamEndYear] = TeamSeasons[teamData.id]
     // TODO: replace with end year once 2023 data is available
-    let teamYears = Array.from({length: 2024 - teamStartYear}, (_, i) => teamStartYear + i).reverse();
+    let teamYears = Array.from({length: teamEndYear - teamStartYear + 1}, (_, i) => teamStartYear + i).reverse();
     return (
         <div id={"teamHeader"} className='team-header'>
             <YearSearchBar current={selectedSzn} teamYears={teamYears} selectedTeam={teamData.id} setTeamYearF={setTeamF} />

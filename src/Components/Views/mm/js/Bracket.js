@@ -7,7 +7,7 @@
 
 import React, { useEffect, useState } from 'react'
 import { Link } from 'gatsby'
-import { Button, Card} from 'react-bootstrap'
+import { Button, Card, Table } from 'react-bootstrap'
 import Helmet from 'react-helmet';
 import { useSwipeable } from 'react-swipeable';
 import { useLocation, navigate } from '@reach/router';
@@ -21,7 +21,12 @@ const DATA_HOME = 'https://raw.githubusercontent.com/ajgrowney/march-madness-ml/
 
 const DEFAULT_MODEL = "2022_grid_poly_1"
 const DEFAULT_SEASON = 2023
-const SEASON_LIST = [2023, 2022, 2021, 2019, 2018, 2017, 2016, 2015, 2014, 2013]
+const BASE_2024 = {
+    regions: { W: "East", X: "South", Y: "Midwest",Z: "West" },
+    slots: {},
+    teams: {}
+}
+const SEASON_LIST = [2024, 2023, 2022, 2021, 2019, 2018, 2017, 2016, 2015, 2014, 2013]
 const TOURNEY_REGION_VIEWS = {
     "W1":   { prefix: "Top",      slots: ["R1W1", "R1W8", "R1W5", "R1W4", "R2W1", "R2W4", "R3W1"], nav: { down: "Z2", up: "W2", left: "16WX", right: "W1"}},
     "W2":   { prefix: "Bottom",   slots: ["R1W6", "R1W3", "R1W7", "R1W2", "R2W3", "R2W2", "R3W2"], nav: { down: "W1", up: "X1", left: "16WX", right: "W2"}},
@@ -134,6 +139,7 @@ const TeamDataTable = ({ data, maxValueHeight }) => {
 }
 
 let fmtContent = (tid, teamName, teamYear, content) => {
+    console.log(content)
     let [wins, losses] = content["Rec"]
     let ranks = content["Ranks"]
     let rankDiv = <div>{Object.keys(ranks).map(x => <div>{x}: {ranks[x]}</div>)}</div>
@@ -148,6 +154,43 @@ let fmtContent = (tid, teamName, teamYear, content) => {
     ]
 }
 
+let ReadSlotSidePanel = ({sid, sname, ts, wname, tw}) => {
+    console.log(ts)
+    let roundName = ""
+    if (sid.startsWith("R1")) { roundName = "Round of 64" }
+    else if (sid.startsWith("R2")) { roundName = "Round of 32" }
+    else if (sid.startsWith("R3")) { roundName = "Sweet Sixteen" }
+    else if (sid.startsWith("R4")) { roundName = "Elite 8" }
+    else if (sid.startsWith("R5")) { roundName = "Final Four" }
+    else if (sid.startsWith("R6")) { roundName = "Championship" }
+    let modelInsightsDiv = (<div>
+            <h5>Model Insights</h5>
+            <div>Coming soon...</div>
+        </div>)
+    let ranksInBoth = Object.keys(ts["Ranks"]).filter(x => Object.keys(tw["Ranks"]).includes(x))
+    let rankTable = (<Table>
+        <thead><tr><th>{sname}</th><th>Stat</th><th>{wname}</th></tr></thead>
+        <tbody>{ranksInBoth.map(x => <tr> <td>{ts["Ranks"][x]}</td> <td>{x}</td> <td>{tw["Ranks"][x]}</td></tr>)}</tbody>
+    </Table>)
+    let rankDiv = (<div>
+        <h5>Rank Comparison</h5>
+        {rankTable}
+    </div>)
+    return (
+        <Card style={{'textAlign': 'center'}}>
+            <Card.Title>{sname} vs {wname}</Card.Title>
+            <Card.Subtitle>{roundName}</Card.Subtitle>
+            <Card.Body>
+                <hr />
+                {modelInsightsDiv}
+                <hr />
+                {rankDiv}
+            </Card.Body>
+        </Card>
+    )
+}
+
+
 const RegionData = (tourneyData, view, setSidePanel) => {
     let selectedRegionSlots = TOURNEY_REGION_VIEWS[view.region].slots
     // Get Game Data
@@ -156,16 +199,22 @@ const RegionData = (tourneyData, view, setSidePanel) => {
         let [strongSeedScore, strongSeedColor] = s["strong_seed"] == s["winner"] ? [s["wscore"], "green"] : [s["lscore"], ""]
         let [weakSeedScore, weakSeedColor] = s["weak_seed"] == s["winner"] ? [s["wscore"], "green"] : [s["lscore"], ""]
         // Flip Round 2 games that aren't the 1 vs 8 slot
-        let isFlipped = x.substr(0,2) == "R2" && x[3] != "1"
+        // Flip Round 3 games that are in the bottom half of the region
+        let isFlipped = (x.substr(0,2) == "R2" && x[3] != "1") || (x.substr(0,2) == "R3" && x[3] == "2")
         let [ssid, wsid] = [s["strong_seed"], s["weak_seed"]]
-        let strongSeedContent = [TeamIds[ssid], strongSeedColor, fmtContent(ssid, TeamIds[ssid], view.year, tourneyData.teams[ssid])]
-        let weakSeedContent = [TeamIds[wsid], weakSeedColor, fmtContent(wsid, TeamIds[wsid], view.year, tourneyData.teams[wsid])]
+        let [sName, wName] = [TeamIds[ssid], TeamIds[wsid]]
+        let [sTeam, wTeam] = [tourneyData.teams[ssid], tourneyData.teams[wsid]]
+        console.log(tourneyData.teams[ssid])
+        let [sSeed, wSeed] = [tourneyData.teams[ssid]["Seed"], tourneyData.teams[wsid]["Seed"]]
+        let strongSeedContent = [<div className='team-info'><div>{sSeed}</div><div>{sName}</div></div>, strongSeedColor, fmtContent(ssid, sName, view.year, tourneyData.teams[ssid])]
+        let weakSeedContent = [<div className='team-info'><div>{wSeed}</div><div>{wName}</div></div>, weakSeedColor, fmtContent(wsid, wName, view.year, tourneyData.teams[wsid])]
         let [topData, topColor, topSideCont] = isFlipped ? weakSeedContent : strongSeedContent
         let [bottomData, bottomColor, bottomSideCont] = isFlipped ? strongSeedContent : weakSeedContent
+        let slotContent = <ReadSlotSidePanel sid={x} sname={sName} ts={sTeam} wname={wName} tw={wTeam} />
         return (
             <Card key={x} id={x} className='game-container'>
                 <div className={`team-container ${topColor}`} onClick={() => setSidePanel({show: true, content: <TeamDataTable data={topSideCont} />})}>{topData}</div>
-                <div className='score-container'>{strongSeedScore} - {weakSeedScore}</div>
+                <div className='score-container' onClick={() => setSidePanel({show: true, content: slotContent})}>{strongSeedScore} - {weakSeedScore}</div>
                 <div className={`team-container ${bottomColor}`} onClick={() => setSidePanel({show: true, content: <TeamDataTable data={bottomSideCont} />})}>{bottomData}</div>
             </Card>
         )
@@ -213,22 +262,29 @@ let BracketData = () => {
         year: queryParams.get('year') || '2023',
         region: queryParams.get('region') || 'FF'
     });
-    const swipeHandlers = useSwipeable({
-        onSwipedRight: () => setSelectedState(prevState => ({...prevState, region: TOURNEY_REGION_VIEWS[prevState.region].nav.right})),
-        onSwipedLeft: () => setSelectedState(prevState => ({...prevState, region: TOURNEY_REGION_VIEWS[prevState.region].nav.left})),
-        onSwipedUp: () => setSelectedState(prevState => ({...prevState, region: TOURNEY_REGION_VIEWS[prevState.region].nav.up})),
-        onSwipedDown: () => setSelectedState(prevState => ({...prevState, region: TOURNEY_REGION_VIEWS[prevState.region].nav.down}))
-    });
-    console.log(`Year: ${selectedState}`);
+    console.log(`State: ${selectedState}`);
     let [bracketData, setbracketData] = useState(null)
+    let [predictions, setPredictions] = useState(BASE_2024)
+    
+    // Fetch Read Data from GitHub
     useEffect(() => {
-        fetch(`${DATA_HOME}/${selectedState.year}.json`)
-            .then(response => response.json())
-            .then(data => {setbracketData(data)})
-            .catch(error => {
-                setbracketData({not_found: true});})
-        }, [selectedState]);
+        if (selectedState.mode == "edit") {
+            setbracketData(predictions)
+        } else {
+            console.log(`Fetching ${DATA_HOME}/${selectedState.year}.json`)
+            fetch(`${DATA_HOME}/${selectedState.year}.json`)
+                .then(response => response.json())
+                .then(data => {setbracketData(data)})
+                .catch(error => {setbracketData({not_found: true});})
+        }
+    }, [selectedState]);
     console.log(bracketData);
+    const swipeHandlers = useSwipeable({
+        onSwipedRight: () => { if (sidePanel.show === false) {setSelectedState(prevState => ({...prevState, region: TOURNEY_REGION_VIEWS[prevState.region].nav.right}))}},
+        onSwipedLeft: () =>  { if (sidePanel.show === false) {setSelectedState(prevState => ({...prevState, region: TOURNEY_REGION_VIEWS[prevState.region].nav.left}))}},
+        onSwipedUp: () =>    { if (sidePanel.show === false) {setSelectedState(prevState => ({...prevState, region: TOURNEY_REGION_VIEWS[prevState.region].nav.up}))}},
+        onSwipedDown: () =>  { if (sidePanel.show === false) {setSelectedState(prevState => ({...prevState, region: TOURNEY_REGION_VIEWS[prevState.region].nav.down}))}}
+    });
     
     if (bracketData === null){
         return <div>Loading...</div>
@@ -257,7 +313,6 @@ function Bracket()
         { type: "SingleLink", title: "Matchup", pageRef: "/mm/matchup/" },
         { type: "SingleLink", title: "Team Viewer", pageRef: "/mm/team/" },
     ]
-    let [predictions, setPredictions] = useState({})
 
     return (
         <div id="root">

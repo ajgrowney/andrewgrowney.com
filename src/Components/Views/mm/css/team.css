@@ -119,9 +119,9 @@
 
 /* Media query for mobile devices */
 @media (max-width: 767px) {
-  .is-collapsible .vertical-data {
+  /* .is-collapsible .vertical-data {
     display: none;
-  }
+  } */
   .team-header {
     width: 100%;
     display: grid;
