@@ -29,13 +29,14 @@ const MMHomeView = () => {
 
     let resourceType = ""
     let navContent = [
-        { type: "SingleLink", title: "Matchup", pageRef: "/mm/matchup" },
-        { type: "SingleLink", title: "Bracket", pageRef: "/mm/bracket" }
+        { type: "SingleLink", title: "Matchup", pageRef: "/mm/matchup/" },
+        { type: "SingleLink", title: "Bracket", pageRef: "/mm/bracket/" },
+        { type: "SingleLink", title: "Team Profile", pageRef: "/mm/team/" }
     ]
     const headerContent = {
         titleContent: [
             <div className={"featuredProjectHeader"}>
-                <h2>March Madness Home</h2>
+                <h2>The Madness Suite</h2>
             </div>
         ],
         subtitleContent: [
@@ -46,16 +47,22 @@ const MMHomeView = () => {
         imageContent: [MMBracket]
     }
     const sections = [
+
+        {
+            "id": "bracket",
+            "title": "Bracket Insights",
+            "preview": "Look at how a model performed on matchups throughout previous tournaments"
+        },
+        {
+            "id": "team",
+            "title": "Team Profiles",
+            "preview": "Checkout team profiles to get a view of their historical performance and similar teams in the past"
+        },
         {
             "id": "matchup",
             "title": "Head-to-Head Matchups",
             "preview": "Look at head-to-head matchups in NCAA tournament history to see model predictions on a game-by-game basis"
         },
-        {
-            "id": "bracket",
-            "title": "Full NCAA Tournament View",
-            "preview": "Look at how a model performed on matchups throughout previous tournaments"
-        }
     ].map(x => PagePreviewSection(x))
     return (
         <div id="root">

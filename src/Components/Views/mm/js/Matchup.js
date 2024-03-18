@@ -9,17 +9,39 @@ import teamSeeds from '../../../../Data/mm/teamSeeds_v2'
 import model_info_map from '../../../../Data/mm/model_info';
 import full_features_2021 from "../../../../Data/mm/features/2021/all_models"
 import full_features_2022 from "../../../../Data/mm/features/2022/all_models"
+import base_2024 from "../../../../Data/mm/features/2024/base"
 import '../css/matchup.css'
 import 'bootstrap/dist/css/bootstrap.css'
 import { Button } from 'react-bootstrap'
 
-const DEFAULT_MODEL = "2022_grid_poly_1"
-const DEFAULT_SEASON = 2023
-const SEASON_LIST = [ 2023, 2022, 2021, 2019]
+const DEFAULT_MODEL = "base_2024"
+const DEFAULT_SEASON = 2024
+const SEASON_LIST = [ 2024, 2023, 2022, 2021, 2019]
 const feature_set_map = {
     "full_2021": full_features_2021,
-    "full": full_features_2022
+    "full": full_features_2022,
+    "base_2024": base_2024
 }
+
+const statFriendly = {
+    "AdjOE_mean": "Adjusted Offensive Eff",
+    "AdjDE_mean": "Adjusted Defensive Eff",
+    "AdjNE_mean": "Adjusted Net Eff",
+    "FGA3_mean": "3pt Attempts",
+    "TO_mean": "Turnovers",
+    "OR_mean": "Offensive Rebounds",
+    "FT%_mean": "Free Throw %",
+    "EFG%_mean": "Effective FG%",
+    "SOS": "Strength of Schedule",
+    "Q1_WinPct": "Q1 Win %",
+    "Q2_WinPct": "Q2 Win %",
+    "Poss_mean": "Tempo"
+}
+
+const is_pct = (stat) => {
+    return ["OppEFG%_mean", "EFG%_mean", "FT%_mean", "Q1_WinPct", "Q2_WinPct"].includes(stat)
+}
+
 
 function SelectTeam(model_id, season, setTeam)
 {
@@ -110,10 +132,17 @@ function CalculateWinner(model_id, season, t1, t2)
         let matchup_probability = model_predictions[matchup_key]
         if(matchup_probability)
         {
-            let t1_won = matchup_probability >= 0.5
-            winner = t1_won ? sorted_teams[0].info : sorted_teams[1].info
-            prob = t1_won ? matchup_probability : (1 - matchup_probability)
-            prob = (prob*100).toFixed(2) + "%"
+            if (model_id == "base_2024") {
+                let [model_winner, model_prob] = matchup_probability
+                winner = model_winner === sorted_teams[0].info.i ? sorted_teams[0].info : sorted_teams[1].info
+                console.log(winner)
+                prob = model_prob
+            } else {
+                let t1_won = matchup_probability >= 0.5
+                winner = t1_won ? sorted_teams[0].info : sorted_teams[1].info
+                prob = t1_won ? matchup_probability : (1 - matchup_probability)
+                prob = (prob*100).toFixed(2) + "%"
+            }
         }
         else
         {
@@ -125,6 +154,7 @@ function CalculateWinner(model_id, season, t1, t2)
 }
 let ModelPrediction = (model, setModel, season, t1, t2) => {
     let [winner, probability] = CalculateWinner(model, season, t1, t2)
+    console.log(winner)
 
     return (
         <Card className='matchupResultsContainer'>
@@ -132,8 +162,8 @@ let ModelPrediction = (model, setModel, season, t1, t2) => {
             <table>
                 <tr><th>Winner</th><th>Probability</th></tr>
                 <tr>
-                    <td>{winner.name}</td>
-                    <td>{probability}</td>
+                    <td>{winner.n}</td>
+                    <td>{(probability*100).toFixed(2)}%</td>
                 </tr>
             </table>
         </Card>
@@ -147,12 +177,13 @@ let CompareTeams = (t1, t2) => {
     let t1_features = Object.keys(t1.features)
     let t2_features = Object.keys(t2.features)
     let statsToCompare = t1_features.filter(x => t2_features.includes(x))
-    statsToCompare = statsToCompare.filter(x => ! x.endsWith("stdev"))
+    statsToCompare = statsToCompare.filter(x => ! x.endsWith("stdev") && x !== "TeamID")
     // Build out table view comparing features
 
     let table_rows_data = statsToCompare.map((feature) => {
-        let t1_val = t1.features[feature].toFixed(2)
-        let t2_val = t2.features[feature].toFixed(2)
+        let t1_val = is_pct(feature) ? (100*t1.features[feature]).toFixed(2) + "%" : t1.features[feature].toFixed(2)
+        let t2_val = is_pct(feature) ? (100*t2.features[feature]).toFixed(2) + "%" : t2.features[feature].toFixed(2)
+        feature = statFriendly[feature] || feature;
         return (
             <Card.Text className='compareTeamsElement'>
                 <div>{t1_val}</div>
@@ -191,7 +222,7 @@ let MatchupData = () => {
             </div>
             <Card className='selectTeamsContainer'>
                 {team1Component}
-                <p>vs</p>
+                <div>vs</div>
                 {team2Component}
             </Card>
             {CompareTeams(t1, t2)}
@@ -207,7 +238,7 @@ function Matchup()
     let navContent = [
         { type: "SingleLink", title: "Home", pageRef: "/" },
         { type: "SingleLink", title: "March Madness", pageRef: "/marchmadness" },
-        { type: "SingleLink", title: "Bracket", pageRef: "/mm/bracket" }
+        { type: "SingleLink", title: "Bracket", pageRef: "/mm/bracket/" }
     ]
 
     return (

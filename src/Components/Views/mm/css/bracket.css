@@ -132,6 +132,23 @@
     width: 100%;
     min-height: 5rem;
 }
+.slot-container {
+    background-color: rgb(250, 246, 246);
+    display: flex;
+    flex-direction: grid;
+    grid-template-columns: 45% 10% 45%;
+    grid-template-rows: 100%;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid black;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    width: 100%;
+    min-height: 5rem;
+}
+.slot-container div {
+    margin-right: 0.5 rem;
+}
 .score-container {
     height: 100%;
     width: 100%;
@@ -164,7 +181,10 @@
 }
 
 /* Sidebar */
-
+.carousel-control-next,
+.carousel-control-prev /*, .carousel-indicators */ {
+    filter: invert(100%);
+}
 .panel-table {
     display: flex;
     flex-direction: column;

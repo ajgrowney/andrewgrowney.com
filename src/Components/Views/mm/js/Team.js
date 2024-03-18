@@ -69,7 +69,7 @@ const TeamOverview = ({ teamData }) => {
     let teamTourney = teamData.tournament;
     let tourneyVal = ""
     if (teamData.year === CURRENT_YEAR){
-        tourneyVal = "TBD March 17"
+        tourneyVal = "TBD March 19"
     } else if (teamTourney === null){
         tourneyVal = "Missed Tournament"
     } else {
@@ -362,7 +362,7 @@ const TeamData = () => {
     let queryParams = new URLSearchParams(location.search);
     const [selectedTeamYear, setSelectedTeamYear] = useState({
         team: queryParams.get('tid') || '1242',
-        year: queryParams.get('year') || '2023'
+        year: queryParams.get('year') || '2024'
     });
     console.log(`Team: ${selectedTeamYear.team} Year: ${selectedTeamYear.year}`);
     let [teamData, setTeamData] = useState(null)

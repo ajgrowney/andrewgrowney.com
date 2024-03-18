@@ -3,6 +3,7 @@ import linear_svc_pred from './predictions/linear_svc'
 import poly_svc_1_pred from './predictions/poly_svc_1'
 import poly_svc_2_pred from './predictions/poly_svc_2'
 import grid_poly_1_2022_pred from './predictions/2022_grid_poly_1'
+import base_2024 from './predictions/2024.json'
 const model_info_map = {
     "coin": {
         "features": "full"
@@ -38,6 +39,14 @@ const model_info_map = {
         "features": "full_2021",
         min_pred_year: 2016,
         max_pred_year: 2021
+    },
+    "base_2024": {
+        name: "2024 Base",
+        id: "base_2024",
+        "predictions": base_2024,
+        "features": "base_2024",
+        min_pred_year: 2024,
+        max_pred_year: 2024
     }
 }
 
