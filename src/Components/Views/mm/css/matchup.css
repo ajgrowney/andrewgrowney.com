@@ -22,8 +22,7 @@
     width: 80vw;
 }
 .compareTeams {
-    height: 15rem;
-    overflow-y: scroll;
+    overflow-y: auto;
     text-align: center;
     min-width: 50rem;
 }
@@ -45,6 +44,7 @@
     width: 100%;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: 1fr;
+
 }
 .teamItem {
     background-color: #E9E9E9;

@@ -16,11 +16,17 @@ import { Button } from 'react-bootstrap'
 
 const DEFAULT_MODEL = "base_2024"
 const DEFAULT_SEASON = 2024
-const SEASON_LIST = [ 2024, 2023, 2022, 2021, 2019]
+const SEASON_LIST = [ 2024, 2022, 2021, 2019]
 const feature_set_map = {
     "full_2021": full_features_2021,
     "full": full_features_2022,
     "base_2024": base_2024
+}
+const def_model = {
+    2019: "coin",
+    2021: "linear_svc",
+    2022: "2022_grid_poly_1",
+    2024: "base_2024"
 }
 
 const statFriendly = {
@@ -65,24 +71,26 @@ function SelectTeam(model_id, season, setTeam)
         </Card.Body>
     )
 }
-function ModelSelector(selected, setModel)
+function ModelSelector(selected, setModel, season)
 {
     let modelList = Object.keys(model_info_map)
     let handler = (new_model) => { setModel(new_model)}
+    console.log(modelList.map(x => model_info_map[x].name))
+    let options = modelList.filter(x => model_info_map[x].min_pred_year <= season && model_info_map[x].max_pred_year >= season).map(x => ({value: x, label: model_info_map[x].name}))
     return(
         <Dropdown class='selectorItem'>
             <Dropdown.Toggle>Model: {model_info_map[selected].name}</Dropdown.Toggle>
             <Dropdown.Menu>{
-                modelList.filter(x => x !== selected).map(x => 
-                    <Dropdown.Item onSelect={() => {handler(x)}}>{model_info_map[x].name}</Dropdown.Item>)
+                options.filter(x => x.value !== selected).map(x => <Dropdown.Item onSelect={() => {handler(x.value)}}>{x.label}</Dropdown.Item>)
             }</Dropdown.Menu>
         </Dropdown>
     )
 }
-function SeasonSelector(selected, setSeason, team1, setTeam1, team2, setTeam2)
+function SeasonSelector(selected, setSeason, team1, setTeam1, team2, setTeam2, setModel)
 {
     let handler = (new_season) => { 
         setSeason(new_season)
+        setModel(def_model[new_season])
         setTeam1(null)
         setTeam2(null)
     }
@@ -125,23 +133,24 @@ function CalculateWinner(model_id, season, t1, t2)
         prob = 0.5
         prob = (prob*100).toFixed(2) + "%"
     } else {
-        let sorted_teams = [t1, t2].sort((x,y) => x.info.i > y.info.i)
+        console.log(`Calculating winner for ${t1.info.i} vs ${t2.info.i} in ${model_id}`)
+        let sorted_teams = [t1, t2].sort((x,y) => parseInt(x.info.i) - parseInt(y.info.i))
         let team_key_suffix = sorted_teams.map(x => x.info.i).join("_")
         let matchup_key = `${season}_${team_key_suffix}`
+        console.log(`Looking for ${matchup_key} in ${model_id}`)
         let model_predictions = model_info_map[model_id]["predictions"]
         let matchup_probability = model_predictions[matchup_key]
+        console.log(matchup_probability)
         if(matchup_probability)
         {
             if (model_id == "base_2024") {
                 let [model_winner, model_prob] = matchup_probability
                 winner = model_winner === sorted_teams[0].info.i ? sorted_teams[0].info : sorted_teams[1].info
-                console.log(winner)
                 prob = model_prob
             } else {
                 let t1_won = matchup_probability >= 0.5
                 winner = t1_won ? sorted_teams[0].info : sorted_teams[1].info
                 prob = t1_won ? matchup_probability : (1 - matchup_probability)
-                prob = (prob*100).toFixed(2) + "%"
             }
         }
         else
@@ -158,7 +167,7 @@ let ModelPrediction = (model, setModel, season, t1, t2) => {
 
     return (
         <Card className='matchupResultsContainer'>
-            {ModelSelector(model, setModel)}
+            {ModelSelector(model, setModel, season)}
             <table>
                 <tr><th>Winner</th><th>Probability</th></tr>
                 <tr>
@@ -218,15 +227,15 @@ let MatchupData = () => {
         <div className='matchupView'>
             <h2>Matchup Analyzer</h2>
             <div className='selectorContainer'>
-                {SeasonSelector(season, setSeason, t1, setTeam1, t2, setTeam2)}
+                {SeasonSelector(season, setSeason, t1, setTeam1, t2, setTeam2, setModel)}
             </div>
             <Card className='selectTeamsContainer'>
                 {team1Component}
                 <div>vs</div>
                 {team2Component}
             </Card>
-            {CompareTeams(t1, t2)}
             {ModelPrediction(model, setModel, season, t1, t2)}
+            {CompareTeams(t1, t2)}
         </div>
     )
 }
@@ -234,10 +243,9 @@ let MatchupData = () => {
 
 function Matchup()
 {
-    console.log(teamData)
     let navContent = [
         { type: "SingleLink", title: "Home", pageRef: "/" },
-        { type: "SingleLink", title: "March Madness", pageRef: "/marchmadness" },
+        { type: "SingleLink", title: "Madness Suite", pageRef: "/marchmadness" },
         { type: "SingleLink", title: "Bracket", pageRef: "/mm/bracket/" }
     ]
 

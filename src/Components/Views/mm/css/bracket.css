@@ -180,6 +180,14 @@
     color: green;
 }
 
+.minibutton {
+    /* Allow it to overlap content to the left instead of overflowing */
+    position: relative;
+    font-size: 0.5rem;
+    margin-left: 0.25rem;
+    max-height: 1rem;
+    align-self: center;
+}
 /* Sidebar */
 .carousel-control-next,
 .carousel-control-prev /*, .carousel-indicators */ {

@@ -30,6 +30,10 @@ const statFriendly = {
     "Poss": "Tempo"
 }
 
+const IButton = () => {
+    return (<Button size="sm" className='minibutton'>i</Button>)
+}
+
 const SEASON_LIST = [2024, 2023, 2022, 2021, 2019, 2018, 2017, 2016, 2015, 2014, 2013]
 const TOURNEY_REGION_VIEWS = {
     "W1":   { prefix: "Top",      slots: ["R1W1", "R1W8", "R1W5", "R1W4", "R2W1", "R2W4", "R3W1"], nav: { down: "Z2", up: "W2", left: "16WX", right: "W1"}},
@@ -120,16 +124,18 @@ const TeamDataEntryTitle = ({title, classNames, toggle_key}) => (
     </Card.Title> 
 )
 
-const TeamDataTable = ({ data, maxValueHeight }) => {
+const TeamDataTable = ({ tableData, maxValueHeight }) => {
     // Description: Component displaying data in a 'team-data-table' div
     // param data: list of objects with keys: title, value, is_collapsible
     // param maxValueHeight: max height of the value div
-    if (data.constructor !== Array){
+    console.log(tableData)
+    if (tableData.constructor !== Array){
         console.error("TeamDataTable: data is not an array")
+        console.log(tableData)
         return <div>Error</div>
     }
 
-    let entries = data.map((obj) => {
+    let entries = tableData.map((obj) => {
         let entry_key = obj.key;
         let data_div_key = `${entry_key}_data`;
         let objClassNames = obj.is_collapsible ? 'panel-entry is-collapsible' : 'panel-entry not-collapsible'
@@ -143,7 +149,6 @@ const TeamDataTable = ({ data, maxValueHeight }) => {
 }
 
 let fmtContent = (tid, teamName, teamYear, content) => {
-    console.log(content)
     let [wins, losses] = content["Rec"]
     let ranks = content["Ranks"]
     let rankDiv = <div>{Object.keys(ranks).map(x => <div>{statFriendly[x]}: {ranks[x]}</div>)}</div>
@@ -165,7 +170,6 @@ let ReadSlotSidePanel = ({r, y, sid, sname, tsid, ts, wname, twid, tw, tourneyPr
     let [modelInsightsCarIdx, setmodelInsightsCarIdx] = useState(0)
     let roundName = ""
     let regName = ""
-    console.log(sid)
     if (sid.startsWith("R1")) { roundName = "Round of 64", regName = tourneyData["regions"][sid[2]] }
     else if (sid.startsWith("R2")) { roundName = "Round of 32", regName = tourneyData["regions"][sid[2]] }
     else if (sid.startsWith("R3")) { roundName = "Sweet Sixteen", regName = tourneyData["regions"][sid[2]] }
@@ -173,8 +177,6 @@ let ReadSlotSidePanel = ({r, y, sid, sname, tsid, ts, wname, twid, tw, tourneyPr
     else if (sid.startsWith("R5")) { roundName = "Final Four", regName = tourneyData["regions"][sid[2]] + " vs " + tourneyData["regions"][sid[3]] }
     else if (sid.startsWith("R6")) { roundName = "Championship", regName = "Championship" }
     let isMatchup = (tsid && twid) ? (!Array.isArray(twid)) : false
-    console.log("IS IT A MATCHUP???")
-    console.log(isMatchup, twid)
     let panelTitle = isMatchup ? <Card.Title>{sname} vs {wname}</Card.Title> : <Card.Title>{regName}</Card.Title>
     let carousel_items = []
 
@@ -236,11 +238,8 @@ let ReadSlotSidePanel = ({r, y, sid, sname, tsid, ts, wname, twid, tw, tourneyPr
         </div>)
     } else {
         // Slot View
-        console.log("Teams in slot")
-        console.log(includedIds)
         let includedTeamRanks = Object.keys(tourneyProbs).map(x => [x, tourneyData.teams[x]["Ranks"]])
         let statsToRank = Object.keys(includedTeamRanks[0][1])
-        console.log(statsToRank)
         // Build out a table for each stat with columns of team name and rank
         let rankTables = statsToRank.map(x => {
             let statRanks = includedTeamRanks.map(y => [y[0], y[1][x]])
@@ -287,12 +286,13 @@ let ReadSlotSidePanel = ({r, y, sid, sname, tsid, ts, wname, twid, tw, tourneyPr
 }
 
 
+
+
 const RegionData = (tourneyData, view, setSidePanel) => {
     let selectedRegionSlots = TOURNEY_REGION_VIEWS[view.region].slots
     // Get Game Data
     let gameData = selectedRegionSlots.map(x => {
         let s = tourneyData["slots"][x]
-        console.log(s)
         if (view.year < 2024 || x.startsWith("R1")){
             let [strongSeedScore, strongSeedColor] = s["strong_seed"] == s["winner"] ? [s["wscore"], "green"] : [s["lscore"], ""]
             let [weakSeedScore, weakSeedColor] = s["weak_seed"] == s["winner"] ? [s["wscore"], "green"] : [s["lscore"], ""]
@@ -300,9 +300,8 @@ const RegionData = (tourneyData, view, setSidePanel) => {
             let [ssid, wsid] = [s["strong_seed"], s["weak_seed"]]
             let [sName, sTeam, sSeed] = [TeamIds[ssid], tourneyData.teams[ssid], tourneyData.teams[ssid]["Seed"]]
             let [wName, wTeam, wSeed, wSeedSideContent] = [null, null, null, null]
-            let slotContent = (strongSeedScore) ? <div>{strongSeedScore} - {weakSeedScore}</div> : <div> vs </div>
-
-            console.log(wsid)
+            let slotContent = (strongSeedScore) ? <div>{strongSeedScore} - {weakSeedScore}<IButton /></div> : <div> vs <IButton /></div>
+            
             if (wsid.toString().includes("/")) { 
                 wsid = wsid.split("/")
                 wName = [TeamIds[wsid[0]], TeamIds[wsid[1]]].join("/")
@@ -325,14 +324,20 @@ const RegionData = (tourneyData, view, setSidePanel) => {
                 wName = TeamIds[wsid]
                 wTeam = tourneyData.teams[wsid]
                 wSeed = tourneyData.teams[wsid]["Seed"]
-                wSeedSideContent = <TeamDataTable data={fmtContent(wsid, wName, view.year, tourneyData.teams[wsid]) } />
+                wSeedSideContent = <TeamDataTable tableData={fmtContent(wsid, wName, view.year, tourneyData.teams[wsid]) } />
             }
-            let strongSeedContent = [<div className='team-info'><div>{sSeed}</div><div>{sName}</div></div>, strongSeedColor, fmtContent(ssid, sName, view.year, tourneyData.teams[ssid])]
-            let weakSeedContent = [<div className='team-info'><div>{wSeed}</div><div>{wName}</div></div>, weakSeedColor, wSeedSideContent]
+            let strongSeedContent = [<div className='team-info'><div>{sSeed}</div><div>{sName}</div><IButton /></div>, strongSeedColor, <TeamDataTable tableData={fmtContent(ssid, sName, view.year, tourneyData.teams[ssid])} />]
+            let weakSeedContent = [<div className='team-info'><div>{wSeed}</div><div>{wName}</div><IButton /></div>, weakSeedColor, wSeedSideContent]
+
             // Flip Round 2 games that aren't the 1 vs 8 slot, Round 3 games that are in the bottom half of the region
             let isFlipped = (x.substr(0,2) == "R2" && x[3] != "1") || (x.substr(0,2) == "R3" && x[3] == "2")
+            console.log(strongSeedContent[2], isFlipped)
+            console.log(weakSeedContent[2], isFlipped)
+            if (isFlipped) { console.log(`Flipping: ${x}`) }
             let [topData, topColor, topSideCont] = isFlipped ? weakSeedContent : strongSeedContent
             let [bottomData, bottomColor, bottomSideCont] = isFlipped ? strongSeedContent : weakSeedContent
+            console.log(topSideCont, isFlipped)
+            console.log(bottomSideCont, isFlipped)
             // Sort Ids and join them into string with _ between
             let sortedIds = [ssid, wsid].sort((a, b) => a - b).join("_")
             let matchupProbabilities = tourneyData["predictions"][sortedIds]
@@ -340,9 +345,9 @@ const RegionData = (tourneyData, view, setSidePanel) => {
                                 tourneyProbs={s["prob"]} matchupProbs={matchupProbabilities} tourneyData={tourneyData} />
             return (
                 <Card key={x} id={x} className='game-container'>
-                    <div className={`team-container ${topColor}`} onClick={() => setSidePanel({show: true, content: <TeamDataTable data={topSideCont} />})}>{topData}</div>
+                    <div className={`team-container ${topColor}`} onClick={() => setSidePanel({show: true, content: topSideCont})}>{topData}</div>
                     <div className='score-container' onClick={() => setSidePanel({show: true, content: slotSideContent})}>{slotContent}</div>
-                    <div className={`team-container ${bottomColor}`} onClick={() => setSidePanel({show: true, content: bottomSideCont})}>{bottomData}</div>
+                    <div className={`team-container ${bottomColor}`} onClick={() => { console.log(bottomSideCont); setSidePanel({show: true, content: bottomSideCont})}}>{bottomData}</div>
                 </Card>
             )
         } else {
@@ -363,7 +368,7 @@ const RegionData = (tourneyData, view, setSidePanel) => {
                 <Card key={x} id={x} className='slot-container' onClick={() => setSidePanel({show: true, content: sideSlotContent})}>
                     <div>
                     {roundName}
-                        <Button variant='outline-info'>i</Button>
+                        <IButton />
                     </div>
                 </Card>
             )

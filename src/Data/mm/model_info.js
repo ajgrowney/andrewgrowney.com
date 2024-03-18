@@ -6,7 +6,10 @@ import grid_poly_1_2022_pred from './predictions/2022_grid_poly_1'
 import base_2024 from './predictions/2024.json'
 const model_info_map = {
     "coin": {
-        "features": "full"
+        name: "Coin Flip",
+        "features": "full",
+        min_pred_year: 1970,
+        max_pred_year: 9999
     },
     "2022_grid_poly_1": {
         name: "2022 First Model",
