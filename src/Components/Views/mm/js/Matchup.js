@@ -138,14 +138,11 @@ function CalculateWinner(model_id, season, t1, t2)
         winner = (Math.random() > 0.5) ? t1.info : t2.info
         prob = 0.5
     } else {
-        console.log(`Calculating winner for ${t1.info.i} vs ${t2.info.i} in ${model_id}`)
         let sorted_teams = [t1, t2].sort((x,y) => parseInt(x.info.i) - parseInt(y.info.i))
         let team_key_suffix = sorted_teams.map(x => x.info.i).join("_")
         let matchup_key = `${season}_${team_key_suffix}`
-        console.log(`Looking for ${matchup_key} in ${model_id}`)
         let model_predictions = model_info_map[model_id]["predictions"]
         let matchup_probability = model_predictions[matchup_key]
-        console.log(matchup_probability)
         if(matchup_probability)
         {
             if (model_id == "base_2024") {
@@ -168,7 +165,6 @@ function CalculateWinner(model_id, season, t1, t2)
 }
 let ModelPrediction = (model, setModel, season, t1, t2) => {
     let [winner, probability] = CalculateWinner(model, season, t1, t2)
-    console.log(winner)
 
     return (
         <Card className='matchupResultsContainer'>

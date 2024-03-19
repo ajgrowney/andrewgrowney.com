@@ -131,10 +131,8 @@ const TeamDataTable = ({ tableData, maxValueHeight }) => {
     // Description: Component displaying data in a 'team-data-table' div
     // param data: list of objects with keys: title, value, is_collapsible
     // param maxValueHeight: max height of the value div
-    console.log(tableData)
     if (tableData.constructor !== Array){
         console.error("TeamDataTable: data is not an array")
-        console.log(tableData)
         return <div>Error</div>
     }
 
@@ -312,13 +310,11 @@ const RegionData = (tourneyData, view, setSidePanel) => {
                 wSeed = tourneyData.teams[wsid[0]]["Seed"]
                 let playInKey = wsid.sort().join("_")
                 let playInMatchup = tourneyData["predictions"][wsid.join("_")]
-                console.log(playInMatchup)
                 let loser = playInMatchup[0] == wsid[0] ? wsid[1] : wsid[0]
                 let playInTourney = { 
                     [playInMatchup[0]]: playInMatchup[1],
                     [loser]: 1 - playInMatchup[1]
                 }
-                console.log(playInTourney)
                 wSeedSideContent = <ReadSlotSidePanel r={view.region} y={view.year} sid={wsid[0]} sname={TeamIds[wsid[0]]} tsid={wsid[0]} ts={tourneyData.teams[wsid[0]]}
                                     wid={wsid[1]} wname={TeamIds[wsid[1]]} twid={wsid[1]} tw={tourneyData.teams[wsid[1]]}
                                     tourneyProbs={playInTourney} matchupProbs={playInMatchup} tourneyData={tourneyData} />
@@ -334,13 +330,10 @@ const RegionData = (tourneyData, view, setSidePanel) => {
 
             // Flip Round 2 games that aren't the 1 vs 8 slot, Round 3 games that are in the bottom half of the region
             let isFlipped = (x.substr(0,2) == "R2" && x[3] != "1") || (x.substr(0,2) == "R3" && x[3] == "2")
-            console.log(strongSeedContent[2], isFlipped)
-            console.log(weakSeedContent[2], isFlipped)
-            if (isFlipped) { console.log(`Flipping: ${x}`) }
+
             let [topData, topColor, topSideCont] = isFlipped ? weakSeedContent : strongSeedContent
             let [bottomData, bottomColor, bottomSideCont] = isFlipped ? strongSeedContent : weakSeedContent
-            console.log(topSideCont, isFlipped)
-            console.log(bottomSideCont, isFlipped)
+
             // Sort Ids and join them into string with _ between
             let sortedIds = [ssid, wsid].sort((a, b) => a - b).join("_")
             let matchupProbabilities = tourneyData["predictions"][sortedIds]
@@ -420,7 +413,6 @@ let BracketData = () => {
         year: queryParams.get('year') || '2024',
         region: queryParams.get('region') || 'W1'
     });
-    console.log(`State: ${selectedState}`);
     let [bracketData, setbracketData] = useState(null)
     let [predictions, setPredictions] = useState({})
     
@@ -429,7 +421,6 @@ let BracketData = () => {
         if (selectedState.mode == "edit") {
             setbracketData(predictions)
         } else {
-            console.log(`Fetching ${DATA_HOME}/${selectedState.year}.json`)
             fetch(`${DATA_HOME}/${selectedState.year}.json`)
                 .then(response => response.json())
                 .then(data => {setbracketData(data)})
