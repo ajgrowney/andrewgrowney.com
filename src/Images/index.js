@@ -8,4 +8,6 @@ import SkillSession_Idea from './SELFSkillDemo-CreateIdea.gif'
 import ProfilePhoto from './pro_pic.jpg'
 import DevOpsBlogImage from './Blog_DevOpsLogo.png'
 
-export { ProfilePhoto, CacheBlogImage, FirstInternImage, githubLogo, linkedinLogo, hackerrankLogo, SkillSession_Login, SkillSession_Idea, DevOpsBlogImage };
+const IMAGE_HOST = "https://andrewgrowney.com"
+
+export { IMAGE_HOST, ProfilePhoto, CacheBlogImage, FirstInternImage, githubLogo, linkedinLogo, hackerrankLogo, SkillSession_Login, SkillSession_Idea, DevOpsBlogImage };

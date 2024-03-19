@@ -3,7 +3,8 @@ import Helmet from 'react-helmet';
 import Nav  from '../../../js/Nav'
 import Button from 'react-bootstrap/Button'
 import {SummaryView, BaseSection} from '../../../js'
-import { MMBracket } from '../../../../images/Blogs/MarchMadnessML'
+import { MMBracket } from '../../../../images/Blogs/MarchMadnessML';
+import { IMAGE_HOST } from '../../../../images';
 
 
 const PagePreviewSection = (p) => {
@@ -67,8 +68,11 @@ const MMHomeView = () => {
     return (
         <div id="root">
         <Helmet>
-                <meta name="image" property="og:image" content={MMBracket} />
-                <meta name="description" property="og:description" content={"March Madness Predictions"} />
+            <title>{"Madness Suite"}</title>
+            <meta name="image" property="og:image" content={`${IMAGE_HOST}${MMBracket}`} />
+            <meta name="title" property="og:title" content={"Madness Suite"} />
+            <meta name="description" property="og:description" content={"March Madness Predictions"} />
+            <meta name="author" content="Andrew Growney" />
         </Helmet>
         <div className='app_container'>
             <SummaryView resourceType={"March Madness Home"} nav={navContent} header={headerContent} sections={sections} />

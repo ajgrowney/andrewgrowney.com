@@ -6,7 +6,8 @@ import { Link } from 'gatsby';
 import { useLocation, navigate } from '@reach/router';
 import { RadialBar, RadialBarChart, RadarChart, Radar, PolarAngleAxis, PolarRadiusAxis, PolarGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import Nav  from '../../../js/Nav'
-import { MMBracket } from '../../../../images/Blogs/MarchMadnessML'
+import { MMBracket } from '../../../../images/Blogs/MarchMadnessML';
+import { IMAGE_HOST } from '../../../../images';
 import TeamIds from '../../../../Data/mm/team_ids'
 import TeamSeasons from '../../../../Data/mm/team_seasons'
 import 'bootstrap/dist/css/bootstrap.css'
@@ -409,8 +410,11 @@ const TeamView = () => {
     return (
         <div id="root">
             <Helmet>
-                    <meta name="image" property="og:image" content={MMBracket} />
-                    <meta name="description" property="og:description" content={"March Madness Predictions"} />
+                <title>{"Team Profile"}</title>
+                <meta name="image" property="og:image" content={`${IMAGE_HOST}${MMBracket}`} />
+                <meta name="title" property="og:title" content={"Team Profile"} />
+                <meta name="description" property="og:description" content={"March Madness - Team Profile"} />
+                <meta name="author" content={"Andrew Growney"} />
             </Helmet>
             <div className='app_container'>
                 <Nav page={"MM"} navContent={navContent} />

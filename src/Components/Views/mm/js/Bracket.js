@@ -15,8 +15,11 @@ import Dropdown from 'react-bootstrap/Dropdown'
 import Nav from '../../../js/Nav'
 import TeamIds from '../../../../Data/mm/team_ids'
 import { CalculateWinner, ModelPredictKey } from '../../../../helpers/mm'
+import { MMBracket } from '../../../../images/Blogs/MarchMadnessML';
+import { IMAGE_HOST } from '../../../../images';
 import '../css/bracket.css'
 import 'bootstrap/dist/css/bootstrap.css'
+
 const DATA_HOME = 'https://raw.githubusercontent.com/ajgrowney/march-madness-ml/master/data/web/tourney_v3'
 
 const DEFAULT_MODEL = "2022_grid_poly_1"
@@ -472,7 +475,11 @@ function Bracket()
     return (
         <div id="root">
             <Helmet>
-                    <meta name="description" property="og:description" content={"March Madness Predictions"} />
+                <title>{"Bracket Insights"}</title>
+                <meta name="image" property="og:image" content={`${IMAGE_HOST}${MMBracket}`} />
+                <meta name="title" property="og:title" content={"Bracket Insights"} />
+                <meta name="description" property="og:description" content={"March Madness Predictions"} />
+                <meta name="author" content="Andrew Growney" />
             </Helmet>
             <div className='app-container'>
                 <Nav page={"MM"} navContent={navContent} />

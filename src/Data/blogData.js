@@ -488,6 +488,15 @@ const blogs = [
     },
     {
         id: 6,
+        visibility: "public",
+        title: "Expectations and the Madness that Ensues",
+        date: "3/19/2024",
+        preview: "Looking back at teams that have exceeded and fallen short of expectations in the first weekend of the NCAA Tournament",
+        content: [],
+        image: [MMBracket]
+    },
+    {
+        id: 7,
         visibility: "private",
         title: "Intro to Kubernetes and Containerized System Design",
         date: "//2020",

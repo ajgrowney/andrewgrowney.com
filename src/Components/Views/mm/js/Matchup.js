@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Helmet } from 'react-helmet';
 import Card from 'react-bootstrap/Card'
 import Select from 'react-select';
 import Dropdown from 'react-bootstrap/Dropdown'
@@ -13,6 +14,7 @@ import base_2024 from "../../../../Data/mm/features/2024/base"
 import '../css/matchup.css'
 import 'bootstrap/dist/css/bootstrap.css'
 import { Button } from 'react-bootstrap'
+import { IMAGE_HOST, MmBracketImage } from '../../../../images';
 
 const DEFAULT_MODEL = "base_2024"
 const DEFAULT_SEASON = 2024
@@ -38,6 +40,10 @@ const statFriendly = {
     "OR_mean": "Offensive Rebounds",
     "FT%_mean": "Free Throw %",
     "EFG%_mean": "Effective FG%",
+    "OppEFG%_mean": "Opponent EFG%",
+    "OppFGA3_mean": "Opponent 3pt Attempts",
+    "OppTO_mean": "Turnovers Forced",
+    "OppOR_mean": "Opponent Offensive Rebounds",
     "SOS": "Strength of Schedule",
     "Q1_WinPct": "Q1 Win %",
     "Q2_WinPct": "Q2 Win %",
@@ -78,10 +84,10 @@ function ModelSelector(selected, setModel, season)
     console.log(modelList.map(x => model_info_map[x].name))
     let options = modelList.filter(x => model_info_map[x].min_pred_year <= season && model_info_map[x].max_pred_year >= season).map(x => ({value: x, label: model_info_map[x].name}))
     return(
-        <Dropdown class='selectorItem'>
+        <Dropdown className='selectorItem'>
             <Dropdown.Toggle>Model: {model_info_map[selected].name}</Dropdown.Toggle>
             <Dropdown.Menu>{
-                options.filter(x => x.value !== selected).map(x => <Dropdown.Item onSelect={() => {handler(x.value)}}>{x.label}</Dropdown.Item>)
+                options.filter(x => x.value !== selected).map(x => <Dropdown.Item key={x.value} onSelect={() => {handler(x.value)}}>{x.label}</Dropdown.Item>)
             }</Dropdown.Menu>
         </Dropdown>
     )
@@ -95,10 +101,10 @@ function SeasonSelector(selected, setSeason, team1, setTeam1, team2, setTeam2, s
         setTeam2(null)
     }
     return(
-        <Dropdown class='selectorItem'>
+        <Dropdown className='selectorItem'>
             <Dropdown.Toggle>Season: {selected}</Dropdown.Toggle>
             <Dropdown.Menu>
-                {SEASON_LIST.filter(x => x !== selected).map(x => <Dropdown.Item onSelect={() => {handler(x)}}>{x}</Dropdown.Item>)}
+                {SEASON_LIST.filter(x => x !== selected).map(x => <Dropdown.Item key={x} onSelect={() => {handler(x)}}>{x}</Dropdown.Item>)}
             </Dropdown.Menu>
         </Dropdown>
     )
@@ -129,9 +135,8 @@ function CalculateWinner(model_id, season, t1, t2)
         winner = { name: "Select Teams" }
         prob = "N/A"
     } else if(model_id == "coin") {
-        winner = (Math.random() > 0.5) ? t1 : t2
+        winner = (Math.random() > 0.5) ? t1.info : t2.info
         prob = 0.5
-        prob = (prob*100).toFixed(2) + "%"
     } else {
         console.log(`Calculating winner for ${t1.info.i} vs ${t2.info.i} in ${model_id}`)
         let sorted_teams = [t1, t2].sort((x,y) => parseInt(x.info.i) - parseInt(y.info.i))
@@ -169,11 +174,8 @@ let ModelPrediction = (model, setModel, season, t1, t2) => {
         <Card className='matchupResultsContainer'>
             {ModelSelector(model, setModel, season)}
             <table>
-                <tr><th>Winner</th><th>Probability</th></tr>
-                <tr>
-                    <td>{winner.n}</td>
-                    <td>{(probability*100).toFixed(2)}%</td>
-                </tr>
+                <thead><tr><th>Winner</th><th>Probability</th></tr></thead>
+                <tbody><tr><td>{winner.n}</td><td>{(probability*100).toFixed(2)}%</td></tr></tbody>
             </table>
         </Card>
     )
@@ -248,11 +250,19 @@ function Matchup()
         { type: "SingleLink", title: "Madness Suite", pageRef: "/marchmadness" },
         { type: "SingleLink", title: "Bracket", pageRef: "/mm/bracket/" }
     ]
-
     return (
-        <div>
-            <Nav navContent={navContent}/>
-            <MatchupData />
+        <div id="root">
+            <Helmet>
+                <title>{"Matchup Analyzer"}</title>
+                <meta name="image" property="og:image" content={`${IMAGE_HOST}${MmBracketImage}`} />
+                <meta name="title" property="og:title" content={"Matchup Analyzer"} />
+                <meta name="description" property="og:description" content={"March Madness - Matchup Analyzer"} />
+                <meta name="author" content="Andrew Growney" />
+            </Helmet>
+            <div className="app-container">
+                <Nav navContent={navContent}/>
+                <MatchupData />
+            </div>
         </div>
     )
 }
