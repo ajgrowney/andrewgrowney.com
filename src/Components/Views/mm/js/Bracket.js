@@ -149,12 +149,40 @@ const TeamDataTable = ({ tableData, maxValueHeight }) => {
     return (<div className='panel-table'>{entries}</div>)
 }
 
+let displayExitRound = (er) => {
+    if (er == "Champion") { return "Champion" }
+    else if (er === null ) { return "Missed Tourney" }
+    else { return `Lost in ${er}` }
+}
+
 let fmtContent = (tid, teamName, teamYear, content) => {
     let [wins, losses] = content["Rec"]
     let ranks = content["Ranks"]
-    let rankDiv = <div>{Object.keys(ranks).map(x => <div>{statFriendly[x]}: {ranks[x]}</div>)}</div>
+    let rankDiv = (<Table>
+        <thead><tr><th>Stat</th><th>Rank</th></tr></thead>
+        <tbody>{Object.keys(ranks).map(x => <tr><td>{statFriendly[x]}</td><td>{ranks[x]}</td></tr>)}</tbody>
+    </Table>)
     let simTeams = content["Sims"] // Format: [ { i: tid, y: year, s: sim_score, e: exit round}]
-    let simDiv = <div>{simTeams.map(x => <div>{x.y} {TeamIds[x.i]}: {(x.s*100).toFixed(2)}%</div>)}</div>
+    let simCurrentYear = simTeams.filter(x => x.y == teamYear)
+    let simCurrentYearTable = (<Table>
+        <thead><tr><th>Team</th><th>Similarity</th></tr></thead>
+        <tbody>{simCurrentYear.map(x => <tr><td><Link to={`/mm/team/?tid=${x.i}&year=${x.y}`}>{x.y} {TeamIds[x.i]}</Link></td><td>{(x.s*100).toFixed(2)}%</td></tr>)}</tbody>
+    </Table>)
+    let otherYears = simTeams.filter(x => x.y != teamYear)
+    let otherYearsTable = (<Table>
+        <thead><tr><th>Team</th><th>Similarity</th></tr></thead>
+        <tbody>{otherYears.map(x => <tr><td><Link to={`/mm/team/?tid=${x.i}&year=${x.y}`}>{x.y} {TeamIds[x.i]}</Link> <br /> {displayExitRound(x.e)}</td><td>{(x.s*100).toFixed(2)}%</td></tr>)}</tbody>
+    </Table>)
+    let simDiv = (<Card>
+        <Card style={{'textAlign': 'center'}}>
+        <Card.Title>Previous Years</Card.Title>
+        {otherYearsTable}
+        </Card>
+        <Card style={{'textAlign': 'center'}}>
+        <Card.Title>Current Year</Card.Title>
+        {simCurrentYearTable}
+        </Card>
+    </Card>)
 
     return [
         {title: <Link to={`/mm/team/?tid=${tid}&year=${teamYear}`}>{teamName} {teamYear}</Link>, value: <div>{`Record: ${wins} - ${losses}`}</div>, is_collapsible: false, key: "team_info"},

@@ -330,7 +330,7 @@ const SimilarTeamsTable = ({ similarTeamsData, setTeamYearF }) => {
         return <div></div>
     }
     let formattedData = similarTeamsData.map((team) => {
-        let teamTourney = team.er === null ? "Missed Tournament" : team.er === "Champion" ? "Champion" : `Lost in ${team.er}`
+        let teamTourney = (team.year == 2024) ? "TBD" : (team.er === null ? "Missed Tournament" : team.er === "Champion" ? "Champion" : `Lost in ${team.er}`)
         let labelVal = `${team.year} ${TeamIds[team.id]}`
         let data = [{'s': (team.st*100).toFixed(2)}]
         return (
