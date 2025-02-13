@@ -8,7 +8,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'gatsby'
 import { Button, Card, Table, Carousel, Tab } from 'react-bootstrap'
-import Helmet from 'react-helmet';
 import { useSwipeable } from 'react-swipeable';
 import { useLocation, navigate } from '@reach/router';
 import Dropdown from 'react-bootstrap/Dropdown'
@@ -24,7 +23,6 @@ const DATA_HOME = 'https://raw.githubusercontent.com/ajgrowney/march-madness-ml/
 
 const DEFAULT_MODEL = "2022_grid_poly_1"
 const DEFAULT_SEASON = 2024
-
 const statFriendly = {
     "AdjOE": "Adj Off Eff",
     "AdjDE": "Adj Def Eff",
@@ -194,17 +192,17 @@ let fmtContent = (tid, teamName, teamYear, content) => {
 
 
 
-let ReadSlotSidePanel = ({r, y, sid, sname, tsid, ts, wname, twid, tw, tourneyProbs, matchupProbs, tourneyData}) => {
+let ReadSlotSidePanel = ({r, y, sid, sname, tsid, ts, wname, twid, tw, tourneyProbs, matchupProbs, tourneyData, neuralProbs, neuralMatchupProbs }) => {
     let [rankCarIdx, setRankCarIdx] = useState(0)
     let [modelInsightsCarIdx, setmodelInsightsCarIdx] = useState(0)
     let roundName = ""
     let regName = ""
-    if (sid.startsWith("R1")) { roundName = "Round of 64", regName = tourneyData["regions"][sid[2]] }
-    else if (sid.startsWith("R2")) { roundName = "Round of 32", regName = tourneyData["regions"][sid[2]] }
-    else if (sid.startsWith("R3")) { roundName = "Sweet Sixteen", regName = tourneyData["regions"][sid[2]] }
-    else if (sid.startsWith("R4")) { roundName = "Elite 8", regName = tourneyData["regions"][sid[2]]}
-    else if (sid.startsWith("R5")) { roundName = "Final Four", regName = tourneyData["regions"][sid[2]] + " vs " + tourneyData["regions"][sid[3]] }
-    else if (sid.startsWith("R6")) { roundName = "Championship", regName = "Championship" }
+    if (sid.startsWith("R1")) { roundName = "Round of 64"; regName = tourneyData["regions"][sid[2]] }
+    else if (sid.startsWith("R2")) { roundName = "Round of 32"; regName = tourneyData["regions"][sid[2]] }
+    else if (sid.startsWith("R3")) { roundName = "Sweet Sixteen"; regName = tourneyData["regions"][sid[2]] }
+    else if (sid.startsWith("R4")) { roundName = "Elite 8"; regName = tourneyData["regions"][sid[2]]}
+    else if (sid.startsWith("R5")) { roundName = "Final Four"; regName = tourneyData["regions"][sid[2]] + " vs " + tourneyData["regions"][sid[3]] }
+    else if (sid.startsWith("R6")) { roundName = "Championship"; regName = "Championship" }
     let isMatchup = (tsid && twid) ? (!Array.isArray(twid)) : false
     let panelTitle = isMatchup ? <Card.Title>{sname} vs {wname}</Card.Title> : <Card.Title>{regName}</Card.Title>
     let carousel_items = []
@@ -224,6 +222,20 @@ let ReadSlotSidePanel = ({r, y, sid, sname, tsid, ts, wname, twid, tw, tourneyPr
             {showTourneyProbs.map(x => <tr><td>{x[1]}</td><td>{(x[2]*100).toFixed(2)}%</td></tr>)}
         </tbody>
     </Table>)
+    // Is there also slots_neural available to use
+    if (neuralProbs) {
+        let neuralTourneyProbs = Object.keys(neuralProbs).sort((a, b) => neuralProbs[b] - neuralProbs[a]).slice(0, 5).map(x => [x, TeamIds[x], neuralProbs[x]])
+        let neuralTourneyProbsDiv = (<Table>
+            <thead><tr><th>Team</th><th>Probability</th></tr></thead>
+            <tbody>{neuralTourneyProbs.map(x => <tr><td>{x[1]}</td><td>{(x[2]*100).toFixed(2)}%</td></tr>)}</tbody>
+        </Table>)
+        carousel_items.push(
+            <Carousel.Item variant="dark">
+                <Card.Title>Neural Model</Card.Title>
+                <Card.Body>{neuralTourneyProbsDiv}</Card.Body>
+            </Carousel.Item>)
+    }
+
     carousel_items.push(
         <Carousel.Item variant="dark">
             <Card.Title>Tournament Probability</Card.Title>
@@ -237,6 +249,15 @@ let ReadSlotSidePanel = ({r, y, sid, sname, tsid, ts, wname, twid, tw, tourneyPr
             <Carousel.Item variant="dark">
                 <Card.Title>Matchup Probability</Card.Title>
                 <Card.Body>{matchupProbsDiv}</Card.Body>
+            </Carousel.Item>)
+    }
+    if (neuralMatchupProbs) {
+        let [mWinner, mP] = neuralMatchupProbs
+        let neuralMatchupProbsDiv = (sid.startsWith("R1") || y < 2024) ? (<div>{TeamIds[mWinner]}: {(mP*100).toFixed(2)}%</div>) : (<div>Coming Soon</div>)
+        carousel_items.push(
+            <Carousel.Item variant="dark">
+                <Card.Title>Neural Model Probability</Card.Title>
+                <Card.Body>{neuralMatchupProbsDiv}</Card.Body>
             </Carousel.Item>)
     }
     
@@ -319,9 +340,13 @@ let ReadSlotSidePanel = ({r, y, sid, sname, tsid, ts, wname, twid, tw, tourneyPr
 
 const RegionData = (tourneyData, view, setSidePanel) => {
     let selectedRegionSlots = TOURNEY_REGION_VIEWS[view.region].slots
+    let neuralPreds = tourneyData["predictions_neural"]
     // Get Game Data
     let gameData = selectedRegionSlots.map(x => {
+        let neuralSlot = tourneyData["slots_neural"] ? tourneyData["slots_neural"][x] : null
         let s = tourneyData["slots"][x]
+        let isPrediction = false
+        console.log(x)
         if (view.year < 2024 || x.startsWith("R1")){
             let [strongSeedScore, strongSeedColor] = s["strong_seed"] == s["winner"] ? [s["wscore"], "green"] : [s["lscore"], ""]
             let [weakSeedScore, weakSeedColor] = s["weak_seed"] == s["winner"] ? [s["wscore"], "green"] : [s["lscore"], ""]
@@ -339,13 +364,17 @@ const RegionData = (tourneyData, view, setSidePanel) => {
                 let playInKey = wsid.sort().join("_")
                 let playInMatchup = tourneyData["predictions"][wsid.join("_")]
                 let loser = playInMatchup[0] == wsid[0] ? wsid[1] : wsid[0]
-                let playInTourney = { 
-                    [playInMatchup[0]]: playInMatchup[1],
-                    [loser]: 1 - playInMatchup[1]
+                let playInTourney = { [playInMatchup[0]]: playInMatchup[1], [loser]: 1 - playInMatchup[1] }
+                // Try to Fetch neural predictions
+                let neuralPlayInMatchup = null
+                if (neuralPreds) {
+                    neuralPlayInMatchup = neuralPreds[playInKey]
                 }
+
                 wSeedSideContent = <ReadSlotSidePanel r={view.region} y={view.year} sid={wsid[0]} sname={TeamIds[wsid[0]]} tsid={wsid[0]} ts={tourneyData.teams[wsid[0]]}
                                     wid={wsid[1]} wname={TeamIds[wsid[1]]} twid={wsid[1]} tw={tourneyData.teams[wsid[1]]}
-                                    tourneyProbs={playInTourney} matchupProbs={playInMatchup} tourneyData={tourneyData} />
+                                    tourneyProbs={playInTourney} matchupProbs={playInMatchup} tourneyData={tourneyData}
+                                    neuralProbs={neuralSlot ? neuralSlot["prob"] : null} neuralMatchupProbs={neuralPlayInMatchup} />
 
             } else {
                 wName = TeamIds[wsid]
@@ -353,8 +382,8 @@ const RegionData = (tourneyData, view, setSidePanel) => {
                 wSeed = tourneyData.teams[wsid]["Seed"]
                 wSeedSideContent = <TeamDataTable tableData={fmtContent(wsid, wName, view.year, tourneyData.teams[wsid]) } />
             }
-            let strongSeedContent = [<div className='team-info'><div>{sSeed}</div><div>{sName}</div><IButton /></div>, strongSeedColor, <TeamDataTable tableData={fmtContent(ssid, sName, view.year, tourneyData.teams[ssid])} />]
-            let weakSeedContent = [<div className='team-info'><div>{wSeed}</div><div>{wName}</div><IButton /></div>, weakSeedColor, wSeedSideContent]
+            let strongSeedContent = [<div className='team-info'><div>{sSeed}</div><div> {ssid} {sName}</div><IButton /></div>, strongSeedColor, <TeamDataTable tableData={fmtContent(ssid, sName, view.year, tourneyData.teams[ssid])} />]
+            let weakSeedContent = [<div className='team-info'><div>{wSeed}</div><div> {wsid} {wName}</div><IButton /></div>, weakSeedColor, wSeedSideContent]
 
             // Flip Round 2 games that aren't the 1 vs 8 slot, Round 3 games that are in the bottom half of the region
             let isFlipped = (x.substr(0,2) == "R2" && x[3] != "1") || (x.substr(0,2) == "R3" && x[3] == "2")
@@ -366,7 +395,8 @@ const RegionData = (tourneyData, view, setSidePanel) => {
             let sortedIds = [ssid, wsid].sort((a, b) => a - b).join("_")
             let matchupProbabilities = tourneyData["predictions"][sortedIds]
             let slotSideContent = <ReadSlotSidePanel r={view.region} y={view.year} sid={x} sname={sName} tsid={ssid} ts={sTeam} wname={wName} twid={wsid} tw={wTeam}
-                                tourneyProbs={s["prob"]} matchupProbs={matchupProbabilities} tourneyData={tourneyData} />
+                                tourneyProbs={s["prob"]} matchupProbs={matchupProbabilities} tourneyData={tourneyData}
+                                neuralProbs={neuralSlot ? neuralSlot["prob"] : null} neuralMatchupProbs={neuralPreds ? neuralPreds[sortedIds] : null} />
             return (
                 <Card key={x} id={x} className='game-container'>
                     <div className={`team-container ${topColor}`} onClick={() => setSidePanel({show: true, content: topSideCont})}>{topData}</div>
@@ -374,20 +404,37 @@ const RegionData = (tourneyData, view, setSidePanel) => {
                     <div className={`team-container ${bottomColor}`} onClick={() => { console.log(bottomSideCont); setSidePanel({show: true, content: bottomSideCont})}}>{bottomData}</div>
                 </Card>
             )
+        // } else if (isPrediction) {
+        //     let [ssid, wsid] = [s["strong_seed"], s["weak_seed"]]
+        //     let [sName, sTeam, sSeed] = [TeamIds[ssid], tourneyData.teams[ssid], tourneyData.teams[ssid]["Seed"]]
+        //     let [wName, wTeam, wSeed] = [TeamIds[wsid], tourneyData.teams[wsid], tourneyData.teams[wsid]["Seed"]]
+        //     let sortedIds = [ssid, wsid].sort((a, b) => a - b).join("_")
+        //     let matchupProbabilities = tourneyData["predictions"][sortedIds]
+        //     let neuralSlot = tourneyData["slots_neural"] ? tourneyData["slots_neural"][x] : null
+        //     let slotContent = <div>Coming Soon<IButton /></div>
+        //     let slotSideContent = <ReadSlotSidePanel r={view.region} y={view.year} sid={x} sname={sName} tsid={ssid} ts={sTeam} wname={wName} twid={wsid} tw={wTeam}
+        //                         tourneyProbs={s["prob"]} matchupProbs={matchupProbabilities} tourneyData={tourneyData} neuralProbs={neuralSlot ? neuralSlot["prob"] : null} />
+        //     return (
+        //         <Card key={x} id={x} className='game-container'>
+        //             <div className='team-container'>{sSeed} {ssid} {sName}</div>
+        //             <div className='score-container' onClick={() => setSidePanel({show: true, content: slotSideContent})}>{slotContent}</div>
+        //             <div className='team-container'>{wSeed} {wsid} {wName}</div>
+        //         </Card>
+        //     )
         } else {
             // let slotContent = <ReadSlotSidePanel y={view.year} sid={x} sname={sName} tsid={ssid} ts={sTeam} wname={wName} twid={wsid} tw={wTeam}
             //                     tourneyProbs={s["prob"]} matchupProbs={matchupProbabilities} />
             let roundName = ""
             let regPrefix = ""
-            if (x.startsWith("R1")) { roundName = "Round of 64", regPrefix = tourneyData["regions"][x[2]] }
-            else if (x.startsWith("R2")) { roundName = "Round of 32", regPrefix = tourneyData["regions"][x[2]] }
-            else if (x.startsWith("R3")) { roundName = "Sweet Sixteen", regPrefix = tourneyData["regions"][x[2]] }
-            else if (x.startsWith("R4")) { roundName = "Elite 8", regPrefix = tourneyData["regions"][x[2]]}
-            else if (x.startsWith("R5")) { roundName = "Final Four", regPrefix = tourneyData["regions"][x[2]] + " vs " + tourneyData["regions"][x[3]]}
+            if (x.startsWith("R1")) { roundName = "Round of 64"; regPrefix = tourneyData["regions"][x[2]] }
+            else if (x.startsWith("R2")) { roundName = "Round of 32"; regPrefix = tourneyData["regions"][x[2]] }
+            else if (x.startsWith("R3")) { roundName = "Sweet Sixteen"; regPrefix = tourneyData["regions"][x[2]] }
+            else if (x.startsWith("R4")) { roundName = "Elite 8"; regPrefix = tourneyData["regions"][x[2]]}
+            else if (x.startsWith("R5")) { roundName = "Final Four"; regPrefix = tourneyData["regions"][x[2]] + " vs " + tourneyData["regions"][x[3]]}
             else if (x.startsWith("R6")) { roundName = "Championship" }
             roundName = regPrefix ? regPrefix + " " + roundName : roundName
             let sideSlotContent = <ReadSlotSidePanel r={view.region} y={view.year} sid={x} sname={null} tsid={null} ts={null} wname={null} twid={null} tw={null}
-            tourneyProbs={s["prob"]} matchupProbs={null} tourneyData={tourneyData} />
+                tourneyProbs={s["prob"]} matchupProbs={null} tourneyData={tourneyData} neuralProbs={neuralSlot ? neuralSlot["prob"] : null} />
             return (
                 <Card key={x} id={x} className='slot-container' onClick={() => setSidePanel({show: true, content: sideSlotContent})}>
                     <div>
@@ -493,13 +540,6 @@ function Bracket()
 
     return (
         <div id="root">
-            <Helmet>
-                <title>{"Bracket Insights"}</title>
-                <meta name="image" property="og:image" content={`${IMAGE_HOST}${MMBracket}`} />
-                <meta name="title" property="og:title" content={"Bracket Insights"} />
-                <meta name="description" property="og:description" content={"March Madness Predictions"} />
-                <meta name="author" content="Andrew Growney" />
-            </Helmet>
             <div className='app-container'>
                 <Nav page={"MM"} navContent={navContent} />
                 <BracketData />
@@ -508,3 +548,15 @@ function Bracket()
     )
 }
 export default Bracket;
+
+export const Head = ({ location, params, data, pageContext }) => {
+    console.log("Head", location, params, data, pageContext)
+    return (
+        <>
+        <title>{"Bracket Insights"}</title>
+        <meta name="image" property="og:image" content={`${IMAGE_HOST}${MMBracket}`} />
+        <meta name="description" property="og:description" content={"March Madness Predictions"} />
+        <meta name="author" content="Andrew Growney" />
+        </>
+    )
+}

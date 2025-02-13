@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { Badge, Button, Card } from 'react-bootstrap'
-import Helmet from 'react-helmet';
 import Select from 'react-select';
 import { Link } from 'gatsby';
 import { useLocation, navigate } from '@reach/router';
@@ -409,13 +408,6 @@ const TeamView = () => {
     
     return (
         <div id="root">
-            <Helmet>
-                <title>{"Team Profile"}</title>
-                <meta name="image" property="og:image" content={`${IMAGE_HOST}${MMBracket}`} />
-                <meta name="title" property="og:title" content={"Team Profile"} />
-                <meta name="description" property="og:description" content={"March Madness - Team Profile"} />
-                <meta name="author" content={"Andrew Growney"} />
-            </Helmet>
             <div className='app_container'>
                 <Nav page={"MM"} navContent={navContent} />
                 <TeamData />
@@ -425,3 +417,17 @@ const TeamView = () => {
 }
 
 export default TeamView;
+
+export const Head = ({  location, params, data, pageContext }) => {
+    console.log("Head: ", location, params, data, pageContext)
+    return (
+        <>
+        <title>Team Profile</title>
+        {/* <title>{blog_selected.title}</title> */}
+        {/* <meta name="image" property="og:image" content={blog_selected.image} /> */}
+        <meta name="description" property="og:description" content="March Madness - Team Profile" />
+        {/* <meta name="description" property="og:description" content={blog_selected.title} /> */}
+        <meta name="author" content="Andrew Growney" />
+        </>
+    )
+}

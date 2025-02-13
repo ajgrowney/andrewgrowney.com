@@ -1,5 +1,4 @@
 import React from 'react'
-import Helmet from 'react-helmet';
 import Nav  from '../../../js/Nav'
 import Button from 'react-bootstrap/Button'
 import {SummaryView, BaseSection} from '../../../js'
@@ -67,13 +66,6 @@ const MMHomeView = () => {
     ].map(x => PagePreviewSection(x))
     return (
         <div id="root">
-        <Helmet>
-            <title>{"Madness Suite"}</title>
-            <meta name="image" property="og:image" content={`${IMAGE_HOST}${MMBracket}`} />
-            <meta name="title" property="og:title" content={"Madness Suite"} />
-            <meta name="description" property="og:description" content={"March Madness Predictions"} />
-            <meta name="author" content="Andrew Growney" />
-        </Helmet>
         <div className='app_container'>
             <SummaryView resourceType={"March Madness Home"} nav={navContent} header={headerContent} sections={sections} />
         </div>
@@ -82,3 +74,16 @@ const MMHomeView = () => {
 }
 
 export default MMHomeView;
+
+
+export const Head = ({ location, params, data, pageContext }) => {
+    console.log("Head: ", location, params, data, pageContext)
+    return (
+        <>
+        <title>{"Madness Suite"}</title>
+        <meta name="image" property="og:image" content={`${IMAGE_HOST}${MMBracket}`} />
+        <meta name="description" property="og:description" content={"March Madness Predictions"} />
+        <meta name="author" content="Andrew Growney" />
+        </>
+    )
+}

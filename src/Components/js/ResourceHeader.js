@@ -1,5 +1,4 @@
 import React from 'react'
-import Jumbotron from 'react-bootstrap/Jumbotron'
 import Image from 'react-bootstrap/Image'
 import Carousel from 'react-bootstrap/Carousel'
 import 'bootstrap/dist/css/bootstrap.css'
@@ -28,7 +27,7 @@ function ResourceHeader(props){
     let HeaderImage = <ImageCarousel images={imageContent} round={imageRounded} />;
     
     return (
-        <Jumbotron bg="dark" id="intro_id" className="jumboHeader">
+        <div bg="dark" id="intro_id" className="jumboHeader">
             <div className="header_title">
                 {titleContent.map(x => x)}
             </div>
@@ -36,7 +35,7 @@ function ResourceHeader(props){
                 {subtitleContent.map(x => x)}
             </div>
             {HeaderImage}
-        </Jumbotron>
+        </div>
     )
 }
 

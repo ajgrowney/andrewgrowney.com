@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { Helmet } from 'react-helmet';
 import Card from 'react-bootstrap/Card'
 import Select from 'react-select';
 import Dropdown from 'react-bootstrap/Dropdown'
@@ -248,13 +247,6 @@ function Matchup()
     ]
     return (
         <div id="root">
-            <Helmet>
-                <title>{"Matchup Analyzer"}</title>
-                <meta name="image" property="og:image" content={`${IMAGE_HOST}${MmBracketImage}`} />
-                <meta name="title" property="og:title" content={"Matchup Analyzer"} />
-                <meta name="description" property="og:description" content={"March Madness - Matchup Analyzer"} />
-                <meta name="author" content="Andrew Growney" />
-            </Helmet>
             <div className="app-container">
                 <Nav navContent={navContent}/>
                 <MatchupData />
@@ -263,3 +255,15 @@ function Matchup()
     )
 }
 export default Matchup;
+
+export const Head = ({ location, params, data, pageContext }) => {
+    console.log("Head: ", location, params, data, pageContext)
+    return (
+        <>
+        <title>{"Matchup Analyzer"}</title>
+        <meta name="image" property="og:image" content={`${IMAGE_HOST}${MmBracketImage}`} />
+        <meta name="description" property="og:description" content={"March Madness - Matchup Analyzer"} />
+        <meta name="author" content="Andrew Growney" />
+        </>
+    )
+}

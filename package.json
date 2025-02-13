@@ -1,44 +1,29 @@
 {
-  "name": "andrewgrowney",
-  "version": "0.1.0",
+  "name": "andrewgrowney.com",
+  "version": "1.0.0",
   "private": true,
-  "dependencies": {
-    "@reach/router": "^1.3.4",
-    "bootstrap": "^4.3.1",
-    "gatsby": "^3.13.1",
-    "gatsby-plugin-google-gtag": "^5.11.0",
-    "gatsby-plugin-s3": "^0.4.1",
-    "react": "^16.8.3",
-    "react-bootstrap": "^1.5.2",
-    "react-dom": "^16.8.3",
-    "react-helmet": "^6.1.0",
-    "react-icons": "^3.5.0",
-    "react-router": "^5.2.0",
-    "react-router-dom": "^5.2.0",
-    "react-scripts": "2.1.5",
-    "react-select": "^5.2.2",
-    "react-swipeable": "^7.0.1",
-    "recharts": "^2.12.1",
-    "require-context": "^1.1.0",
-    "tar": "^4.4.19"
-  },
+  "description": "andrewgrowney.com",
+  "author": "Andrew Growney",
+  "keywords": [
+    "gatsby"
+  ],
   "scripts": {
-    "build": "gatsby build",
-    "develop": "gatsby develop -H 0.0.0.0",
-    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
+    "develop": "gatsby develop",
     "start": "gatsby develop",
-    "serve": "gatsby serve -H 0.0.0.0",
-    "deploy": "gatsby-plugin-s3 deploy",
-    "clean": "gatsby clean",
-    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"
+    "build": "gatsby build",
+    "serve": "gatsby serve",
+    "clean": "gatsby clean"
   },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
+  "dependencies": {
+    "bootstrap": "^5.3.3",
+    "gatsby": "^5.14.1",
+    "gatsby-plugin-google-gtag": "^5.14.0",
+    "react": "^18.2.0",
+    "react-bootstrap": "^2.10.9",
+    "react-dom": "^18.2.0",
+    "react-icons": "^5.4.0",
+    "react-select": "^5.10.0",
+    "react-swipeable": "^7.0.2",
+    "recharts": "^2.15.1"
+  }
 }

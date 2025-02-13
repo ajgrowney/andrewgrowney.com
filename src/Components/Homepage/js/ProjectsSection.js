@@ -1,7 +1,7 @@
 import React from 'react'
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card'
-import CardColumns from 'react-bootstrap/CardColumns'
+import CardGroup from 'react-bootstrap/CardGroup'
 import '../css/projects.css'
 import 'bootstrap/dist/css/bootstrap.css'
 
@@ -42,9 +42,9 @@ function ProjectColumn(props){
     const projectCardComponents = projectColumn.map((project) => <ProjectCard key={project.id} project={project} />)
 
     return(
-        <CardColumns className="projectCardColumn">
+        <CardGroup className="projectCardColumn">
             {projectCardComponents}
-        </CardColumns>
+        </CardGroup>
     )
 }
 

@@ -1,5 +1,4 @@
 import React from 'react'
-import Helmet from 'react-helmet';
 import PageNotFoundView from './NotFoundView'
 import { ResourceView } from '../js'
 import blogs from '../../Data/blogData'
@@ -40,15 +39,23 @@ function BlogPageView(props){
 
     return(
         <div id="root">
-            <Helmet>
-                <title>{blog_selected.title}</title>
-                <meta name="image" property="og:image" content={blog_selected.image} />
-                <meta name="description" property="og:description" content={blog_selected.title} />
-                <meta name="author" content="Andrew Growney" />
-            </Helmet>
             <ResourceView resourceType={"Blogs"} nav={navContent} header={headerContent} resource={blog_selected.content} />
         </div>
     )
 }
 
 export default BlogPageView;
+
+export function Head({ location, params, data, pageContext }) {
+    console.log("Head: ", location, params, data, pageContext)
+    return (
+        <>
+        <title>temp</title>
+        {/* <title>{blog_selected.title}</title> */}
+        {/* <meta name="image" property="og:image" content={blog_selected.image} /> */}
+        <meta name="description" property="og:description" content="temp" />
+        {/* <meta name="description" property="og:description" content={blog_selected.title} /> */}
+        <meta name="author" content="Andrew Growney" />
+        </>
+    )
+}

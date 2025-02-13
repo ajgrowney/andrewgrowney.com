@@ -489,9 +489,9 @@ const blogs = [
     {
         id: 6,
         visibility: "public",
-        title: "Expectations and the Madness that Ensues",
-        date: "3/19/2024",
-        preview: "Looking back at teams that have exceeded and fallen short of expectations in the first weekend of the NCAA Tournament",
+        title: "The Curious Case of the Rolling Tide",
+        date: "3/26/2024",
+        preview: "Our 2024 Base Model for the NCAA Tournament has done well so far, but",
         content: [],
         image: [MMBracket]
     },
