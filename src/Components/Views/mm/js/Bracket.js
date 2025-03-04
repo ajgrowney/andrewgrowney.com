@@ -61,7 +61,7 @@ let  ViewSelector = (tourneyData, viewData, setView) => {
     // view: {mode: "read", year: 2022, region: "finalfour"}
     let changeMode = (new_val) => { setView({mode: new_val, region: viewData.region, year: viewData.year}) }
     let changeYear = (new_val) => { setView({mode: viewData.mode, region: viewData.region, year: new_val}) }
-    let changeRegion = (new_val) => { setView({mode: viewData.mode, region: new_val, year: viewData.year}) }
+    let changeRegion = (new_val) => { console.log(`Change region: ${new_val}`); setView({mode: viewData.mode, region: new_val, year: viewData.year}) }
     // Other Modes Dropdown
     let allowed_modes = Object.keys(VIEW_MODES).filter(x => VIEW_MODES[x].is_allowed(viewData.year))
     let otherModes = allowed_modes.map(x => { return {name: VIEW_MODES[x].name, val: x} })
@@ -93,16 +93,16 @@ let  ViewSelector = (tourneyData, viewData, setView) => {
                 {otherModes.map(x => <Dropdown.Item onSelect={() => {changeMode(x.val)}}>{x.name}</Dropdown.Item>)}
             </Dropdown.Menu>
         </Dropdown>
-        <Dropdown key='year' class='selectorItem'>
+        <Dropdown key='year' class='selectorItem' onSelect={(evt, _) => {changeYear(evt)}}>
             <Dropdown.Toggle>{viewData.year}</Dropdown.Toggle>
             <Dropdown.Menu>
-                {SEASON_LIST.map(x => <Dropdown.Item onSelect={() => {changeYear(x)}}>{x}</Dropdown.Item>)}
+                {SEASON_LIST.map(x => <Dropdown.Item eventKey={x}>{x}</Dropdown.Item>)}
             </Dropdown.Menu>
         </Dropdown>
-        <Dropdown key='region' class='selectorItem'>
+        <Dropdown key='region' class='selectorItem' onSelect={(evt, _) => {changeRegion(evt)}}>
             <Dropdown.Toggle>{selectedRegion}</Dropdown.Toggle>
             <Dropdown.Menu>
-                {otherRegions.map(x => <Dropdown.Item onSelect={() => {changeRegion(x.val)}}>{x.name}</Dropdown.Item>)}
+                {otherRegions.map(x => <Dropdown.Item eventKey={x.val}>{x.name}</Dropdown.Item>)}
             </Dropdown.Menu>
         </Dropdown>
         </div>

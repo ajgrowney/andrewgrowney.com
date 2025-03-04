@@ -489,6 +489,13 @@ const blogs = [
     {
         id: 6,
         visibility: "public",
+        title: "Asking my Front End Copilot for some 3D Help",
+        date: "3/1/2025",
+        preview: "Getting further and further from the front end as my career progresses, ",
+    },
+    {
+        id: 7,
+        visibility: "public",
         title: "The Curious Case of the Rolling Tide",
         date: "3/26/2024",
         preview: "Our 2024 Base Model for the NCAA Tournament has done well so far, but",
@@ -496,7 +503,7 @@ const blogs = [
         image: [MMBracket]
     },
     {
-        id: 7,
+        id: 8,
         visibility: "private",
         title: "Intro to Kubernetes and Containerized System Design",
         date: "//2020",

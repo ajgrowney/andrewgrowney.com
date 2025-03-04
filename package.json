@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "develop": "gatsby develop",
-    "start": "gatsby develop",
+    "start": "gatsby develop --host 0.0.0.0",
     "build": "gatsby build",
     "serve": "gatsby serve",
     "clean": "gatsby clean"
@@ -24,6 +24,9 @@
     "react-icons": "^5.4.0",
     "react-select": "^5.10.0",
     "react-swipeable": "^7.0.2",
-    "recharts": "^2.15.1"
+    "recharts": "^2.15.1",
+    "@react-three/fiber": "^8.0.27",
+    "@react-three/drei": "^8.0.1",
+    "three": "^0.152.2"
   }
 }

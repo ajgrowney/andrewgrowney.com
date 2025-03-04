@@ -133,7 +133,7 @@ function CalculateWinner(model_id, season, t1, t2)
     if (t1 === null || t2 === null) {
         winner = { name: "Select Teams" }
         prob = "N/A"
-    } else if(model_id == "coin") {
+    } else if(model_id === "coin") {
         winner = (Math.random() > 0.5) ? t1.info : t2.info
         prob = 0.5
     } else {
@@ -144,7 +144,7 @@ function CalculateWinner(model_id, season, t1, t2)
         let matchup_probability = model_predictions[matchup_key]
         if(matchup_probability)
         {
-            if (model_id == "base_2024") {
+            if (model_id === "base_2024") {
                 let [model_winner, model_prob] = matchup_probability
                 winner = model_winner === sorted_teams[0].info.i ? sorted_teams[0].info : sorted_teams[1].info
                 prob = model_prob
