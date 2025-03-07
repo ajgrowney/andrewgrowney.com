@@ -13,7 +13,7 @@ import base_2024 from "../../../../Data/mm/features/2024/base"
 import '../css/matchup.css'
 import 'bootstrap/dist/css/bootstrap.css'
 import { Button } from 'react-bootstrap'
-import { IMAGE_HOST, MmBracketImage } from '../../../../images';
+import { IMAGE_HOST, MMBracket } from '../../../../images'
 
 const DEFAULT_MODEL = "base_2024"
 const DEFAULT_SEASON = 2024
@@ -261,7 +261,7 @@ export const Head = ({ location, params, data, pageContext }) => {
     return (
         <>
         <title>{"Matchup Analyzer"}</title>
-        <meta name="image" property="og:image" content={`${IMAGE_HOST}${MmBracketImage}`} />
+        <meta name="image" property="og:image" content={`${IMAGE_HOST}${MMBracket}`} />
         <meta name="description" property="og:description" content={"March Madness - Matchup Analyzer"} />
         <meta name="author" content="Andrew Growney" />
         </>

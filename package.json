@@ -15,9 +15,13 @@
     "clean": "gatsby clean"
   },
   "dependencies": {
+    "@react-three/drei": "^8.0.1",
+    "@react-three/fiber": "^8.0.27",
     "bootstrap": "^5.3.3",
     "gatsby": "^5.14.1",
     "gatsby-plugin-google-gtag": "^5.14.0",
+    "gatsby-plugin-manifest": "^5.14.0",
+    "gatsby-plugin-offline": "^6.14.0",
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.9",
     "react-dom": "^18.2.0",
@@ -25,8 +29,6 @@
     "react-select": "^5.10.0",
     "react-swipeable": "^7.0.2",
     "recharts": "^2.15.1",
-    "@react-three/fiber": "^8.0.27",
-    "@react-three/drei": "^8.0.1",
     "three": "^0.152.2"
   }
 }

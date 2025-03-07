@@ -548,15 +548,3 @@ function Bracket()
     )
 }
 export default Bracket;
-
-export const Head = ({ location, params, data, pageContext }) => {
-    console.log("Head", location, params, data, pageContext)
-    return (
-        <>
-        <title>{"Bracket Insights"}</title>
-        <meta name="image" property="og:image" content={`${IMAGE_HOST}${MMBracket}`} />
-        <meta name="description" property="og:description" content={"March Madness Predictions"} />
-        <meta name="author" content="Andrew Growney" />
-        </>
-    )
-}

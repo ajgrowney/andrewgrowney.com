@@ -74,16 +74,3 @@ const MMHomeView = () => {
 }
 
 export default MMHomeView;
-
-
-export const Head = ({ location, params, data, pageContext }) => {
-    console.log("Head: ", location, params, data, pageContext)
-    return (
-        <>
-        <title>{"Madness Suite"}</title>
-        <meta name="image" property="og:image" content={`${IMAGE_HOST}${MMBracket}`} />
-        <meta name="description" property="og:description" content={"March Madness Predictions"} />
-        <meta name="author" content="Andrew Growney" />
-        </>
-    )
-}

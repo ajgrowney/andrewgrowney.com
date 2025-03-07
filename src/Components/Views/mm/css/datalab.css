@@ -1,6 +1,14 @@
 .radar-chart-container {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100%;
+  }
+  /* If it is mobile, make flex-direction row */
+
+  @media (min-width: 1023px) {
+    .radar-chart-container {
+      flex-direction: row;
+    }
   }

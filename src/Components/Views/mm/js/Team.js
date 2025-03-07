@@ -417,17 +417,3 @@ const TeamView = () => {
 }
 
 export default TeamView;
-
-export const Head = ({  location, params, data, pageContext }) => {
-    console.log("Head: ", location, params, data, pageContext)
-    return (
-        <>
-        <title>Team Profile</title>
-        {/* <title>{blog_selected.title}</title> */}
-        {/* <meta name="image" property="og:image" content={blog_selected.image} /> */}
-        <meta name="description" property="og:description" content="March Madness - Team Profile" />
-        {/* <meta name="description" property="og:description" content={blog_selected.title} /> */}
-        <meta name="author" content="Andrew Growney" />
-        </>
-    )
-}

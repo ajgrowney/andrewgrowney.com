@@ -74,7 +74,7 @@ const RadarPlot = ({ data, selectedAxes, statInfo }) => {
         <div className='radar-chart-container'>
             <RadarChart cx={300} cy={250} outerRadius={150} width={600} height={500} data={radarData}>
                 <PolarGrid />
-                <PolarAngleAxis dataKey="stat" />
+                <PolarAngleAxis dataKey="name" />
                 {data.map((team, index) => (
                     <Radar key={team.name} name={team.name} dataKey={team.name} stroke={team.color} fill={team.color} fillOpacity={0.6} />
                 ))}
