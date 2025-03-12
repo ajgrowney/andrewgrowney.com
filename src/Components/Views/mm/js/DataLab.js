@@ -19,6 +19,11 @@ const PlotContainer = ({ plotType, points, selectedAxes }) => {
 
 // Main App Component
 export default function DataLab() {
+  const navContent = [
+    { type: "SingleLink", title: "Home", pageRef: "/" },
+    { type: "SingleLink", title: "Bracket", pageRef: "/mm/bracketv2" },
+    { type: "SingleLink", title: "DataLab", pageRef: "/mm/datalab" }
+];
   const [isExpanded, setIsExpanded] = useState(false);
   const [selectedAxes, setSelectedAxes] = useState({ x: "adjoe", y: "adjde", z: "seed", l: ["adjoe", "adjde", "seed"] });
   const [teamData, setTeamData] = useState(initTeamData);
@@ -47,8 +52,8 @@ export default function DataLab() {
   };
 
   return (
-    <div style={{ width: "100vw", height: "100vh", display: "flex", flexDirection: "column", flexWrap: "wrap", border: "1px solid green", overflowX: "hidden" }}>
-      <Nav navContent={[]} />
+    <div style={{ width: "100dvw", height: "100dvh", display: "flex", flexDirection: "column", flexWrap: "wrap", border: "1px solid green", overflowX: "hidden" }}>
+      <Nav navContent={navContent} />
       {/* Plot Container centered*/}
       <div style={{ flex: 1, width: "100%", display: "flex", justifyContent: "center", zIndex: 0 }}>
         <PlotContainer plotType={plotType} points={plotData} selectedAxes={selectedAxes} />

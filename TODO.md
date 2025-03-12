@@ -5,7 +5,7 @@
 ### Data Lab (/mm/datalab)
 - [ ] Mobile Friendly
 - [ ] Stat filters: remove "selected" teams that do not meet defined stat criteria
-- [ ] Tag
+- [ ] Tag groups
 
 ### Bracket (/mm/bracketv2)
 - [ ] Layout: 
@@ -16,6 +16,11 @@
     - [ ] Champion
     - [x] Navigation
 - [ ] Insights Panel
-- [ ] Run Simulation:
-    - Select from Model / Algorithm
+    - [ ] Funtionality
+- [ ] Fil mode:
+    - [ ] Use Model
+    - [ ] User defined
 - [ ] Export Results to PDF
+
+### Models Page
+Learn about how the models were built / data behind them

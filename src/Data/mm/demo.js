@@ -91,6 +91,33 @@ const initTeamData = {
     163: { name: "UC Riverside", adjoe: Math.random() * 130, adjde: Math.random() * 100, seed: Math.floor(Math.random() * 16) + 1, tempo: Math.random() * 80, luck: Math.random() * 100 },
     164: { name: "Cal Poly", adjoe: Math.random() * 130, adjde: Math.random() * 100, seed: Math.floor(Math.random() * 16) + 1, tempo: Math.random() * 80, luck: Math.random() * 100 }
 };
+
+const tagOptions = [
+    { "id": "high-tempo", "type": "style", "color": "red", "name": "High Tempo" },
+    { "id": "low-tempo", "type": "style", "color": "blue", "name": "Low Tempo" },
+    { "id": "star-power", "type": "style", "color": "yellow", "name": "Star Power" },
+    { "id": "depth", "type": "style", "color": "green", "name": "Quality Depth" },
+    { "id": "veterans", "type": "experience", "color": "green", "name": "Veterans" },
+    { "id": "young", "type": "experience", "color": "yellow", "name": "Young" },
+    { "id": "coach-adv", "type": "experience", "color": "orange", "name": "Coach Advantage" },
+    { "id": "hot", "type": "resume", "color": "cyan", "name": "Hot Streak" },
+    { "id": "cold", "type": "resume", "color": "magenta", "name": "Cold Streak" },
+    { "id": "battle-tested", "type": "resume", "color": "purple", "name": "Battle Tested" }
+]
+// Set randomized values for team-season statistics
+Object.keys(initTeamData).forEach(teamId => {
+    initTeamData[teamId].stats = {};
+    Object.keys(statInfo).forEach(stat => {
+        let val = statInfo[stat].min + (statInfo[stat].max - statInfo[stat].min) * Math.random();
+        let percentile = (val - statInfo[stat].min) / (statInfo[stat].max - statInfo[stat].min);
+        initTeamData[teamId].stats[stat] = [ val, percentile ];
+    });
+});
+
+// Assign each team 3 random tags
+Object.keys(initTeamData).forEach(teamId => {
+    initTeamData[teamId].tags = tagOptions.filter(tag => Math.random() > 0.5).map(tag => tag.id);
+});
   
 const colorPool = ["#FF6633", "#FFB399", "#FF33FF", "#FFFF99", "#00B3E6",
     "#E6B333", "#3366E6", "#999966", "#99FF99", "#B34D4D",
@@ -110,11 +137,16 @@ const bracketInfo = {
         regions: { W: "West", X: "Midwest", Y: "South", Z: "East" },
         seeds: {
             101: 'W1', 102: 'W2', 103: 'W3', 104: 'W4', 105: 'W5', 106: 'W6', 107: 'W7', 108: 'W8', 109: 'W9', 110: 'W10', 111: 'W11', 112: 'W12', 113: 'W13', 114: 'W14', 115: 'W15', 116: 'W16',
-            117: 'X1', 118: 'X2', 119: 'X3', 120: 'X4', 121: 'X5', 122: 'X6', 123: 'X7', 124: 'X8', 125: 'X9', 126: 'X10', 127: 'X11', 128: 'X12', 129: 'X13', 130: 'X14', 131: 'X15', 132: 'X16',
-            133: 'Y1', 134: 'Y2', 135: 'Y3', 136: 'Y4', 137: 'Y5', 138: 'Y6', 139: 'Y7', 140: 'Y8', 141: 'Y9', 142: 'Y10', 143: 'Y11', 144: 'Y12', 145: 'Y13', 146: 'Y14', 147: 'Y15', 148: 'Y16',
-            149: 'Z1', 150: 'Z2', 151: 'Z3', 152: 'Z4', 153: 'Z5', 154: 'Z6', 155: 'Z7', 156: 'Z8', 157: 'Z9', 158: 'Z10', 159: 'Z11', 160: 'Z12', 161: 'Z13', 162: 'Z14', 163: 'Z15', 164: 'Z16'
+            117: 'X1', 118: 'X2', 119: 'X3', 120: 'X4', 121: 'X5', 122: 'X6', 123: 'X7', 124: 'X8', 125: 'X9', 126: 'X10', 127: 'X11', 128: 'X12', 129: 'X13', 130: 'X14', 131: 'X15', 132: 'X16a',
+            133: 'Y1', 134: 'Y2', 135: 'Y3', 136: 'Y4', 137: 'Y5', 138: 'Y6', 139: 'Y7', 140: 'Y8', 141: 'Y9', 142: 'Y10a', 143: 'Y11', 144: 'Y12', 145: 'Y13', 146: 'Y14', 147: 'Y15', 148: 'Y16',
+            149: 'Z1', 150: 'Z2', 151: 'Z3', 152: 'Z4', 153: 'Z5', 154: 'Z6', 155: 'Z7', 156: 'Z8', 157: 'Z9', 158: 'Z10', 159: 'Z11', 160: 'Z12', 161: 'Z13', 162: 'Z14', 163: 'Z15', 164: 'Z16',
+            165: 'X16b', 166: 'Y10b', 167: 'Z10b', 168: 'Z16b'
         },
         slots: {
+            'X16': { t1: 132, t2: 165, winner: 132, wScore: 80, lScore: 70 },
+            'Y10': { t1: 142, t2: 166, winner: 142, wScore: 80, lScore: 70 },
+            'Z10': { t1: 158, t2: 167, winner: 158, wScore: 80, lScore: 70 },
+            'Z16': { t1: 164, t2: 168, winner: 164, wScore: 80, lScore: 70 },
             'R1W1': { t1: 101, t2: 116, winner: 101, wScore: 80, lScore: 70 },
             'R1W8': { t1: 102, t2: 115, winner: 102, wScore: 85, lScore: 75 },
             'R1W5': { t1: 103, t2: 114, winner: 103, wScore: 90, lScore: 80 },
@@ -181,5 +213,31 @@ const bracketInfo = {
         }
     }
 };
+const modelInfo = {
+    'base-2024': {
+        name: 'Base Model 2024',
+        description: 'Linear SVC model for 2024 tournament',
+        trained: '2024-03-01',
+        features: ['adjoe', 'adjde', 'luck', 'tempo'],
+        accuracy: 0.85
+    },
+    'neural-2024': {
+        name: 'Neural Net 2024',
+        description: 'Neural network model for 2024 tournament',
+        trained: '2024-03-03',
+        features: ['adjoe', 'adjde', 'luck', 'tempo'],
+        accuracy: 0.82
+    }
+}
 
-export { statInfo, initTeamData, colorPool, teamGroups, bracketInfo, playIns };
+// Generate randomized model predictions for each potential matchup of team ids (e.g. '101-102', '101-103', etc.)
+const modelPredictions = { 'base-2024': {}, 'neural-2024': {} };
+Object.keys(initTeamData).forEach(t1 => {
+    Object.keys(initTeamData).forEach(t2 => {
+        if (t1 !== t2) {
+            modelPredictions['base-2024'][`${t1}-${t2}`] = Math.random() > 0.5 ? t1 : t2;
+        }
+    });
+});
+
+export { statInfo, initTeamData, colorPool, teamGroups, bracketInfo, playIns, modelInfo, modelPredictions };

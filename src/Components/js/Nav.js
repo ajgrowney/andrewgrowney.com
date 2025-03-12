@@ -43,7 +43,7 @@ function MyNav(props){
     let navbarBrand = "AG"
     let displayNavs = GetNavsToDisplay(navContent);
     return (
-      <Navbar bg="dark" variant="dark">
+      <Navbar bg="dark" variant="dark" style={{height: "7dvh"}}>
         <Navbar.Brand href="/">{navbarBrand}</Navbar.Brand>
         <Nav className="justify-content-end" >
           {displayNavs}

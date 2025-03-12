@@ -374,7 +374,7 @@ const DataLabControlPanel = ({ isExpanded, setIsExpanded, plotType, setPlotType,
 
 const BracketControlPanel = ({ bracketInfo, isExpanded, setIsExpanded, location, setLocation, season, setSeason, mode, setMode, zIndex }) => {
     // Description: Control panel for the March Madness Bracket Page
-    // User Experience: User can change bracket location, mode (review or fill)
+    // User Experience: User can change bracket location, mode (history or fill)
     // Props:
     // - isExpanded: boolean, whether the control panel is expanded
     // - setIsExpanded: function, toggles the control panel
@@ -382,7 +382,7 @@ const BracketControlPanel = ({ bracketInfo, isExpanded, setIsExpanded, location,
     // - setLocation: function, sets the bracket location
     // - season: number, the current season
     // - setSeason: function, sets the current season
-    // - mode: string, the current mode (review or fill)
+    // - mode: string, the current mode (history or fill)
     // - setMode: function, sets the current mode
     let regionOptions = [
         { value: "W1", label: `Top ${bracketInfo.regions.W}` }, { value: "W2", label: `Bottom ${bracketInfo.regions.W}` },
@@ -394,13 +394,14 @@ const BracketControlPanel = ({ bracketInfo, isExpanded, setIsExpanded, location,
         { value: "FF", label: "Final Four" }
     ]
     let previewText = `Bracket | Mode: ${mode} | Context: ${location} | Season: ${season}`;
+    
     return (
-        <div className="ctrlPanel" style={{ height: isExpanded ? "50vh" : "5vh", zIndex: zIndex }}
+        <div className="ctrlPanel" style={{ height: isExpanded ? "75dvh" : "6dvh", zIndex: zIndex }}
             onClick={() => setIsExpanded(!isExpanded)}>
             <div className="preview" style={{ opacity: isExpanded ? 0 : 1 }}>{previewText}</div>
             <div style={{ opacity: isExpanded ? 1 : 0 }}>
                 <CardGroup>
-                    <Card style={{ margin: "10px", background: "#333", color: "white" }}>
+                    <Card style={{ margin: "1dvh", background: "#333", color: "white" }}>
                         <Card.Body>
                             <Card.Title>Change Season</Card.Title>
                             <label>
@@ -425,7 +426,7 @@ const BracketControlPanel = ({ bracketInfo, isExpanded, setIsExpanded, location,
                             </label>
                         </Card.Body>
                     </Card>
-                    <Card style={{ margin: "10px", background: "#333", color: "white" }}>
+                    <Card style={{ margin: "1dvh", background: "#333", color: "white" }}>
                         <Card.Body>
                             <Card.Title>Change Region</Card.Title>
                             <label>
@@ -442,13 +443,13 @@ const BracketControlPanel = ({ bracketInfo, isExpanded, setIsExpanded, location,
                             </label>
                         </Card.Body>
                     </Card>
-                    <Card style={{ margin: "10px", background: "#333", color: "white" }}>
+                    <Card style={{ margin: "1dvh", background: "#333", color: "white" }}>
                         <Card.Body>
                             <Card.Title>Change Mode</Card.Title>
                             <label>
                                 <Select
                                     menuPlacement="top"
-                                    options={["Review", "Fill"].map((type) => ({ value: type, label: type }))}
+                                    options={["History", "Fill"].map((type) => ({ value: type, label: type }))}
                                     value={{ value: mode, label: mode }}
                                     onChange={(selectedOption) => setMode(selectedOption.value)}
                                     styles={{
