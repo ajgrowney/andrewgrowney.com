@@ -4,6 +4,8 @@ import poly_svc_1_pred from './predictions/poly_svc_1'
 import poly_svc_2_pred from './predictions/poly_svc_2'
 import grid_poly_1_2022_pred from './predictions/2022_grid_poly_1'
 import base_2024 from './predictions/2024.json'
+import nn_2025 from './predictions/nn_2025.json'
+import clf_2025 from './predictions/clf_2025.json'
 const model_info_map = {
     "coin": {
         name: "Coin Flip",
@@ -50,6 +52,22 @@ const model_info_map = {
         "features": "base_2024",
         min_pred_year: 2024,
         max_pred_year: 2024
+    },
+    "nn_2025": {
+        name: "2025 Neural",
+        id: "nn_2025",
+        "predictions": nn_2025,
+        "features": "base_2025",
+        min_pred_year: 2025,
+        max_pred_year: 2025
+    },
+    "clf_2025": {
+        name: "2025 Classifier",
+        id: "clf_2025",
+        "predictions": clf_2025,
+        "features": "base_2025",
+        min_pred_year: 2025,
+        max_pred_year: 2025
     }
 }
 

@@ -10,24 +10,28 @@ import model_info_map from '../../../../Data/mm/model_info';
 import full_features_2021 from "../../../../Data/mm/features/2021/all_models"
 import full_features_2022 from "../../../../Data/mm/features/2022/all_models"
 import base_2024 from "../../../../Data/mm/features/2024/base"
+import base_2025 from "../../../../Data/mm/features/2025/base"
 import '../css/matchup.css'
 import 'bootstrap/dist/css/bootstrap.css'
 import { Button } from 'react-bootstrap'
 import { IMAGE_HOST, MMBracket } from '../../../../images'
 
-const DEFAULT_MODEL = "base_2024"
-const DEFAULT_SEASON = 2024
-const SEASON_LIST = [ 2024, 2022, 2021, 2019]
+const DEFAULT_MODEL = "nn_2025"
+const DEFAULT_SEASON = 2025
+const SEASON_LIST = [ 2025, 2024, 2022, 2021, 2019]
 const feature_set_map = {
     "full_2021": full_features_2021,
     "full": full_features_2022,
-    "base_2024": base_2024
+    "base_2024": base_2024,
+    "nn_2025": base_2025,
+    "base_2025": base_2025
 }
 const def_model = {
     2019: "coin",
     2021: "linear_svc",
     2022: "2022_grid_poly_1",
-    2024: "base_2024"
+    2024: "base_2024",
+    2025: "nn_2025"
 }
 
 const statFriendly = {
@@ -62,6 +66,8 @@ function SelectTeam(model_id, season, setTeam)
         {
             let tf = {}
             try {
+                console.log(model_info_map[model_id]["features"])
+                console.log(feature_set_map[model_info_map[model_id]["features"]])
                 tf = feature_set_map[model_info_map[model_id]["features"]][season][selectedTeam.i]
             } catch (error) {
                 console.log(error)
@@ -86,7 +92,7 @@ function ModelSelector(selected, setModel, season)
         <Dropdown className='selectorItem'>
             <Dropdown.Toggle>Model: {model_info_map[selected].name}</Dropdown.Toggle>
             <Dropdown.Menu>{
-                options.filter(x => x.value !== selected).map(x => <Dropdown.Item key={x.value} onSelect={() => {handler(x.value)}}>{x.label}</Dropdown.Item>)
+                options.filter(x => x.value !== selected).map(x => <Dropdown.Item key={x.value} onClick={() => {handler(x.value)}}>{x.label}</Dropdown.Item>)
             }</Dropdown.Menu>
         </Dropdown>
     )
@@ -103,7 +109,7 @@ function SeasonSelector(selected, setSeason, team1, setTeam1, team2, setTeam2, s
         <Dropdown className='selectorItem'>
             <Dropdown.Toggle>Season: {selected}</Dropdown.Toggle>
             <Dropdown.Menu>
-                {SEASON_LIST.filter(x => x !== selected).map(x => <Dropdown.Item key={x} onSelect={() => {handler(x)}}>{x}</Dropdown.Item>)}
+                {SEASON_LIST.filter(x => x !== selected).map(x => <Dropdown.Item key={x} onClick={() => {handler(x)}}>{x}</Dropdown.Item>)}
             </Dropdown.Menu>
         </Dropdown>
     )
@@ -137,14 +143,18 @@ function CalculateWinner(model_id, season, t1, t2)
         winner = (Math.random() > 0.5) ? t1.info : t2.info
         prob = 0.5
     } else {
+        console.log(`Calculating Winner for ${model_id} ${season} ${t1.info.i} vs ${t2.info.i}`)
         let sorted_teams = [t1, t2].sort((x,y) => parseInt(x.info.i) - parseInt(y.info.i))
         let team_key_suffix = sorted_teams.map(x => x.info.i).join("_")
         let matchup_key = `${season}_${team_key_suffix}`
         let model_predictions = model_info_map[model_id]["predictions"]
+        console.log(model_predictions)
+        console.log(matchup_key)
+        console.log(model_predictions[matchup_key])
         let matchup_probability = model_predictions[matchup_key]
         if(matchup_probability)
         {
-            if (model_id === "base_2024") {
+            if (model_id === "base_2024" || model_id === "nn_2025" || model_id === "clf_2025") {
                 let [model_winner, model_prob] = matchup_probability
                 winner = model_winner === sorted_teams[0].info.i ? sorted_teams[0].info : sorted_teams[1].info
                 prob = model_prob

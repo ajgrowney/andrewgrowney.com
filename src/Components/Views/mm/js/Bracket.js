@@ -22,7 +22,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 const DATA_HOME = 'https://raw.githubusercontent.com/ajgrowney/march-madness-ml/master/data/web/tourney_v3'
 
 const DEFAULT_MODEL = "2022_grid_poly_1"
-const DEFAULT_SEASON = 2024
+const DEFAULT_SEASON = 2025
 const statFriendly = {
     "AdjOE": "Adj Off Eff",
     "AdjDE": "Adj Def Eff",
@@ -35,7 +35,7 @@ const IButton = () => {
     return (<Button size="sm" className='minibutton'>i</Button>)
 }
 
-const SEASON_LIST = [2024, 2023, 2022, 2021, 2019, 2018, 2017, 2016, 2015, 2014, 2013]
+const SEASON_LIST = [2025, 2024, 2023, 2022, 2021, 2019, 2018, 2017, 2016, 2015, 2014, 2013]
 const TOURNEY_REGION_VIEWS = {
     "W1":   { prefix: "Top",      slots: ["R1W1", "R1W8", "R1W5", "R1W4", "R2W1", "R2W4", "R3W1"], nav: { down: "Z2", up: "W2", left: "16WX", right: "W1"}},
     "W2":   { prefix: "Bottom",   slots: ["R1W6", "R1W3", "R1W7", "R1W2", "R2W3", "R2W2", "R3W2"], nav: { down: "W1", up: "X1", left: "16WX", right: "W2"}},
@@ -54,14 +54,14 @@ const TOURNEY_REGION_VIEWS = {
 // ---- Bracket Viewing Modes ---
 const VIEW_MODES = {
     "read": { name: "Read", is_allowed: (x) => true },
-    "edit": { name: "Edit", is_allowed: (x) => x == 2025 }
+    "edit": { name: "Edit", is_allowed: (x) => x == 2026 }
 }
 
 let  ViewSelector = (tourneyData, viewData, setView) => {
     // view: {mode: "read", year: 2022, region: "finalfour"}
     let changeMode = (new_val) => { setView({mode: new_val, region: viewData.region, year: viewData.year}) }
     let changeYear = (new_val) => { setView({mode: viewData.mode, region: viewData.region, year: new_val}) }
-    let changeRegion = (new_val) => { console.log(`Change region: ${new_val}`); setView({mode: viewData.mode, region: new_val, year: viewData.year}) }
+    let changeRegion = (new_val) => { setView({mode: viewData.mode, region: new_val, year: viewData.year}) }
     // Other Modes Dropdown
     let allowed_modes = Object.keys(VIEW_MODES).filter(x => VIEW_MODES[x].is_allowed(viewData.year))
     let otherModes = allowed_modes.map(x => { return {name: VIEW_MODES[x].name, val: x} })
@@ -87,19 +87,19 @@ let  ViewSelector = (tourneyData, viewData, setView) => {
     })
     return(
         <div style={{'display': 'flex', 'flexDirection': 'row', 'justifyContent': 'space-around'}}>
-        <Dropdown key='mode' class='selectorItem'>
+        <Dropdown key='mode' className='selectorItem'>
             <Dropdown.Toggle>{viewData.mode}</Dropdown.Toggle>
             <Dropdown.Menu>
                 {otherModes.map(x => <Dropdown.Item onSelect={() => {changeMode(x.val)}}>{x.name}</Dropdown.Item>)}
             </Dropdown.Menu>
         </Dropdown>
-        <Dropdown key='year' class='selectorItem' onSelect={(evt, _) => {changeYear(evt)}}>
+        <Dropdown key='year' className='selectorItem' onSelect={(evt, _) => {changeYear(evt)}}>
             <Dropdown.Toggle>{viewData.year}</Dropdown.Toggle>
             <Dropdown.Menu>
                 {SEASON_LIST.map(x => <Dropdown.Item eventKey={x}>{x}</Dropdown.Item>)}
             </Dropdown.Menu>
         </Dropdown>
-        <Dropdown key='region' class='selectorItem' onSelect={(evt, _) => {changeRegion(evt)}}>
+        <Dropdown key='region' className='selectorItem' onSelect={(evt, _) => {changeRegion(evt)}}>
             <Dropdown.Toggle>{selectedRegion}</Dropdown.Toggle>
             <Dropdown.Menu>
                 {otherRegions.map(x => <Dropdown.Item eventKey={x.val}>{x.name}</Dropdown.Item>)}
@@ -130,7 +130,6 @@ const TeamDataTable = ({ tableData, maxValueHeight }) => {
     // param data: list of objects with keys: title, value, is_collapsible
     // param maxValueHeight: max height of the value div
     if (tableData.constructor !== Array){
-        console.error("TeamDataTable: data is not an array")
         return <div>Error</div>
     }
 
@@ -244,7 +243,7 @@ let ReadSlotSidePanel = ({r, y, sid, sname, tsid, ts, wname, twid, tw, tourneyPr
     // ---- Matchup Probability Insights ----
     if (matchupProbs) {
         let [mWinner, mP] = matchupProbs
-        let matchupProbsDiv = (sid.startsWith("R1") || y < 2024) ? (<div>{TeamIds[mWinner]}: {(mP*100).toFixed(2)}%</div>) : (<div>Coming Soon</div>)
+        let matchupProbsDiv = (sid.startsWith("R1") || y < 2025) ? (<div>{TeamIds[mWinner]}: {(mP*100).toFixed(2)}%</div>) : (<div>Coming Soon</div>)
         carousel_items.push(
             <Carousel.Item variant="dark">
                 <Card.Title>Matchup Probability</Card.Title>
@@ -253,7 +252,7 @@ let ReadSlotSidePanel = ({r, y, sid, sname, tsid, ts, wname, twid, tw, tourneyPr
     }
     if (neuralMatchupProbs) {
         let [mWinner, mP] = neuralMatchupProbs
-        let neuralMatchupProbsDiv = (sid.startsWith("R1") || y < 2024) ? (<div>{TeamIds[mWinner]}: {(mP*100).toFixed(2)}%</div>) : (<div>Coming Soon</div>)
+        let neuralMatchupProbsDiv = (sid.startsWith("R1") || y < 2025) ? (<div>{TeamIds[mWinner]}: {(mP*100).toFixed(2)}%</div>) : (<div>Coming Soon</div>)
         carousel_items.push(
             <Carousel.Item variant="dark">
                 <Card.Title>Neural Model Probability</Card.Title>
@@ -346,8 +345,7 @@ const RegionData = (tourneyData, view, setSidePanel) => {
         let neuralSlot = tourneyData["slots_neural"] ? tourneyData["slots_neural"][x] : null
         let s = tourneyData["slots"][x]
         let isPrediction = false
-        console.log(x)
-        if (view.year < 2024 || x.startsWith("R1")){
+        if (view.year < 2025 || x.startsWith("R1")){
             let [strongSeedScore, strongSeedColor] = s["strong_seed"] == s["winner"] ? [s["wscore"], "green"] : [s["lscore"], ""]
             let [weakSeedScore, weakSeedColor] = s["weak_seed"] == s["winner"] ? [s["wscore"], "green"] : [s["lscore"], ""]
             
@@ -382,8 +380,8 @@ const RegionData = (tourneyData, view, setSidePanel) => {
                 wSeed = tourneyData.teams[wsid]["Seed"]
                 wSeedSideContent = <TeamDataTable tableData={fmtContent(wsid, wName, view.year, tourneyData.teams[wsid]) } />
             }
-            let strongSeedContent = [<div className='team-info'><div>{sSeed}</div><div> {ssid} {sName}</div><IButton /></div>, strongSeedColor, <TeamDataTable tableData={fmtContent(ssid, sName, view.year, tourneyData.teams[ssid])} />]
-            let weakSeedContent = [<div className='team-info'><div>{wSeed}</div><div> {wsid} {wName}</div><IButton /></div>, weakSeedColor, wSeedSideContent]
+            let strongSeedContent = [<div className='team-info'><div>{sSeed}</div><div> {sName}</div><IButton /></div>, strongSeedColor, <TeamDataTable tableData={fmtContent(ssid, sName, view.year, tourneyData.teams[ssid])} />]
+            let weakSeedContent = [<div className='team-info'><div>{wSeed}</div><div> {wName}</div><IButton /></div>, weakSeedColor, wSeedSideContent]
 
             // Flip Round 2 games that aren't the 1 vs 8 slot, Round 3 games that are in the bottom half of the region
             let isFlipped = (x.substr(0,2) == "R2" && x[3] != "1") || (x.substr(0,2) == "R3" && x[3] == "2")
@@ -401,7 +399,7 @@ const RegionData = (tourneyData, view, setSidePanel) => {
                 <Card key={x} id={x} className='game-container'>
                     <div className={`team-container ${topColor}`} onClick={() => setSidePanel({show: true, content: topSideCont})}>{topData}</div>
                     <div className='score-container' onClick={() => setSidePanel({show: true, content: slotSideContent})}>{slotContent}</div>
-                    <div className={`team-container ${bottomColor}`} onClick={() => { console.log(bottomSideCont); setSidePanel({show: true, content: bottomSideCont})}}>{bottomData}</div>
+                    <div className={`team-container ${bottomColor}`} onClick={() => { setSidePanel({show: true, content: bottomSideCont})}}>{bottomData}</div>
                 </Card>
             )
         // } else if (isPrediction) {
@@ -485,7 +483,7 @@ let BracketData = () => {
     let queryParams = new URLSearchParams(location.search);
     const [selectedState, setSelectedState] = useState({
         mode: queryParams.get('mode') || 'read',
-        year: queryParams.get('year') || '2024',
+        year: queryParams.get('year') || '2025',
         region: queryParams.get('region') || 'W1'
     });
     let [bracketData, setbracketData] = useState(null)
@@ -502,7 +500,6 @@ let BracketData = () => {
                 .catch(error => {setbracketData({not_found: true});})
         }
     }, [selectedState]);
-    console.log(bracketData);
     const swipeHandlers = useSwipeable({
         onSwipedRight: () => { if (sidePanel.show === false) {setSelectedState(prevState => ({...prevState, region: TOURNEY_REGION_VIEWS[prevState.region].nav.right}))}},
         onSwipedLeft: () =>  { if (sidePanel.show === false) {setSelectedState(prevState => ({...prevState, region: TOURNEY_REGION_VIEWS[prevState.region].nav.left}))}},

@@ -11,11 +11,11 @@ import TeamIds from '../../../../Data/mm/team_ids'
 import TeamSeasons from '../../../../Data/mm/team_seasons'
 import 'bootstrap/dist/css/bootstrap.css'
 import '../css/team.css'
-const CURRENT_YEAR = 2024
+const CURRENT_YEAR = 2025
 const DATA_HOME = 'https://raw.githubusercontent.com/ajgrowney/march-madness-ml/master/data/web/ts'
 
 let navTo  = (team, year, setTeamYear) => {
-    navigate(`/mm/team?tid=${team}&year=${year}`);
+    navigate(`/mm/team/?tid=${team}&year=${year}`);
     setTeamYear({team: team, year: year});
 }
 
@@ -362,7 +362,7 @@ const TeamData = () => {
     let queryParams = new URLSearchParams(location.search);
     const [selectedTeamYear, setSelectedTeamYear] = useState({
         team: queryParams.get('tid') || '1242',
-        year: queryParams.get('year') || '2024'
+        year: queryParams.get('year') || '2025'
     });
     console.log(`Team: ${selectedTeamYear.team} Year: ${selectedTeamYear.year}`);
     let [teamData, setTeamData] = useState(null)
