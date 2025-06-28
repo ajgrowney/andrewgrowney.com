@@ -191,7 +191,7 @@ let fmtContent = (tid, teamName, teamYear, content) => {
 
 
 
-let ReadSlotSidePanel = ({r, y, sid, sname, tsid, ts, wname, twid, tw, tourneyProbs, matchupProbs, tourneyData, neuralProbs, neuralMatchupProbs }) => {
+let ReadSlotSidePanel = ({r, y, sid, sname, tsid, ts, wname, twid, tw, tourneyProbs, matchupProbs, tourneyData, neuralProbs, neuralMatchupProbs, clfV2Probs, clfV2MatchupProbs }) => {
     let [rankCarIdx, setRankCarIdx] = useState(0)
     let [modelInsightsCarIdx, setmodelInsightsCarIdx] = useState(0)
     let roundName = ""
@@ -234,6 +234,19 @@ let ReadSlotSidePanel = ({r, y, sid, sname, tsid, ts, wname, twid, tw, tourneyPr
                 <Card.Body>{neuralTourneyProbsDiv}</Card.Body>
             </Carousel.Item>)
     }
+    // Is there also slots_clf_v2 available to use
+    if (clfV2Probs) {
+        let clfV2TourneyProbs = Object.keys(clfV2Probs).sort((a, b) => clfV2Probs[b] - clfV2Probs[a]).slice(0, 5).map(x => [x, TeamIds[x], clfV2Probs[x]])
+        let clfV2TourneyProbsDiv = (<Table>
+            <thead><tr><th>Team</th><th>Probability</th></tr></thead>
+            <tbody>{clfV2TourneyProbs.map(x => <tr><td>{x[1]}</td><td>{(x[2]*100).toFixed(2)}%</td></tr>)}</tbody>
+        </Table>)
+        carousel_items.push(
+            <Carousel.Item variant="dark">
+                <Card.Title>clfV2 Model</Card.Title>
+                <Card.Body>{clfV2TourneyProbsDiv}</Card.Body>
+            </Carousel.Item>)
+    }
 
     carousel_items.push(
         <Carousel.Item variant="dark">
@@ -257,6 +270,15 @@ let ReadSlotSidePanel = ({r, y, sid, sname, tsid, ts, wname, twid, tw, tourneyPr
             <Carousel.Item variant="dark">
                 <Card.Title>Neural Model Probability</Card.Title>
                 <Card.Body>{neuralMatchupProbsDiv}</Card.Body>
+            </Carousel.Item>)
+    }
+    if (clfV2MatchupProbs) {
+        let [mWinner, mP] = clfV2MatchupProbs
+        let clfV2MatchupProbsDiv = (sid.startsWith("R1") || y < 2025) ? (<div>{TeamIds[mWinner]}: {(mP*100).toFixed(2)}%</div>) : (<div>Coming Soon</div>)
+        carousel_items.push(
+            <Carousel.Item variant="dark">
+                <Card.Title>V2 Model Probability</Card.Title>
+                <Card.Body>{clfV2MatchupProbsDiv}</Card.Body>
             </Carousel.Item>)
     }
     
@@ -340,9 +362,11 @@ let ReadSlotSidePanel = ({r, y, sid, sname, tsid, ts, wname, twid, tw, tourneyPr
 const RegionData = (tourneyData, view, setSidePanel) => {
     let selectedRegionSlots = TOURNEY_REGION_VIEWS[view.region].slots
     let neuralPreds = tourneyData["predictions_neural"]
+    let clfV2Preds = tourneyData["predictions_clf_v2"]
     // Get Game Data
     let gameData = selectedRegionSlots.map(x => {
         let neuralSlot = tourneyData["slots_neural"] ? tourneyData["slots_neural"][x] : null
+        let clfV2Slot = tourneyData["slots_clf_v2"] ? tourneyData["slots_clf_v2"][x] : null
         let s = tourneyData["slots"][x]
         let isPrediction = false
         if (view.year < 2025 || x.startsWith("R1")){
@@ -368,11 +392,16 @@ const RegionData = (tourneyData, view, setSidePanel) => {
                 if (neuralPreds) {
                     neuralPlayInMatchup = neuralPreds[playInKey]
                 }
+                let clfV2PlayInMatchup = null
+                if (clfV2Preds) {
+                    clfV2PlayInMatchup = clfV2Preds[playInKey]
+                }
 
                 wSeedSideContent = <ReadSlotSidePanel r={view.region} y={view.year} sid={wsid[0]} sname={TeamIds[wsid[0]]} tsid={wsid[0]} ts={tourneyData.teams[wsid[0]]}
                                     wid={wsid[1]} wname={TeamIds[wsid[1]]} twid={wsid[1]} tw={tourneyData.teams[wsid[1]]}
                                     tourneyProbs={playInTourney} matchupProbs={playInMatchup} tourneyData={tourneyData}
-                                    neuralProbs={neuralSlot ? neuralSlot["prob"] : null} neuralMatchupProbs={neuralPlayInMatchup} />
+                                    neuralProbs={neuralSlot ? neuralSlot["prob"] : null} neuralMatchupProbs={neuralPlayInMatchup} 
+                                    clfV2Probs={clfV2Slot ? clfV2Slot["prob"] : null} clfV2MatchupProbs={clfV2PlayInMatchup} />
 
             } else {
                 wName = TeamIds[wsid]
@@ -394,7 +423,8 @@ const RegionData = (tourneyData, view, setSidePanel) => {
             let matchupProbabilities = tourneyData["predictions"][sortedIds]
             let slotSideContent = <ReadSlotSidePanel r={view.region} y={view.year} sid={x} sname={sName} tsid={ssid} ts={sTeam} wname={wName} twid={wsid} tw={wTeam}
                                 tourneyProbs={s["prob"]} matchupProbs={matchupProbabilities} tourneyData={tourneyData}
-                                neuralProbs={neuralSlot ? neuralSlot["prob"] : null} neuralMatchupProbs={neuralPreds ? neuralPreds[sortedIds] : null} />
+                                neuralProbs={neuralSlot ? neuralSlot["prob"] : null} neuralMatchupProbs={neuralPreds ? neuralPreds[sortedIds] : null} 
+                                clfV2Probs={clfV2Slot ? clfV2Slot["prob"] : null} clfV2MatchupProbs={clfV2Preds ? clfV2Preds[sortedIds] : null} />
             return (
                 <Card key={x} id={x} className='game-container'>
                     <div className={`team-container ${topColor}`} onClick={() => setSidePanel({show: true, content: topSideCont})}>{topData}</div>
@@ -432,7 +462,8 @@ const RegionData = (tourneyData, view, setSidePanel) => {
             else if (x.startsWith("R6")) { roundName = "Championship" }
             roundName = regPrefix ? regPrefix + " " + roundName : roundName
             let sideSlotContent = <ReadSlotSidePanel r={view.region} y={view.year} sid={x} sname={null} tsid={null} ts={null} wname={null} twid={null} tw={null}
-                tourneyProbs={s["prob"]} matchupProbs={null} tourneyData={tourneyData} neuralProbs={neuralSlot ? neuralSlot["prob"] : null} />
+                tourneyProbs={s["prob"]} matchupProbs={null} tourneyData={tourneyData} neuralProbs={neuralSlot ? neuralSlot["prob"] : null} 
+                clfV2Probs={clfV2Slot ? clfV2Slot["prob"] : null} />
             return (
                 <Card key={x} id={x} className='slot-container' onClick={() => setSidePanel({show: true, content: sideSlotContent})}>
                     <div>

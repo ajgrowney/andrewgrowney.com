@@ -31,7 +31,7 @@ const def_model = {
     2021: "linear_svc",
     2022: "2022_grid_poly_1",
     2024: "base_2024",
-    2025: "nn_2025"
+    2025: "clf_v2_2025"
 }
 
 const statFriendly = {
@@ -154,7 +154,7 @@ function CalculateWinner(model_id, season, t1, t2)
         let matchup_probability = model_predictions[matchup_key]
         if(matchup_probability)
         {
-            if (model_id === "base_2024" || model_id === "nn_2025" || model_id === "clf_2025") {
+            if (model_id === "base_2024" || model_id === "nn_2025" || model_id === "clf_2025" || model_id === "clf_v2_2025") {
                 let [model_winner, model_prob] = matchup_probability
                 winner = model_winner === sorted_teams[0].info.i ? sorted_teams[0].info : sorted_teams[1].info
                 prob = model_prob
