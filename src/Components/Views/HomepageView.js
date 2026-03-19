@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'gatsby';
 
 import { BaseSection, SummaryView } from '../js'
 import { About, Contact, Projects, Work } from '../Homepage/js'
@@ -24,7 +25,8 @@ function Home(){
             ]
         },
         { type: "SingleLink", title: "Projects", pageRef: "/projects" },
-        { type: "SingleLink", title: "Blogs", pageRef: "/blogs"}
+        { type: "SingleLink", title: "Blogs", pageRef: "/blogs"},
+        { type: "SingleLink", title: "Madness Suite", pageRef: "/mm" }
 
     ]
     let headerContent = {
@@ -34,9 +36,9 @@ function Home(){
             <h1 key="name">Andrew Growney</h1>
         ],
         subtitleContent: [
-            <div key="iam">I am a Cloud Services Software Engineer at Maxar Technologies in Denver, CO.</div>,
-            <br key="br" />,
-            <div key="iammore">With a passion for people, sci-fi, physics, music, faith, coffee, college basketball, and software design</div>
+            <div key="iam">I am a Senior Software Engineer at Vantor in Denver, CO.</div>,
+            <Link key="madness-suite" className="homepage-header-link" to="/mm">Madness Suite</Link>,
+            <div key="iammore">Enjoy learning people, sci-fi, physics, music, faith, coffee, college basketball, and robotics</div>
         ],
         imageContent: [ProfilePhoto],
         imageRounded: true

@@ -6,22 +6,17 @@ const skills = [
         domain: "Backend",
         icon: <FaCog className="skillsIcon" size="4em" />,
         list: [
-            "Kubernetes",
-            "AWS (API Gateway,EKS, Lambda, ECS, Route 53)",
-            "Flask",
-            "Azure DevOps",
-            "REST API Design",
+            "Lot of AWS (API Gateway,EKS, Lambda, ECS, Route 53)",
+            "API Development: TCP / HTTP / Websocket / gRPC",
+            "Postgres",
             "Linux",
             "C++",
-            "C#",
-            ".NET",
+            "Kubernetes",
+            "Flask",
+            "C# / .NET",
             "Bash",
-            "SQL",
-            "Kafka",
+            "Event Driven",
             "Prometheus",
-            "Azure Pipelines",
-            "Google Firebase",
-            "Haskell"
         ]
     },
     {
@@ -43,11 +38,8 @@ const skills = [
         domain: "Frontend",
         icon: <FaCode className="skillsIcon" size="4em" />,
         list: [
-            "Javascript (ECMAScript 6)",
-            "Node.js",
-            "React.js",
-            "HTML5 & CSS3",
-            "Electron.js"
+            "JS/HTML/CSS",
+            "React + Vite"
         ]
     }
 

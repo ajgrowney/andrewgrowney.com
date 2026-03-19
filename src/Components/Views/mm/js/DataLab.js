@@ -21,8 +21,8 @@ const PlotContainer = ({ plotType, points, selectedAxes }) => {
 export default function DataLab() {
   const navContent = [
     { type: "SingleLink", title: "Home", pageRef: "/" },
-    { type: "SingleLink", title: "Bracket", pageRef: "/mm/bracketv2" },
-    { type: "SingleLink", title: "DataLab", pageRef: "/mm/datalab" }
+    { type: "SingleLink", title: "Bracket", pageRef: "/mm-old/bracketv2" },
+    { type: "SingleLink", title: "DataLab", pageRef: "/mm-old/datalab" }
 ];
   const [isExpanded, setIsExpanded] = useState(false);
   const [selectedAxes, setSelectedAxes] = useState({ x: "adjoe", y: "adjde", z: "seed", l: ["adjoe", "adjde", "seed"] });

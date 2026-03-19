@@ -48,6 +48,9 @@ const statFriendly = {
     "OppTO_mean": "Turnovers Forced",
     "OppOR_mean": "Opponent Offensive Rebounds",
     "SOS": "Strength of Schedule",
+    "AdjNE": "Adjusted Net Efficiency",
+    "AdjDE": "Adjusted Defensive Efficiency",
+    "AdjOE": "Adjusted Offensive Efficiency",
     "Q1_WinPct": "Q1 Win %",
     "Q2_WinPct": "Q2 Win %",
     "Poss_mean": "Tempo"
@@ -252,8 +255,8 @@ function Matchup()
 {
     let navContent = [
         { type: "SingleLink", title: "Home", pageRef: "/" },
-        { type: "SingleLink", title: "Madness Suite", pageRef: "/marchmadness" },
-        { type: "SingleLink", title: "Bracket", pageRef: "/mm/bracket/" }
+        { type: "SingleLink", title: "Madness Suite", pageRef: "/mm-old" },
+        { type: "SingleLink", title: "Bracket", pageRef: "/mm-old/bracket/" }
     ]
     return (
         <div id="root">

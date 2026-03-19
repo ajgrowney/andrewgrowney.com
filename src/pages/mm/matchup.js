@@ -1,5 +1,12 @@
-import React from 'react'
-import { MatchupPage } from '../../components/Views/mm/js'
-import 'bootstrap/dist/css/bootstrap.css'
-const mm = () => <MatchupPage />
-export default mm;
+import React, { useEffect } from 'react';
+import { navigate } from 'gatsby';
+
+const LegacyMatchupRedirect = () => {
+	useEffect(() => {
+		navigate('/mm-old/matchup', { replace: true });
+	}, []);
+
+	return null;
+};
+
+export default LegacyMatchupRedirect;

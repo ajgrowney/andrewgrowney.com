@@ -8,4 +8,23 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+
+.homepage-header-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    padding: 0.7rem 1.1rem;
+    border-radius: 999px;
+    background-color: #b7492e;
+    border: 1px solid #b7492e;
+    color: #ffffff;
+    font-weight: 700;
+    text-decoration: none;
+    transition: opacity 120ms ease;
+  }
+
+.homepage-header-link:hover {
+    opacity: 0.92;
+  }
   

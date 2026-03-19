@@ -254,8 +254,8 @@ const renderFullBracket = (seedData, slotData, setInsightId, setInsightsOpen) =>
 const Page = () => {
     const navContent = [
         { type: "SingleLink", title: "Home", pageRef: "/" },
-        { type: "SingleLink", title: "Bracket", pageRef: "/mm/bracketv2" },
-        { type: "SingleLink", title: "DataLab", pageRef: "/mm/datalab" }
+        { type: "SingleLink", title: "Bracket", pageRef: "/mm-old/bracketv2" },
+        { type: "SingleLink", title: "DataLab", pageRef: "/mm-old/datalab" }
     ];
     const [season, setSeason] = useState(2024);
     const [mode, setMode] = useState("History")

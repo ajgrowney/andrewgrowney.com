@@ -1,4 +1,12 @@
-import React from 'react'
-import DataLab from '../../components/Views/mm/js/DataLab'
-import 'bootstrap/dist/css/bootstrap.css'
-export default () => <DataLab />
+import React, { useEffect } from 'react';
+import { navigate } from 'gatsby';
+
+const LegacyDataLabRedirect = () => {
+	useEffect(() => {
+		navigate('/mm-old/datalab', { replace: true });
+	}, []);
+
+	return null;
+};
+
+export default LegacyDataLabRedirect;

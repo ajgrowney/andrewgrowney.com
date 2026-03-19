@@ -50,7 +50,7 @@ function ProjectColumn(props){
 
 function ProjectsSection(props){
     let projects_per_column = props.projectPerColumn || 3
-    let projects = props.projects || []
+    let projects = [...(props.projects || [])]
     const project_cols = [];
     
     while(projects.length > 0){

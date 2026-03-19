@@ -561,9 +561,9 @@ function Bracket()
 
     let navContent = [
         { type: "SingleLink", title: "Home", pageRef: "/" },
-        { type: "SingleLink", title: "March Madness", pageRef: "/marchmadness" },
-        { type: "SingleLink", title: "Matchup", pageRef: "/mm/matchup/" },
-        { type: "SingleLink", title: "Team Viewer", pageRef: "/mm/team/" },
+        { type: "SingleLink", title: "March Madness", pageRef: "/mm-old" },
+        { type: "SingleLink", title: "Matchup", pageRef: "/mm-old/matchup/" },
+        { type: "SingleLink", title: "Team Viewer", pageRef: "/mm-old/team/" },
     ]
 
     return (

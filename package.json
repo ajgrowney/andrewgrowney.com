@@ -18,6 +18,7 @@
     "@react-three/drei": "^8.0.1",
     "@react-three/fiber": "^8.0.27",
     "bootstrap": "^5.3.3",
+    "d3-force": "^3.0.0",
     "gatsby": "^5.14.1",
     "gatsby-plugin-google-gtag": "^5.14.0",
     "gatsby-plugin-manifest": "^5.14.0",

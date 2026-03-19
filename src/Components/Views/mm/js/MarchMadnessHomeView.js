@@ -14,7 +14,7 @@ const PagePreviewSection = (p) => {
             <div>
                 {p.preview}
                 <br /><br />
-                <Button onClick={() => window.location.href = "/mm/"+p.id}>
+                <Button onClick={() => window.location.href = "/mm-old/"+p.id}>
                     View Page
                 </Button>
             </div>
@@ -29,9 +29,9 @@ const MMHomeView = () => {
 
     let resourceType = ""
     let navContent = [
-        { type: "SingleLink", title: "Matchup", pageRef: "/mm/matchup/" },
-        { type: "SingleLink", title: "Bracket", pageRef: "/mm/bracket/" },
-        { type: "SingleLink", title: "Team Profile", pageRef: "/mm/team/" }
+        { type: "SingleLink", title: "Matchup", pageRef: "/mm-old/matchup/" },
+        { type: "SingleLink", title: "Bracket", pageRef: "/mm-old/bracket/" },
+        { type: "SingleLink", title: "Team Profile", pageRef: "/mm-old/team/" }
     ]
     const headerContent = {
         titleContent: [

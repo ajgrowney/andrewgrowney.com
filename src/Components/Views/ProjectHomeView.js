@@ -37,8 +37,8 @@ function ProjectSearchBar() {
 
 function ProjectHome(props) {
   const allProjects = project_data
-  const featuredIndex = (typeof props.featuredIndex !== undefined) ? props.featuredIndex : 4
-  const featuredProject = project_data.find((proj) => proj.id === featuredIndex)
+  const featuredIndex = props.featuredIndex !== undefined ? props.featuredIndex : 4
+  const featuredProject = project_data.find((proj) => proj.id === featuredIndex) || project_data[0]
 
   // Nav
   const navigation = [
@@ -57,15 +57,15 @@ function ProjectHome(props) {
     titleContent: [
       <div key={"featured title"} className="featuredProjectHeader">
         <h4>Featured Project:</h4>
-        <h2>{featuredProject.title}</h2>
+        <h2>{featuredProject?.title || 'Projects'}</h2>
       </div>
     ],
     subtitleContent: [
       <div key={"featured description"} className="featuredProjectDescription">
-        {(featuredProject.description) ? featuredProject.description : featuredProject.summary}
+        {featuredProject ? ((featuredProject.description) ? featuredProject.description : featuredProject.summary) : 'Project archive'}
       </div>
     ],
-    imageContent: featuredProject.images
+    imageContent: featuredProject?.images || []
   }
 
   // Sections

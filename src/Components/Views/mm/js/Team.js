@@ -402,8 +402,8 @@ const TeamData = () => {
 const TeamView = () => {
     
     let navContent = [
-        { type: "SingleLink", title: "Matchup", pageRef: "/mm/matchup" },
-        { type: "SingleLink", title: "Bracket", pageRef: "/mm/bracket" }
+        { type: "SingleLink", title: "Matchup", pageRef: "/mm-old/matchup" },
+        { type: "SingleLink", title: "Bracket", pageRef: "/mm-old/bracket" }
     ]
     
     return (
