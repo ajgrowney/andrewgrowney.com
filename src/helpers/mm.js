@@ -4,7 +4,7 @@ function CalculateWinner(model_id, season, t1_id, t2_id, prob_precision = 0)
 {
     let winner = ""
     let prob = 0.0
-    if(model_id == "coin")
+    if(model_id === "coin")
     {
         winner = (Math.random() > 0.5) ? t1_id : t2_id
         prob = 0.5

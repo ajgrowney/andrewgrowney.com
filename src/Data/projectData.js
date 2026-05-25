@@ -6,7 +6,7 @@ const data = [
         "title": "Ray: Raspberry Pi Assistant",
         "summary": "Digital Personal Assistant, inspired by J.A.R.V.I.S., that uses speech recognition and an API hosted on local network to manage basic tasks and scheduling.",
         "description": "Designed around the specifications of Tony Stark's great assistant JARVIS, this project started out as a simple request and response system. Using speech recognition, text-to-speech, and the level triggered design pattern that drives Kubernetes, Ray can now integrate with any services and interfaces that fulfill the required protocols.",
-        "time": "February 2020 - Present",
+        "time": "February 2020 - February 2024",
         "images": [],
         "url": "https://github.com/ajgrowney/ray",
         "languages": ["Python", "Rasa NLU", "IPC", "Houndify API", "Tensorflow", "CLI", "Flask", "Django API"],

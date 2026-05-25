@@ -8,8 +8,8 @@ import { ProfilePhoto } from '../../images'
 import './css/homepage.css';
 
 const aboutText = "Working towards the title critical thinker before Software Engineer. I work on projects to help out friends, push my skills and abilities, expand my horizons, and have a lot of fun. " +
-    "After starting my career as a Software Engineer, I try to work with quality design and documentation at the forefront of each project I work on. " +
-    "Thinking about analytics and performance at scale is the biggest piece of that design. " +
+    "A couple good design docs and diagrams are worth a hundred meetings and POCs. A good mental model is worth all those design docs and diagrams combined. " +
+    "I worry about AI for different reasons than you. " +
     "As I have encountered different problems, I have had to pick up new languages, learn new technologies, and study everything from data structures to algorithms to quantum mechanics. My experience has given me skills in, but not limited to these."
 
 
@@ -26,19 +26,20 @@ function Home(){
         },
         { type: "SingleLink", title: "Projects", pageRef: "/projects" },
         { type: "SingleLink", title: "Blogs", pageRef: "/blogs"},
-        { type: "SingleLink", title: "Madness Suite", pageRef: "/mm" }
+        { type: "SingleLink", title: "Madness Suite", pageRef: "/mm" },
+        { type: "ExternalLink", title: "Resume", pageRef: "/GrowneyResume2026.pdf", download: true }
 
     ]
     let headerContent = {
         key: "home_header",
         titleContent: [
-            <h3 key="hello">Hello World! My name is</h3>,
             <h1 key="name">Andrew Growney</h1>
         ],
         subtitleContent: [
-            <div key="iam">I am a Senior Software Engineer at Vantor in Denver, CO.</div>,
             <Link key="madness-suite" className="homepage-header-link" to="/mm">Madness Suite</Link>,
-            <div key="iammore">Enjoy learning people, sci-fi, physics, music, faith, coffee, college basketball, and robotics</div>
+            <div key="iam">I am a Senior Software Engineer at Vantor in Denver, CO.</div>,
+            <div key="iam-evenmore">Probably teaching my kids something about space right now.</div>,
+            <div key="iammore">Enjoy learning about space, physics, people, sci-fi, robotics, music, faith, coffee, college basketball, and dynasty fantasy football</div>
         ],
         imageContent: [ProfilePhoto],
         imageRounded: true

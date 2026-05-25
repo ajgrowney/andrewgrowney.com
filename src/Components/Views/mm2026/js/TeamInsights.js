@@ -796,7 +796,7 @@ const TeamInsights = () => {
                           <strong>{formatSimilarityScore(entry.avg)}</strong>
                         </div>
                       </div>
-                      {entry.er == "Champion" ? <p /> : (<p className="mm26-similar-team-outcome">
+                      {entry.er === "Champion" ? <p /> : (<p className="mm26-similar-team-outcome">
                         {entry.lost_to && entry.loss_score
                           ? `Lost to ${entry.lost_to}, ${entry.loss_score}`
                           : 'Historical tournament outcome is incomplete for this comp.'}

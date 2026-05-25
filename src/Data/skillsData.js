@@ -3,43 +3,57 @@ import { FaCode, FaCog, FaDatabase } from 'react-icons/fa'
 
 const skills = [
     {
-        domain: "Backend",
-        icon: <FaCog className="skillsIcon" size="4em" />,
-        list: [
-            "Lot of AWS (API Gateway,EKS, Lambda, ECS, Route 53)",
-            "API Development: TCP / HTTP / Websocket / gRPC",
-            "Postgres",
-            "Linux",
-            "C++",
-            "Kubernetes",
-            "Flask",
-            "C# / .NET",
-            "Bash",
-            "Event Driven",
-            "Prometheus",
-        ]
-    },
-    {
-        domain: "Data Science",
-        icon: <FaDatabase className="skillsIcon" size="4em" />,
-        list: [
-            "Python",
-            "Pandas",
-            "Numpy",
-            "Scikit Learn",
-            "Computer Vision",
-            "OpenCV",
-            "Tensorflow",
-            "Keras",
-            "ML Ops"
-        ]
-    },
-    {
-        domain: "Frontend",
+        domain: "Languages",
         icon: <FaCode className="skillsIcon" size="4em" />,
         list: [
-            "JS/HTML/CSS",
-            "React + Vite"
+            "Python",
+            "Bash",
+            "SQL",
+            "TypeScript",
+            "C++",
+            "Groovy",
+            "HTML/CSS"
+        ]
+    },
+    {
+        domain: "Infra",
+        icon: <FaCog className="skillsIcon" size="4em" />,
+        list: [
+            "Docker",
+            "Linux",
+            "Nginx",
+            "VPC",
+            "Kubernetes",
+            "AWS",
+            "EKS",
+            "Terraform",
+            "Helm",
+            "Jenkins",
+            "Prometheus",
+            "Grafana",
+            "CDNs",
+            "Route53"
+        ]
+    },
+    {
+        domain: "Backend / Data",
+        icon: <FaDatabase className="skillsIcon" size="4em" />,
+        list: [
+            "PostgreSQL",
+            "InfluxDB",
+            "Apache Iceberg",
+            "Parquet",
+            "Protocol Buffers",
+            "TensorFlow",
+            "scikit-learn",
+            "React",
+            "REST API design",
+            "STAC",
+            "GeoJSON",
+            "HTTP",
+            "TLS",
+            "Codex",
+            "Augment"
         ]
     }
 

@@ -31,6 +31,20 @@ function GetNavsToDisplay(nav_sets)
             </Link>
         </Nav.Item>
       )
+    } else if (navSet.type === "ExternalLink") {
+      return(
+        <Nav.Item key={navSet.title} className={(navSet.active) ? "active": ""}>
+            <a
+              className="nav-link"
+              href={navSet.pageRef}
+              target={navSet.target || "_blank"}
+              rel={navSet.rel || "noreferrer"}
+              download={navSet.download}
+            >
+              {navSet.title}
+            </a>
+        </Nav.Item>
+      )
     } else {
       return(<Nav.Item />)
     }
@@ -43,7 +57,7 @@ function MyNav(props){
     let navbarBrand = "AG"
     let displayNavs = GetNavsToDisplay(navContent);
     return (
-      <Navbar bg="dark" variant="dark" style={{height: "7dvh"}}>
+      <Navbar bg="dark" variant="dark" style={{paddingLeft: "1rem", height: "7dvh"}}>
         <Navbar.Brand href="/">{navbarBrand}</Navbar.Brand>
         <Nav className="justify-content-end" >
           {displayNavs}

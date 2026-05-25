@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { Badge, Button, Card } from 'react-bootstrap'
+import { Badge, Card } from 'react-bootstrap'
 import Select from 'react-select';
 import { Link } from 'gatsby';
 import { useLocation, navigate } from '@reach/router';
 import { RadialBar, RadialBarChart, RadarChart, Radar, PolarAngleAxis, PolarRadiusAxis, PolarGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import Nav  from '../../../js/Nav'
-import { MMBracket } from '../../../../images/Blogs/MarchMadnessML';
 import { IMAGE_HOST } from '../../../../images';
 import TeamIds from '../../../../Data/mm/team_ids'
 import TeamSeasons from '../../../../Data/mm/team_seasons'
@@ -329,7 +328,7 @@ const SimilarTeamsTable = ({ similarTeamsData, setTeamYearF }) => {
         return <div></div>
     }
     let formattedData = similarTeamsData.map((team) => {
-        let teamTourney = (team.year == 2024) ? "TBD" : (team.er === null ? "Missed Tournament" : team.er === "Champion" ? "Champion" : `Lost in ${team.er}`)
+        let teamTourney = (team.year === 2024) ? "TBD" : (team.er === null ? "Missed Tournament" : team.er === "Champion" ? "Champion" : `Lost in ${team.er}`)
         let labelVal = `${team.year} ${TeamIds[team.id]}`
         let data = [{'s': (team.st*100).toFixed(2)}]
         return (

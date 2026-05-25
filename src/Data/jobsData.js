@@ -1,20 +1,25 @@
 const all_jobs = [
     {
-        tab_title: "Cloud SWE",
-        position: "Cloud Services Software Engineer",
-        company: "Maxar Technologies",
+        tab_title: "Vantor - Sr SWE",
+        position: "Senior Software Engineer",
+        company: "Vantor",
         location: "Westminster, CO",
-        about: "Cloud Services Software Engineer for a geospatial imagery and analytics company. "+
-            "Principal engineer of the Object Detection Inference Storage and Serving System. "+
-            "Designed and implemented a full multi-tenant architecture for data ownership in a large product catalog. " +
-            "Reduced team's CI/CD build times by ~60% in Jenkins. ",
+        about: "Architect and technical owner of Vantor's Discovery API, the platform powering Vantor’s mission-critical consumer facing products, internal research workflows, and derivative geospatial product generation. " +
+            "Led the evolution of Discovery from a single product ingestion pipeline into a scalable multi-tenant platform securely indexing 100M+ global assets dating back to 1999 with fine-grained authorization control of public, private, and internal datasets. " +
+            "Designed and operated distributed discovery and ingest infrastructure handling thousands of new assets and real-time event notifications daily across 7 environments with 99.99% production API uptime. " +
+            "Operated as a cross-functional technical platform lead spanning backend engineering, infrastructure, security remediation, and modernization initiatives. " +
+            "Reduced our secure asset streaming p95 and p99 latencies by over 85% through architectural improvements to authentication flows, caching strategy, request orchestration, and internal integration collaboration. "+
+            "Designed and implemented a platform usage telemetry system that has enabled data-driven product improvements, deprecations, and migrations through real-time and historical analysis. " +
+            "Developed secure service credential management and secret rotation workflows for organization wide CI/CD systems. " +
+            "Designed and built developer workflows and deployment tooling for low-side development of network-isolated jobs. " +
+            "Selected to initial AI Champions cohort to help shape internal engineering standards for LLM usage, agent design patterns, and context management strategies. ",
         start_date: "October 2021",
         end_date: "Present",
         id: 0
     },
     {
         tab_title: "SWE",
-        position: "Software Engineer",
+        position: "Platform Software Engineer",
         company: "Atonix Digital",
         location: "Denver, CO",
         about: "Platform and Analytics Team Engineer for Asset Performance Management SaaS Company. "+
